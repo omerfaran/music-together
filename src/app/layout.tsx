@@ -22,7 +22,9 @@ export default function RootLayout({
       <body>
         <Providers>
           <TopNav />
-          <main className="container mx-auto p-10">{children}</main>
+          {/* Note: I'm using vertical-center custom class here, he used it in the LoginPage component */}
+          {/* I think it's a good solution provided that we use our own scrollbar in pages */}
+          <main className="container mx-auto vertical-center">{children}</main>
         </Providers>
       </body>
     </html>
