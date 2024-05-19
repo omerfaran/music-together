@@ -1,5 +1,7 @@
 "use client";
 
+import { LoginSchema, loginSchema } from "@/lib/schemas/loginSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -10,9 +12,12 @@ export const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm();
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+    mode: "onTouched",
+  });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: LoginSchema) => {
     console.log(data);
   };
 
@@ -35,7 +40,7 @@ export const LoginForm = () => {
             <Input
               // The defaultValue="" here is to make sure the component isn't treated as controlled, we want it uncontrolled
               defaultValue=""
-              {...register("email", { required: "Email is required" })}
+              {...register("email")}
               isInvalid={!!errors.email}
               errorMessage={errors?.email?.message}
               label="Email"
@@ -44,7 +49,7 @@ export const LoginForm = () => {
             />
             <Input
               defaultValue=""
-              {...register("password", { required: "Password is required" })}
+              {...register("password")}
               isInvalid={!!errors.password}
               errorMessage={errors?.password?.message}
               label="Password"
@@ -52,7 +57,7 @@ export const LoginForm = () => {
               type="password"
             />
             <Button
-              //   isDisabled={!isValid}
+              isDisabled={!isValid}
               type="submit"
               fullWidth
               color="secondary"
