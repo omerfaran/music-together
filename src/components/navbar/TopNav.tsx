@@ -8,6 +8,7 @@ import {
 import Link from "next/link";
 import React, { FC } from "react";
 import { AiFillAlert } from "react-icons/ai";
+import { NavLink } from "./NavLink";
 
 interface TopNavProps {}
 
@@ -16,7 +17,14 @@ export const TopNav: FC<TopNavProps> = () => {
     <Navbar
       maxWidth="xl"
       className="bg-gradient-to-r from-purple-400 to-purple-700"
-      classNames={{ item: ["text-xl", "text-white", "uppercase"] }}
+      classNames={{
+        item: [
+          "text-xl",
+          "text-white",
+          "uppercase",
+          "data-[active=true]:text-yellow-500",
+        ],
+      }}
     >
       <NavbarBrand as={Link} href="/">
         <AiFillAlert size={40} className="text-gray-200" />
@@ -26,15 +34,9 @@ export const TopNav: FC<TopNavProps> = () => {
         </div>
       </NavbarBrand>
       <NavbarContent justify="center">
-        <NavbarItem as={Link} href="/members">
-          Matches
-        </NavbarItem>
-        <NavbarItem as={Link} href="/lists">
-          Lists
-        </NavbarItem>
-        <NavbarItem as={Link} href="/messages">
-          Messages
-        </NavbarItem>
+        <NavLink label="Matches" href="/members" />
+        <NavLink label="Lists" href="/lists" />
+        <NavLink label="Messages" href="/messages" />
       </NavbarContent>
       <NavbarContent justify="end">
         <Button
