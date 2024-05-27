@@ -1,5 +1,6 @@
 "use client";
 
+import { registerUser } from "@/app/actions/authActions";
 import { RegisterSchema, registerSchema } from "@/lib/schemas/registerSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
@@ -11,14 +12,29 @@ export const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    setError,
+    formState: { errors, isValid, isSubmitting },
   } = useForm<RegisterSchema>({
-    resolver: zodResolver(registerSchema),
+    // resolver: zodResolver(registerSchema),
     mode: "onTouched",
   });
 
-  const onSubmit = (data: RegisterSchema) => {
-    console.log(data);
+  const onSubmit = async (data: RegisterSchema) => {
+    const result = await registerUser(data);
+
+    if (result.status === "success") {
+      console.log("user registered successfully");
+    } else {
+      if (Array.isArray(result.error)) {
+        result.error.forEach((e) => {
+          // next line is just first item in array joined by nothing...
+          const fieldName = e.path.join(".") as "email" | "name" | "password";
+          setError(fieldName, { message: e.message });
+        });
+      } else {
+        setError("root.serverError", { message: result.error });
+      }
+    }
   };
 
   return (
@@ -64,8 +80,14 @@ export const RegisterForm = () => {
               variant="bordered"
               type="password"
             />
+            {errors.root?.serverError && (
+              <p className="text-danger text-sm">
+                {errors.root.serverError.message}
+              </p>
+            )}
             <Button
               isDisabled={!isValid}
+              isLoading={isSubmitting}
               type="submit"
               fullWidth
               color="secondary"
