@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
+import { toast } from "react-toastify";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -24,8 +25,7 @@ export const LoginForm = () => {
   const onSubmit = async (data: LoginSchema) => {
     const result = await signInUser(data);
     if (result.status === "error") {
-      console.log(result.error);
-      return;
+      return toast.error(result.error as string);
     }
 
     router.replace("/members");
