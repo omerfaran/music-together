@@ -9,6 +9,18 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  callbacks: {
+    // we want to modify the session we're getting by adding user id
+    // so we check if we get sub (subject) on the user token, sub means id.
+    // if we do and we got a user on the session we'll add that id.
+    async session({ token, session }) {
+      if (token.sub && session.user) {
+        // return { ...session, user: { ...session.user, id: token.sub } };
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+  },
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   ...authConfig,
