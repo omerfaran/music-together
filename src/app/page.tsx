@@ -1,14 +1,18 @@
 import { auth, signOut } from "@/auth";
 import { Button } from "@nextui-org/react";
-import Image from "next/image";
-import Link from "next/link";
+import { Session } from "next-auth";
+import { FC } from "react";
 import { FaRegSmile } from "react-icons/fa";
 
 // By having this function as async, we're converting this component to a server side component!
 // It's not a client side anymore now, therefore we can use the await auth() here which works on a server, and therefore we need the form for a
 // button click...
-export default async function Home() {
-  const session = await auth();
+
+interface HomePageProps {
+  session: Session | null;
+}
+
+export const HomePage: FC<HomePageProps> = ({ session }) => {
   return (
     <div>
       <h1 className="text-3xl">Home page</h1>
@@ -38,4 +42,10 @@ export default async function Home() {
       )}
     </div>
   );
+};
+
+export default async function Page() {
+  const session = await auth();
+
+  return <HomePage session={session} />;
 }
