@@ -29,6 +29,7 @@ export const LoginForm = () => {
     }
 
     router.replace("/members");
+    router.refresh();
   };
 
   return (

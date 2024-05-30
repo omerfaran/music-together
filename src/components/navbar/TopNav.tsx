@@ -9,10 +9,16 @@ import Link from "next/link";
 import React, { FC } from "react";
 import { AiFillAlert } from "react-icons/ai";
 import { NavLink } from "./NavLink";
+import { auth } from "@/auth";
+import { UserMenu } from "./UserMenu";
+
+// this is a server side component (we don't do "use client"), so we're allowed to use async
 
 interface TopNavProps {}
 
-export const TopNav: FC<TopNavProps> = () => {
+export const TopNav: FC<TopNavProps> = async () => {
+  const session = await auth();
+
   return (
     <Navbar
       maxWidth="xl"
@@ -39,22 +45,28 @@ export const TopNav: FC<TopNavProps> = () => {
         <NavLink label="Messages" href="/messages" />
       </NavbarContent>
       <NavbarContent justify="end">
-        <Button
-          as={Link}
-          href="/login"
-          variant="bordered"
-          className="text-white"
-        >
-          Login
-        </Button>
-        <Button
-          as={Link}
-          href="/register"
-          variant="bordered"
-          className="text-white"
-        >
-          Register
-        </Button>
+        {session?.user ? (
+          <UserMenu user={session.user} />
+        ) : (
+          <>
+            <Button
+              as={Link}
+              href="/login"
+              variant="bordered"
+              className="text-white"
+            >
+              Login
+            </Button>
+            <Button
+              as={Link}
+              href="/register"
+              variant="bordered"
+              className="text-white"
+            >
+              Register
+            </Button>
+          </>
+        )}
       </NavbarContent>
     </Navbar>
   );

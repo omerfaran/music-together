@@ -1,5 +1,5 @@
 "use server";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 // 'use server' means what's written here will be executed on the server side
 // all here won't be sent down to the client as js to be executed on the client
 
@@ -37,6 +37,10 @@ export async function signInUser(
 
     return { status: "error", error: "Something else went wrong?" };
   }
+}
+
+export async function signOutUser(): Promise<void> {
+  await signOut({ redirectTo: "/" });
 }
 
 export async function registerUser(
