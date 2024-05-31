@@ -1,6 +1,7 @@
 import React, { type FC } from "react";
 import { getMembers } from "../actions/memberActions";
 import { Member } from "@prisma/client";
+import { MemberCard } from "./MemberCard";
 
 interface MembersPageProps {
   members: Array<Member>;
@@ -8,12 +9,10 @@ interface MembersPageProps {
 
 export const MembersPage: FC<MembersPageProps> = ({ members }) => {
   return (
-    <div>
-      <ul>
-        {members.map((member) => {
-          return <li key={member.id}>{member.name}</li>;
-        })}
-      </ul>
+    <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-8">
+      {members.map((member) => {
+        return <MemberCard member={member} key={member.id} />;
+      })}
     </div>
   );
 };

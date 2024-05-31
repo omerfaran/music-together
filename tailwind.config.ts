@@ -9,7 +9,13 @@ const config: Config = {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      // this will extend bg so we then use bg-dark-gradient
+      backgroundImage: {
+        "dark-gradient":
+          "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
+      },
+    },
   },
   darkMode: "class",
   plugins: [nextui()],
