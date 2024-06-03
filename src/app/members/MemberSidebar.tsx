@@ -14,21 +14,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { FC } from "react";
 
-interface MemberSidebarProps {
+export interface MemberSidebarProps {
   member: Member;
+  navLinks: { name: string; href: string }[];
 }
 
 const PLACEHOLDER_IMAGE = "/images/user.png";
 
-export const MemberSidebar: FC<MemberSidebarProps> = ({ member }) => {
+export const MemberSidebar: FC<MemberSidebarProps> = ({ member, navLinks }) => {
   const pathname = usePathname();
-  const basePath = `/members/${member.userId}`;
-
-  const navLinks = [
-    { name: "Profile", href: `${basePath}` },
-    { name: "Photos", href: `${basePath}/photos` },
-    { name: "Chat", href: `${basePath}/chat` },
-  ];
 
   return (
     <Card className="w-full mt-10 items-center h-[80vh]">
