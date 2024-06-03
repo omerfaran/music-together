@@ -1,12 +1,25 @@
-import React from "react";
-import ListsTab from "./ListsTab";
+import React, { FC } from "react";
+import ListsTab, { ListsTabProps } from "./ListsTab";
 import {
   LikeType,
   fetchCurrentUserLikeIds,
   fetchLikedMembers,
 } from "../actions/likeActions";
 
-export default async function ListsPage({
+interface ListsPageProps {
+  members: ListsTabProps["members"];
+  likeIds: ListsTabProps["likeIds"];
+}
+
+const ListsPage: FC<ListsPageProps> = ({ members, likeIds }) => {
+  return (
+    <div>
+      <ListsTab members={members} likeIds={likeIds ?? []} />
+    </div>
+  );
+};
+
+export default async function Page({
   searchParams,
 }: {
   searchParams: { type: LikeType };
@@ -14,9 +27,5 @@ export default async function ListsPage({
   const likeIds = await fetchCurrentUserLikeIds();
   const members = await fetchLikedMembers(searchParams.type);
 
-  return (
-    <div>
-      <ListsTab members={members} likeIds={likeIds ?? []} />
-    </div>
-  );
+  return <ListsPage members={members} likeIds={likeIds ?? []} />;
 }

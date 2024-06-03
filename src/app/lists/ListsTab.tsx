@@ -1,13 +1,13 @@
 "use client";
 
-import { Tab, Tabs, divider } from "@nextui-org/react";
+import { Tab, Tabs } from "@nextui-org/react";
 import { Member } from "@prisma/client";
-import React, { FC, Key } from "react";
+import React, { FC, Key, useEffect, useState } from "react";
 import { LikeType } from "../actions/likeActions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { MemberCard } from "../members/MemberCard";
 
-interface ListsTabProps {
+export interface ListsTabProps {
   members: Member[];
   likeIds: string[];
 }
@@ -16,6 +16,10 @@ export const ListsTab: FC<ListsTabProps> = ({ members, likeIds }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+
+  // This is my addition, we get the params when page loads and use it for the defaultSelectedKey, thus when refreshing
+  // the Tabs will use the url to have the correct selected tab
+  const currentType = searchParams.get("type") ?? "source";
 
   function handleTabChange(key: Key): void {
     const params = new URLSearchParams(searchParams);
@@ -35,6 +39,7 @@ export const ListsTab: FC<ListsTabProps> = ({ members, likeIds }) => {
         aria-label="Like tabs"
         items={tabs}
         color="secondary"
+        defaultSelectedKey={currentType}
         onSelectionChange={handleTabChange}
       >
         {(item) => (
