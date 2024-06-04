@@ -1,6 +1,7 @@
 import { getAuthUserId } from "@/app/actions/authActions";
 import { getMemberPhotosByUserId } from "@/app/actions/memberActions";
 import { DeleteButton } from "@/components/DeleteButton";
+import { ImageUploadButton } from "@/components/ImageUploadButton";
 import { StarButton } from "@/components/StarButton";
 import { CardHeader, Divider, CardBody, Image } from "@nextui-org/react";
 import { Photo } from "@prisma/client";
@@ -18,6 +19,9 @@ const PhotosPage: FC<PhotosPageProps> = ({ photos }) => {
       </CardHeader>
       <Divider />
       <CardBody>
+        <div className="pt-5 pl-5">
+          <ImageUploadButton />
+        </div>
         <div className="grid grid-cols-5 gap-3 p-5">
           {photos.map((photo) => {
             return (
