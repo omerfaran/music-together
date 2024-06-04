@@ -2,6 +2,7 @@
 
 import { registerUser } from "@/app/actions/authActions";
 import { RegisterSchema, registerSchema } from "@/lib/schemas/registerSchema";
+import { handleFormServerErrors } from "@/lib/util";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
 import React from "react";
@@ -26,15 +27,10 @@ export const RegisterForm = () => {
       return console.log("user registered successfully");
     }
 
-    if (Array.isArray(result.error)) {
-      result.error.forEach((e) => {
-        // next line is just first item in array joined by nothing...
-        const fieldName = e.path.join(".") as "email" | "name" | "password";
-        setError(fieldName, { message: e.message });
-      });
-    } else {
-      setError("root.serverError", { message: result.error });
-    }
+    // this is a helper function to set the handle and set the form errors,
+    // we pass the setError of the react form hook, and it sets the current errors
+    // for us
+    handleFormServerErrors(result, setError);
   };
 
   return (
