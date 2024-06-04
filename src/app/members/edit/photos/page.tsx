@@ -1,5 +1,7 @@
 import { getAuthUserId } from "@/app/actions/authActions";
 import { getMemberPhotosByUserId } from "@/app/actions/memberActions";
+import { DeleteButton } from "@/components/DeleteButton";
+import { StarButton } from "@/components/StarButton";
 import { CardHeader, Divider, CardBody, Image } from "@nextui-org/react";
 import { Photo } from "@prisma/client";
 import React, { FC } from "react";
@@ -26,6 +28,12 @@ const PhotosPage: FC<PhotosPageProps> = ({ photos }) => {
                   src={photo.url}
                   alt="User image"
                 />
+                <div className="absolute top-3 left-3 z-50">
+                  <StarButton selected={false} loading={false} />
+                </div>
+                <div className="absolute top-3 right-3 z-50">
+                  <DeleteButton loading={false} />
+                </div>
               </div>
             );
           })}
