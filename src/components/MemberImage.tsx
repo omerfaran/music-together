@@ -21,6 +21,7 @@ export const MemberImage: FC<MemberImageProps> = ({ photo }) => {
           crop="fill"
           gravity="faces"
           className="rounded-2xl"
+          priority
         />
       ) : (
         <Image

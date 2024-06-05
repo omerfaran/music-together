@@ -1,6 +1,6 @@
 "use client";
 
-import { calculateAge } from "@/lib/util";
+import { calculateAge, transformImageUrl } from "@/lib/util";
 import {
   Button,
   Card,
@@ -29,7 +29,7 @@ export const MemberSidebar: FC<MemberSidebarProps> = ({ member, navLinks }) => {
       <Image
         height={200}
         width={200}
-        src={member.image ?? PLACEHOLDER_IMAGE}
+        src={transformImageUrl(member.image) ?? PLACEHOLDER_IMAGE}
         alt="User profile main image"
         className="rounded-full mt-6 aspect-square object-cover"
       />

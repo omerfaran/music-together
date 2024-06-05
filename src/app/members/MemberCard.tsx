@@ -1,7 +1,7 @@
 "use client";
 
 import LikeButton from "@/components/LikeButton";
-import { calculateAge } from "@/lib/util";
+import { calculateAge, transformImageUrl } from "@/lib/util";
 import { Card, CardFooter, Image } from "@nextui-org/react";
 import { Member } from "@prisma/client";
 import Link from "next/link";
@@ -21,7 +21,7 @@ export const MemberCard: FC<MemberCardProps> = ({ member, hasLiked }) => {
         isZoomed
         alt={member.name}
         width={300}
-        src={member.image ?? PLACEHOLDER_IMAGE}
+        src={transformImageUrl(member.image) ?? PLACEHOLDER_IMAGE}
         className="aspect-square object-cover"
       />
       <div

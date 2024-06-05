@@ -21,3 +21,15 @@ export function handleFormServerErrors<TFieldValues extends FieldValues>(
     setError("root.serverError", { message: errorResponse.error });
   }
 }
+
+export function transformImageUrl(imageUrl: string | null | undefined) {
+  if (!imageUrl) {
+    return null;
+  }
+
+  if (!imageUrl.includes("cloudinary")) {
+    return imageUrl;
+  }
+
+  return imageUrl.replace(/(\/upload\/)/, "$1" + "c_fill,w_300,h_300,g_faces/");
+}

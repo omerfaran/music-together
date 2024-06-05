@@ -1,6 +1,7 @@
 "use client";
 
 import { signOutUser } from "@/app/actions/authActions";
+import { transformImageUrl } from "@/lib/util";
 import {
   Avatar,
   Dropdown,

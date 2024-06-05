@@ -21,9 +21,5 @@ export const MemberPhotoUpload: FC<MemberPhotoUploadProps> = () => {
     }
   };
 
-  return (
-    <div className="pt-5 pl-5">
-      <ImageUploadButton onUploadImage={onAddImage} />
-    </div>
-  );
+  return <ImageUploadButton onUploadImage={onAddImage} />;
 };
