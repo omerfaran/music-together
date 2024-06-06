@@ -28,3 +28,51 @@ export async function createMessage(
     return { status: "error", error: "Something went wrong" };
   }
 }
+
+export async function getMessageThread(recipientId: string) {
+  try {
+    const userId = await getAuthUserId();
+
+    return prisma.message.findMany({
+      where: {
+        OR: [
+          {
+            // Messages that current user sent to others
+            senderId: userId,
+            recipientId,
+          },
+          {
+            // The opposite, messages that were sent to current users
+            senderId: recipientId,
+            recipientId: userId,
+          },
+        ],
+      },
+      orderBy: { created: "asc" }, // order messages from oldest to newest
+      select: {
+        // the fields we actually wanna get back
+        id: true,
+        text: true,
+        created: true,
+        dateRead: true,
+        sender: {
+          select: {
+            userId: true,
+            name: true,
+            image: true,
+          },
+        },
+        recipient: {
+          select: {
+            userId: true,
+            name: true,
+            image: true,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}

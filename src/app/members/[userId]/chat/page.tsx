@@ -1,10 +1,14 @@
-"use client";
-
-import React from "react";
+import React, { FC } from "react";
 import CardInnerWrapper from "@/components/CardInnerWrapper";
 import ChatForm from "./ChatForm";
+import { getMessageThread } from "@/app/actions/messageActions";
+import { Message } from "@prisma/client";
 
-export const ChatPage = () => {
+interface ChatPageProps {
+  messages: Partial<Message>[];
+}
+
+export const ChatPage: FC<ChatPageProps> = ({ messages }) => {
   return (
     <CardInnerWrapper
       header="Chat"
@@ -14,4 +18,8 @@ export const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default async function Page({ params }: { params: { userId: string } }) {
+  const messages = await getMessageThread(params.userId);
+
+  return <ChatPage messages={messages ?? []} />;
+}
