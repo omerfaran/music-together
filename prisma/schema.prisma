@@ -46,21 +46,23 @@ model User {
 }
 
 model Member {
-  id          String   @id @default(cuid())
-  userId      String   @unique // this affectevely creates the relationship with User model
-  name        String // we already got name on the user, but duplicating it gives us the option to directly get it from the member
-  gender      String
-  dateOfBirth DateTime
-  created     DateTime @default(now())
-  updated     DateTime @default(now())
-  description String
-  city        String
-  country     String
-  image       String?
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  photos      Photo[] // one to many relationship. Member can have many photos
-  sourceLikes Like[]   @relation("source") // many to many, people can like the the member
-  targetLikes Like[]   @relation("target") // continuation of the many to many, member can like many people
+  id                String    @id @default(cuid())
+  userId            String    @unique // this affectevely creates the relationship with User model
+  name              String // we already got name on the user, but duplicating it gives us the option to directly get it from the member
+  gender            String
+  dateOfBirth       DateTime
+  created           DateTime  @default(now())
+  updated           DateTime  @default(now())
+  description       String
+  city              String
+  country           String
+  image             String?
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  photos            Photo[] // one to many relationship. Member can have many photos
+  sourceLikes       Like[]    @relation("source") // many to many, people can like the the member
+  targetLikes       Like[]    @relation("target") // continuation of the many to many, member can like many people
+  senderMessages    Message[] @relation("sender")
+  recipientMessages Message[] @relation("recipient")
 }
 
 model Photo {
@@ -80,4 +82,17 @@ model Like {
   targetMember Member @relation("target", fields: [targetUserId], references: [userId], onDelete: Cascade)
 
   @@id([sourceUserId, targetUserId])
+}
+
+model Message {
+  id               String    @id @default(cuid())
+  text             String
+  created          DateTime  @default(now())
+  senderId         String?
+  receipientId     String?
+  sender           Member?   @relation("sender", fields: [senderId], references: [userId], onDelete: SetNull)
+  recipient        Member?   @relation("recipient", fields: [receipientId], references: [userId], onDelete: SetNull)
+  dateRead         DateTime?
+  senderDeleted    Boolean   @default(false)
+  recipientDeleted Boolean   @default(false)
 }
