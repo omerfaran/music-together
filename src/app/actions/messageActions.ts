@@ -1,10 +1,11 @@
 "use server";
 
 import { MessageSchema, messageSchema } from "@/lib/schemas/messageSchema";
-import { ActionResult } from "@/types";
+import { ActionResult, MessageDto } from "@/types";
 import { getAuthUserId } from "./authActions";
 import { prisma } from "@/lib/prisma";
 import { mapMessageToMessageDto } from "@/lib/mappings";
+import { Message } from "@prisma/client";
 
 export async function createMessage(
   recipientUserId: string,
@@ -50,6 +51,57 @@ export async function getMessageThread(recipientId: string) {
         ],
       },
       orderBy: { created: "asc" }, // order messages from oldest to newest
+      select: {
+        // the fields we actually wanna get back
+        id: true,
+        text: true,
+        created: true,
+        dateRead: true,
+        sender: {
+          select: {
+            userId: true,
+            name: true,
+            image: true,
+          },
+        },
+        recipient: {
+          select: {
+            userId: true,
+            name: true,
+            image: true,
+          },
+        },
+      },
+    });
+
+    return messages.map((message) => mapMessageToMessageDto(message));
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export type Container = "outbox" | "inbox";
+
+const containerToSenderOrRecipientKey: Record<
+  "outbox" | "inbox",
+  Extract<keyof Message, "senderId"> | Extract<keyof Message, "recipientId">
+> = {
+  outbox: "senderId",
+  inbox: "recipientId",
+};
+
+export async function getMessagesByContainer(
+  container: Container
+): Promise<MessageDto[]> {
+  try {
+    const userId = await getAuthUserId();
+
+    const selector = containerToSenderOrRecipientKey[container];
+
+    const messages = await prisma.message.findMany({
+      where: { [selector]: userId },
+      orderBy: { created: "desc" },
       select: {
         // the fields we actually wanna get back
         id: true,
