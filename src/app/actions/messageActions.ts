@@ -74,6 +74,14 @@ export async function getMessageThread(recipientId: string) {
       },
     });
 
+    // mark messages as read by user
+    if (messages.length) {
+      await prisma.message.updateMany({
+        where: { senderId: recipientId, recipientId: userId, dateRead: null },
+        data: { dateRead: new Date() },
+      });
+    }
+
     return messages.map((message) => mapMessageToMessageDto(message));
   } catch (error) {
     console.log(error);
