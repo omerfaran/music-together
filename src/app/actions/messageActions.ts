@@ -42,11 +42,13 @@ export async function getMessageThread(recipientId: string) {
             // Messages that current user sent to others
             senderId: userId,
             recipientId,
+            senderDeleted: false,
           },
           {
             // The opposite, messages that were sent to current users
             senderId: recipientId,
             recipientId: userId,
+            recipientDeleted: false,
           },
         ],
       },
@@ -105,10 +107,19 @@ export async function getMessagesByContainer(
   try {
     const userId = await getAuthUserId();
 
+    // not using it in the end...
     const selector = containerToSenderOrRecipientKey[container];
 
+    // will only retrieve not-deleted messages
+    const conditions = {
+      [container === "outbox" ? "senderId" : "recipientId"]: userId,
+      ...(container === "outbox"
+        ? { senderDeleted: false }
+        : { recipientDeleted: false }),
+    };
+
     const messages = await prisma.message.findMany({
-      where: { [selector]: userId },
+      where: conditions,
       orderBy: { created: "desc" },
       select: {
         // the fields we actually wanna get back
@@ -134,6 +145,54 @@ export async function getMessagesByContainer(
     });
 
     return messages.map((message) => mapMessageToMessageDto(message));
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+// We only want to delete a message if both sender and recipient deleted it
+export async function deleteMessage(messageId: string, isOutbox: boolean) {
+  // TODO - change to an object with ts
+  const selector = isOutbox ? "senderDeleted" : "recipientDeleted";
+
+  try {
+    const userId = await getAuthUserId();
+
+    // Mark message as deleted by the one chose to delete - sender or recipient
+    await prisma.message.update({
+      where: { id: messageId },
+      data: {
+        [selector]: true,
+      },
+    });
+
+    // Check if both sender and recipient deleted, and if so then delete the message
+    // Why after updating the single message we search through all messages???
+    const messagesToDelete = await prisma.message.findMany({
+      where: {
+        OR: [
+          {
+            senderId: userId,
+            senderDeleted: true,
+            recipientDeleted: true,
+          },
+          {
+            recipientId: userId,
+            senderDeleted: true,
+            recipientDeleted: true,
+          },
+        ],
+      },
+    });
+
+    if (messagesToDelete.length > 0) {
+      await prisma.message.deleteMany({
+        where: {
+          OR: messagesToDelete.map((m) => ({ id: m.id })),
+        },
+      });
+    }
   } catch (error) {
     console.log(error);
     throw error;

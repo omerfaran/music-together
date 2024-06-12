@@ -1,7 +1,7 @@
 "use client";
 
 import { MessageDto } from "@/types";
-import React, { Key, useCallback } from "react";
+import React, { Key, useCallback, useState } from "react";
 import {
   Avatar,
   Button,
@@ -18,12 +18,16 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import { AiFillDelete } from "react-icons/ai";
+import { deleteMessage } from "../actions/messageActions";
+import { truncateString } from "@/lib/util";
 
 export async function MessageTable({ messages }: { messages: MessageDto[] }) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const isOutbox = searchParams.get("container") === "outbox";
+
+  const [isDeleting, setIsDeleting] = useState({ id: "", loading: false });
 
   const columns = [
     {
@@ -34,6 +38,16 @@ export async function MessageTable({ messages }: { messages: MessageDto[] }) {
     { key: "created", label: isOutbox ? "Date sent" : "Date received" },
     { key: "actions", label: "Actions" },
   ];
+
+  const handleDeleteMessage = useCallback(
+    async (message: MessageDto) => {
+      setIsDeleting({ id: message.id, loading: true });
+      await deleteMessage(message.id, isOutbox);
+      router.refresh();
+      setIsDeleting({ id: "", loading: false });
+    },
+    [isOutbox, router]
+  );
 
   const handleRowSelect = (key: Key) => {
     const message = messages.find((m) => m.id === key);
@@ -53,11 +67,7 @@ export async function MessageTable({ messages }: { messages: MessageDto[] }) {
         case "recipientName":
         case "senderName":
           return (
-            <div
-              className={clsx("flex items-center gap-2 cursor-pointer", {
-                "font-semibold": item.dateRead && !isOutbox,
-              })}
-            >
+            <div className="flex items-center gap-2 cursor-pointer">
               <Avatar
                 alt="Image of member"
                 src={
@@ -70,18 +80,23 @@ export async function MessageTable({ messages }: { messages: MessageDto[] }) {
           );
 
         case "text":
-          return <div className="truncate">{cellValue}</div>;
+          return <div>{truncateString(cellValue, 80)}</div>;
         case "created":
           return cellValue;
         default:
           return (
-            <Button isIconOnly variant="light">
+            <Button
+              onClick={() => handleDeleteMessage(item)}
+              isLoading={isDeleting.id === item.id && isDeleting.loading}
+              isIconOnly
+              variant="light"
+            >
               <AiFillDelete size={24} className="text-danger" />
             </Button>
           );
       }
     },
-    [isOutbox]
+    [isOutbox, isDeleting.id, isDeleting.loading, handleDeleteMessage]
   );
 
   return (
@@ -94,7 +109,12 @@ export async function MessageTable({ messages }: { messages: MessageDto[] }) {
       >
         <TableHeader columns={columns}>
           {(column) => (
-            <TableColumn key={column.key}>{column.label}</TableColumn>
+            <TableColumn
+              key={column.key}
+              width={column.key === "text" ? "50%" : undefined}
+            >
+              {column.label}
+            </TableColumn>
           )}
         </TableHeader>
         <TableBody
@@ -104,7 +124,11 @@ export async function MessageTable({ messages }: { messages: MessageDto[] }) {
           {(item) => (
             <TableRow key={item.id} className="cursor-pointer">
               {(columnKey) => (
-                <TableCell>
+                <TableCell
+                  className={clsx({
+                    "font-semibold": item.dateRead && !isOutbox,
+                  })}
+                >
                   {renderCell(item, columnKey as keyof MessageDto)}
                 </TableCell>
               )}

@@ -38,3 +38,15 @@ export function transformImageUrl(imageUrl: string | null | undefined) {
 
   return imageUrl.replace(/(\/upload\/)/, "$1" + "c_fill,w_300,h_300,g_faces/");
 }
+
+export function truncateString(text?: string | null, num = 50) {
+  if (!text) {
+    return null;
+  }
+
+  if (text.length <= num) {
+    return text;
+  }
+
+  return text.slice(0, num) + "...";
+}
