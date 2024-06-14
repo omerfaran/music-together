@@ -6,11 +6,13 @@ import { getAuthUserId } from "./authActions";
 import { prisma } from "@/lib/prisma";
 import { mapMessageToMessageDto } from "@/lib/mappings";
 import { Message } from "@prisma/client";
+import { pusherServer } from "@/lib/pusher";
+import { createChatId } from "@/lib/util";
 
 export async function createMessage(
   recipientUserId: string,
   data: MessageSchema
-): Promise<ActionResult<MessageSchema>> {
+): Promise<ActionResult<MessageDto>> {
   try {
     const userId = await getAuthUserId();
 
@@ -22,9 +24,18 @@ export async function createMessage(
     const { text } = validated.data;
     const message = await prisma.message.create({
       data: { text, recipientId: recipientUserId, senderId: userId },
+      select: messageSelect,
     });
 
-    return { status: "success", data: message };
+    const messageDto = mapMessageToMessageDto(message);
+
+    await pusherServer.trigger(
+      createChatId(userId, recipientUserId),
+      "message:new",
+      messageDto
+    );
+
+    return { status: "success", data: messageDto };
   } catch (error) {
     console.log(error);
     return { status: "error", error: "Something went wrong" };
@@ -53,27 +64,7 @@ export async function getMessageThread(recipientId: string) {
         ],
       },
       orderBy: { created: "asc" }, // order messages from oldest to newest
-      select: {
-        // the fields we actually wanna get back
-        id: true,
-        text: true,
-        created: true,
-        dateRead: true,
-        sender: {
-          select: {
-            userId: true,
-            name: true,
-            image: true,
-          },
-        },
-        recipient: {
-          select: {
-            userId: true,
-            name: true,
-            image: true,
-          },
-        },
-      },
+      select: messageSelect,
     });
 
     // mark messages as read by user
@@ -121,27 +112,7 @@ export async function getMessagesByContainer(
     const messages = await prisma.message.findMany({
       where: conditions,
       orderBy: { created: "desc" },
-      select: {
-        // the fields we actually wanna get back
-        id: true,
-        text: true,
-        created: true,
-        dateRead: true,
-        sender: {
-          select: {
-            userId: true,
-            name: true,
-            image: true,
-          },
-        },
-        recipient: {
-          select: {
-            userId: true,
-            name: true,
-            image: true,
-          },
-        },
-      },
+      select: messageSelect,
     });
 
     return messages.map((message) => mapMessageToMessageDto(message));
@@ -151,15 +122,36 @@ export async function getMessagesByContainer(
   }
 }
 
-// We only want to delete a message if both sender and recipient deleted it
+// We only want to delete a message if both sender and recipient deleted it. If only one end deletes,
+// we just mark it as deleted for that end (recipient or user), and not display that message for them.
 export async function deleteMessage(messageId: string, isOutbox: boolean) {
   // TODO - change to an object with ts
   const selector = isOutbox ? "senderDeleted" : "recipientDeleted";
+  const otherEndSelector = isOutbox ? "recipientDeleted" : "senderDeleted";
 
   try {
-    const userId = await getAuthUserId();
+    // const userId = await getAuthUserId();
 
-    // Mark message as deleted by the one chose to delete - sender or recipient
+    // Find message
+    const message = await prisma.message.findUnique({
+      where: { id: messageId },
+      select: {
+        senderDeleted: true,
+        recipientDeleted: true,
+      },
+    });
+
+    if (!message) {
+      throw new Error("message could not be found");
+    }
+
+    if (message[otherEndSelector]) {
+      // Delete message
+      await prisma.message.delete({ where: { id: messageId } });
+      return;
+    }
+
+    // Or, update message to not be displayed for that end
     await prisma.message.update({
       where: { id: messageId },
       data: {
@@ -167,34 +159,56 @@ export async function deleteMessage(messageId: string, isOutbox: boolean) {
       },
     });
 
-    // Check if both sender and recipient deleted, and if so then delete the message
-    // Why after updating the single message we search through all messages???
-    const messagesToDelete = await prisma.message.findMany({
-      where: {
-        OR: [
-          {
-            senderId: userId,
-            senderDeleted: true,
-            recipientDeleted: true,
-          },
-          {
-            recipientId: userId,
-            senderDeleted: true,
-            recipientDeleted: true,
-          },
-        ],
-      },
-    });
+    // // Check if both sender and recipient deleted, and if so then delete the message
+    // // Why after updating the single message we search through all messages???
+    // const messagesToDelete = await prisma.message.findMany({
+    //   where: {
+    //     OR: [
+    //       {
+    //         senderId: userId,
+    //         senderDeleted: true,
+    //         recipientDeleted: true,
+    //       },
+    //       {
+    //         recipientId: userId,
+    //         senderDeleted: true,
+    //         recipientDeleted: true,
+    //       },
+    //     ],
+    //   },
+    // });
 
-    if (messagesToDelete.length > 0) {
-      await prisma.message.deleteMany({
-        where: {
-          OR: messagesToDelete.map((m) => ({ id: m.id })),
-        },
-      });
-    }
+    // if (messagesToDelete.length > 0) {
+    //   await prisma.message.deleteMany({
+    //     where: {
+    //       OR: messagesToDelete.map((m) => ({ id: m.id })),
+    //     },
+    //   });
+    // }
   } catch (error) {
     console.log(error);
     throw error;
   }
 }
+
+const messageSelect = {
+  // the fields we actually wanna get back
+  id: true,
+  text: true,
+  created: true,
+  dateRead: true,
+  sender: {
+    select: {
+      userId: true,
+      name: true,
+      image: true,
+    },
+  },
+  recipient: {
+    select: {
+      userId: true,
+      name: true,
+      image: true,
+    },
+  },
+};

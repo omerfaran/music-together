@@ -2,6 +2,8 @@ import { differenceInYears, format } from "date-fns";
 import { FieldValues, Path, UseFormSetError } from "react-hook-form";
 import { ZodIssue } from "zod";
 
+// TODO - write tests for all those
+
 export function calculateAge(dateOfBirth: Date) {
   return differenceInYears(new Date(), dateOfBirth);
 }
@@ -49,4 +51,8 @@ export function truncateString(text?: string | null, num = 50) {
   }
 
   return text.slice(0, num) + "...";
+}
+
+export function createChatId(a: string, b: string) {
+  return a > b ? `${b}-${a}` : `${a}-${b}`;
 }

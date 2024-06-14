@@ -21,7 +21,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { deleteMessage } from "../actions/messageActions";
 import { truncateString } from "@/lib/util";
 
-export async function MessageTable({ messages }: { messages: MessageDto[] }) {
+export function MessageTable({ messages }: { messages: MessageDto[] }) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
