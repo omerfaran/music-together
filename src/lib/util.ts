@@ -1,4 +1,4 @@
-import { differenceInYears, format } from "date-fns";
+import { differenceInYears, format, formatDistance, parse } from "date-fns";
 import { FieldValues, Path, UseFormSetError } from "react-hook-form";
 import { ZodIssue } from "zod";
 
@@ -11,6 +11,12 @@ export function calculateAge(dateOfBirth: Date) {
 export function formatShortDateTime(date: Date) {
   // return in a nice format, :a means am-pm
   return format(date, "dd MM yy h:mm:a");
+}
+
+export function timeAgo(date: string) {
+  const formatString = "yy MM dd hh:mm:a";
+  const parsedDate = parse(date, formatString, new Date());
+  return formatDistance(parsedDate, new Date());
 }
 
 // a helper function to set react form hook errors

@@ -69,10 +69,28 @@ export async function getMessageThread(recipientId: string) {
 
     // mark messages as read by user
     if (messages.length) {
+      // get all messages ids (in array) relevant to this correspondence
+      const readMessagesIds = messages
+        .filter(
+          (m) =>
+            m.dateRead === null &&
+            m.recipient?.userId === userId &&
+            m.sender?.userId === recipientId
+        )
+        .map((m) => m.id);
+
+      // update them as read by user
       await prisma.message.updateMany({
-        where: { senderId: recipientId, recipientId: userId, dateRead: null },
+        where: { id: { in: readMessagesIds } },
         data: { dateRead: new Date() },
       });
+
+      // notify in the pusher channel so other user knows they're read
+      await pusherServer.trigger(
+        createChatId(recipientId, userId),
+        "messages:read",
+        readMessagesIds
+      );
     }
 
     return messages.map((message) => mapMessageToMessageDto(message));
