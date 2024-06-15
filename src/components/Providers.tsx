@@ -1,3 +1,6 @@
+"use client";
+
+import { usePresenceChannel } from "@/hooks/usePresenceChannel";
 import { NextUIProvider } from "@nextui-org/react";
 import React, { type FC, type ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
@@ -9,6 +12,8 @@ interface ProvidersProps {
 }
 
 export const Providers: FC<ProvidersProps> = ({ children }) => {
+  usePresenceChannel();
+
   return (
     <NextUIProvider>
       <ToastContainer
