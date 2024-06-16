@@ -6,9 +6,10 @@ import { MessageBox } from "./MessageBox";
 import { pusherClient } from "@/lib/pusher";
 import { formatShortDateTime } from "@/lib/util";
 import { Channel } from "pusher-js";
+import { useMessagesStore } from "@/hooks/useMessagesStore";
 
 interface MessageListProps {
-  initialMessages: MessageDto[];
+  initialMessages: { messages: MessageDto[]; readCount: number };
   currentUserId: string;
   chatId: string;
 }
@@ -18,10 +19,22 @@ export const MessageList: FC<MessageListProps> = ({
   initialMessages,
   chatId,
 }) => {
-  // const setReadCount = useRef(false);
+  const setReadCount = useRef(false);
   const channelRef = useRef<Channel | null>(null);
+  const { updateUnreadCount } = useMessagesStore((state) => ({
+    updateUnreadCount: state.updateUnreadCount,
+  }));
 
-  const [messages, setMessages] = useState(initialMessages);
+  const [messages, setMessages] = useState(initialMessages.messages);
+
+  useEffect(() => {
+    // TODO - all this logic should not be here, but in the store!
+    // This component should only display the message list and that's it
+    if (!setReadCount.current) {
+      updateUnreadCount(-initialMessages.readCount);
+      setReadCount.current = true;
+    }
+  }, [initialMessages.readCount, updateUnreadCount]);
 
   const handleNewMessage = useCallback((message: MessageDto) => {
     setMessages((prevState) => {

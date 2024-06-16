@@ -8,7 +8,7 @@ import { MessageList } from "./MessageList";
 import { createChatId } from "@/lib/util";
 
 interface ChatPageProps {
-  messages: MessageDto[];
+  messages: { messages: MessageDto[]; readCount: number };
   userId: string;
   chatId: string;
 }

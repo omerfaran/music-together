@@ -67,6 +67,8 @@ export async function getMessageThread(recipientId: string) {
       select: messageSelect,
     });
 
+    let readCount = 0;
+
     // mark messages as read by user
     if (messages.length) {
       // get all messages ids (in array) relevant to this correspondence
@@ -85,6 +87,8 @@ export async function getMessageThread(recipientId: string) {
         data: { dateRead: new Date() },
       });
 
+      readCount = readMessagesIds.length;
+
       // notify in the pusher channel so other user knows they're read
       await pusherServer.trigger(
         createChatId(recipientId, userId),
@@ -93,7 +97,10 @@ export async function getMessageThread(recipientId: string) {
       );
     }
 
-    return messages.map((message) => mapMessageToMessageDto(message));
+    const messagesToReturn = messages.map((message) =>
+      mapMessageToMessageDto(message)
+    );
+    return { messages: messagesToReturn, readCount };
   } catch (error) {
     console.log(error);
     throw error;

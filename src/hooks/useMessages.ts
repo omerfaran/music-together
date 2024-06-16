@@ -6,11 +6,14 @@ import { useState, useCallback, Key, useEffect } from "react";
 import { useMessagesStore } from "./useMessagesStore";
 
 export const useMessages = (initialMessages: MessageDto[]) => {
-  const { set, remove, messages } = useMessagesStore((state) => ({
-    set: state.set,
-    remove: state.remove,
-    messages: state.messages,
-  }));
+  const { set, remove, messages, updateUnreadCount } = useMessagesStore(
+    (state) => ({
+      set: state.set,
+      remove: state.remove,
+      messages: state.messages,
+      updateUnreadCount: state.updateUnreadCount,
+    })
+  );
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -43,10 +46,13 @@ export const useMessages = (initialMessages: MessageDto[]) => {
     async (message: MessageDto) => {
       setIsDeleting({ id: message.id, loading: true });
       await deleteMessage(message.id, isOutbox);
-      router.refresh();
+      remove(message.id);
+      if (!message.dateRead && !isOutbox) {
+        updateUnreadCount(-1);
+      }
       setIsDeleting({ id: "", loading: false });
     },
-    [isOutbox, router]
+    [isOutbox, remove, updateUnreadCount]
   );
 
   const handleRowSelect = (key: Key) => {
