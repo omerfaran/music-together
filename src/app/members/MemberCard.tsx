@@ -1,6 +1,7 @@
 "use client";
 
 import LikeButton from "@/components/LikeButton";
+import { PresenceDot } from "@/components/PresenceDot";
 import { calculateAge, transformImageUrl } from "@/lib/util";
 import { Card, CardFooter, Image } from "@nextui-org/react";
 import { Member } from "@prisma/client";
@@ -38,6 +39,9 @@ export const MemberCard: FC<MemberCardProps> = ({ member, hasLiked }) => {
           {/* To that LikeButton we pass the id of the current member card (that the user sees out of many), so the LikeButton knows if user
         already likes that person */}
           <LikeButton targetId={member.userId} hasLiked={hasLiked} />
+        </div>
+        <div className="absolute top-2 left-3 z-50">
+          <PresenceDot member={member} />
         </div>
       </div>
       <CardFooter className="bg-dark-gradient flex justify-start overflow-hidden absolute bottom-0 z-10">

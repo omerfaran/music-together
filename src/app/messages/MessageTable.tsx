@@ -20,6 +20,7 @@ import clsx from "clsx";
 import { AiFillDelete } from "react-icons/ai";
 import { deleteMessage } from "../actions/messageActions";
 import { truncateString } from "@/lib/util";
+import { PresenceAvatar } from "@/components/PresenceAvatar";
 
 export function MessageTable({ messages }: { messages: MessageDto[] }) {
   const searchParams = useSearchParams();
@@ -68,12 +69,9 @@ export function MessageTable({ messages }: { messages: MessageDto[] }) {
         case "senderName":
           return (
             <div className="flex items-center gap-2 cursor-pointer">
-              <Avatar
-                alt="Image of member"
-                src={
-                  (isOutbox ? item.recipientImage : item.senderImage) ||
-                  "/images/user.png"
-                }
+              <PresenceAvatar
+                userId={isOutbox ? item.recipientId : item.senderId}
+                src={isOutbox ? item.recipientImage : item.senderImage}
               />
               <span>{cellValue}</span>
             </div>
