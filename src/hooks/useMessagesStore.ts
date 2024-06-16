@@ -9,7 +9,7 @@ type MessageState = {
   set: (messages: MessageDto[]) => void;
 };
 
-const useMessagesStore = create<MessageState>()(
+export const useMessagesStore = create<MessageState>()(
   devtools(
     (set) => ({
       messages: [],

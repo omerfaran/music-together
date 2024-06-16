@@ -15,7 +15,7 @@ export const MessagesPage: FC<MessagesPageProps> = ({ messages }) => {
         <MessageSideBar />
       </div>
       <div className="col-span-10">
-        <MessageTable messages={messages} />
+        <MessageTable initialMessages={messages} />
       </div>
     </div>
   );

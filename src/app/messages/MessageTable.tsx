@@ -1,7 +1,7 @@
 "use client";
 
 import { MessageDto } from "@/types";
-import React from "react";
+import React, { FC } from "react";
 import {
   Card,
   Table,
@@ -15,9 +15,13 @@ import clsx from "clsx";
 import { MessageTableCell } from "./MessageTableCell";
 import { useMessages } from "@/hooks/useMessages";
 
-export function MessageTable({ messages }: { messages: MessageDto[] }) {
-  const { columns, isOutbox, isDeleting, deleteMessage, selectRow } =
-    useMessages(messages);
+interface MessageTableProps {
+  initialMessages: MessageDto[];
+}
+
+export const MessageTable: FC<MessageTableProps> = ({ initialMessages }) => {
+  const { columns, isOutbox, isDeleting, deleteMessage, selectRow, messages } =
+    useMessages(initialMessages);
 
   return (
     <Card className="flex flex-col gap-3 h-[80vh] overflow-auto">
@@ -64,4 +68,4 @@ export function MessageTable({ messages }: { messages: MessageDto[] }) {
       </Table>
     </Card>
   );
-}
+};
