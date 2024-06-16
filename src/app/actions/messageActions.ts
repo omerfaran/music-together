@@ -209,6 +209,23 @@ export async function deleteMessage(messageId: string, isOutbox: boolean) {
   }
 }
 
+export async function getUnreadMessageCount(): Promise<number> {
+  try {
+    const userId = await getAuthUserId();
+
+    return prisma.message.count({
+      where: {
+        recipientId: userId,
+        dateRead: null,
+        recipientDeleted: false,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 const messageSelect = {
   // the fields we actually wanna get back
   id: true,
