@@ -5,6 +5,7 @@ import { Channel } from "pusher-js";
 import { useCallback, useEffect, useRef } from "react";
 import { useMessagesStore } from "./useMessagesStore";
 import { toast } from "react-toastify";
+import { newMessageToast } from "@/components/navbar/NewMessageToast";
 
 // that's a private channel for notifying users when they receive a message
 export const useNotificationChannel = (userId: string | null) => {
@@ -28,7 +29,7 @@ export const useNotificationChannel = (userId: string | null) => {
         add(message);
       } else if (pathname !== `/members/${message.senderId}/chat`) {
         // If they're not in messages window, toast to let them know
-        toast.info(`New message from ${message.senderName}`);
+        newMessageToast(message);
       }
     },
     [add, pathname, searchParams]
