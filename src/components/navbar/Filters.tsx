@@ -1,6 +1,12 @@
 "use client";
 
-import { Button, Select, SelectItem, Slider } from "@nextui-org/react";
+import {
+  Button,
+  Select,
+  SelectItem,
+  type Selection,
+  Slider,
+} from "@nextui-org/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { FaFemale, FaMale } from "react-icons/fa";
@@ -21,9 +27,19 @@ export const Filters = () => {
   ];
 
   const handleAgeSelect = (value: number[]) => {
+    // TODO - all those URL manipulations should be either in a store, or second best is a hook
     const params = new URLSearchParams(searchParams);
     params.set("ageRange", value.join(","));
     router.replace(`${pathname}?${params}`);
+  };
+
+  const handleOrderSelect = (value: Selection) => {
+    if (value instanceof Set) {
+      const params = new URLSearchParams(searchParams);
+      // The Selection type here can be a js set
+      params.set("orderBy", value.values().next().value);
+      router.replace(`${pathname}?${params}`);
+    }
   };
 
   if (pathname !== "/members") {
@@ -52,7 +68,7 @@ export const Filters = () => {
             minValue={18}
             maxValue={100}
             defaultValue={[18, 100]}
-            onChange={(value) => handleAgeSelect(value as number[])}
+            onChangeEnd={(value) => handleAgeSelect(value as number[])}
           />
         </div>
         <div className="w-1/4">
@@ -63,6 +79,8 @@ export const Filters = () => {
             variant="bordered"
             color="secondary"
             aria-label="Order by selector"
+            selectedKeys={new Set([searchParams.get("orderBy") || "updated"])}
+            onSelectionChange={handleOrderSelect}
           >
             {orderByList.map(({ value, label }) => {
               return (
