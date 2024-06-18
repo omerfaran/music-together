@@ -2,17 +2,30 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { Member, Photo, User } from "@prisma/client";
+import { UserFilters } from "@/types";
+import { Member, Photo } from "@prisma/client";
+import { addYears } from "date-fns";
 
-export async function getMembers() {
+export async function getMembers(searchParams: UserFilters) {
   const session = await auth();
   if (!session?.user) {
     return null;
   }
 
+  const ageRange = searchParams?.ageRange?.toString()?.split(",") || [18, 100];
+  const currentDate = new Date();
+  // These are the oldest, we take the higher age, and calculate date of birth
+  const minDateOfBirth = addYears(currentDate, -ageRange[1] - 1);
+
+  const maxDateOfBirth = addYears(currentDate, -ageRange[0]);
+
   try {
     return prisma.member.findMany({
       where: {
+        AND: [
+          { dateOfBirth: { gte: minDateOfBirth } },
+          { dateOfBirth: { lte: maxDateOfBirth } },
+        ],
         NOT: {
           // return all members except for the current logged in one
           userId: session.user.id,
