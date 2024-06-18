@@ -32,7 +32,3 @@ export const NewMessageToast: FC<NewMessageToastProps> = ({ message }) => {
     </Link>
   );
 };
-
-export const newMessageToast = (message: MessageDto) => {
-  toast(<NewMessageToast message={message} />);
-};

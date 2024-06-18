@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { getAuthUserId } from "./authActions";
 import { Like, Member } from "@prisma/client";
+import { pusherServer } from "@/lib/pusher";
 
 // function to like a certain member by current member, or unlike them if
 // that other member is already liked
@@ -28,14 +29,20 @@ export async function toggleLikeMember(targetUserId: string, isLiked: boolean) {
       });
     } else {
       // use doesn't like the other user yet, let's add that like
-      await prisma.like.create({
-        data: {
-          // we specify the column sourceUserId, and targetUserId
-          // prisma will generate the unique id for the row automatically of course,
-          // it's not something we should care about when creating a new relationship row
-          sourceUserId: userId,
-          targetUserId,
+      const like = await prisma.like.create({
+        // we specify the column sourceUserId, and targetUserId
+        // prisma will generate the unique id for the row automatically of course,
+        // it's not something we should care about when creating a new relationship row
+        data: { sourceUserId: userId, targetUserId },
+        select: {
+          sourceMember: { select: { name: true, image: true, userId: true } },
         },
+      });
+
+      await pusherServer.trigger(`private-${targetUserId}`, "like:new", {
+        name: like.sourceMember.name,
+        image: like.sourceMember.image,
+        userId: like.sourceMember.userId,
       });
     }
   } catch (error) {

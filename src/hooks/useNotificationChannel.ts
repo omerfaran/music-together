@@ -4,8 +4,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { Channel } from "pusher-js";
 import { useCallback, useEffect, useRef } from "react";
 import { useMessagesStore } from "./useMessagesStore";
-import { toast } from "react-toastify";
-import { newMessageToast } from "@/components/navbar/NewMessageToast";
+import { newLikeToast, newMessageToast } from "@/components/NotificationToast";
 
 // that's a private channel for notifying users when they receive a message
 export const useNotificationChannel = (userId: string | null) => {
@@ -38,6 +37,14 @@ export const useNotificationChannel = (userId: string | null) => {
     [add, pathname, searchParams, updateUnreadCount]
   );
 
+  const handleNewLike = (data: {
+    name: string;
+    image: string | null;
+    userId: string;
+  }) => {
+    newLikeToast(data.name, data.image, data.userId);
+  };
+
   useEffect(() => {
     if (!userId) {
       return;
@@ -47,12 +54,16 @@ export const useNotificationChannel = (userId: string | null) => {
       channelRef.current = pusherClient.subscribe(`private-${userId}`);
 
       channelRef.current.bind("message:new", handleNewMessage);
+      channelRef.current.bind("like:new", handleNewLike);
     }
 
     return () => {
       if (channelRef.current && channelRef.current.subscribed) {
         channelRef.current.unsubscribe();
+
         channelRef.current.unbind("message:new", handleNewMessage);
+        channelRef.current.unbind("like:new", handleNewLike);
+
         channelRef.current = null;
       }
     };
