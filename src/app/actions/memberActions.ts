@@ -22,12 +22,19 @@ export async function getMembers(searchParams: UserFilters) {
 
   const orderBySelector = searchParams.orderBy || "updated";
 
+  const selectedGender = searchParams?.gender?.toString()?.split(",") || [
+    "male",
+    "female",
+  ];
+
   try {
     return prisma.member.findMany({
       where: {
         AND: [
           { dateOfBirth: { gte: minDateOfBirth } },
           { dateOfBirth: { lte: maxDateOfBirth } },
+          // selectedGender is an array with either of the options male or female or both
+          { gender: { in: selectedGender } },
         ],
         NOT: {
           // return all members except for the current logged in one

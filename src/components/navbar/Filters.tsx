@@ -9,6 +9,7 @@ import {
 } from "@nextui-org/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
+import { IconType } from "react-icons";
 import { FaFemale, FaMale } from "react-icons/fa";
 
 export const Filters = () => {
@@ -21,7 +22,7 @@ export const Filters = () => {
     { label: "Newest members", value: "created" },
   ];
 
-  const genders = [
+  const genders: { value: "male" | "female"; icon: IconType }[] = [
     { value: "male", icon: FaMale },
     { value: "female", icon: FaFemale },
   ];
@@ -42,6 +43,26 @@ export const Filters = () => {
     }
   };
 
+  const selectedGender = searchParams.get("gender")?.split(",") || [
+    "male",
+    "female",
+  ];
+
+  const handleGenderSelect = (value: "male" | "female") => {
+    const params = new URLSearchParams(searchParams);
+    if (selectedGender.includes(value)) {
+      // male or female already in search params, so toggle it off (remove it)
+      params.set(
+        "gender",
+        selectedGender.filter((g) => g !== value).toString()
+      );
+    } else {
+      params.set("gender", [...selectedGender, value].toString());
+    }
+
+    router.replace(`${pathname}?${params}`);
+  };
+
   if (pathname !== "/members") {
     return null;
   }
@@ -54,7 +75,13 @@ export const Filters = () => {
           <div>Gender:</div>
           {genders.map(({ icon: Icon, value }) => {
             return (
-              <Button key={value} size="sm" isIconOnly color="secondary">
+              <Button
+                key={value}
+                size="sm"
+                isIconOnly
+                color={selectedGender.includes(value) ? "secondary" : "default"}
+                onClick={() => handleGenderSelect(value)}
+              >
                 <Icon size={24} />
               </Button>
             );
