@@ -1,5 +1,6 @@
 "use client";
 
+import { useFilters } from "@/hooks/useFilters";
 import {
   Button,
   Select,
@@ -14,54 +15,14 @@ import { FaFemale, FaMale } from "react-icons/fa";
 
 export const Filters = () => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const orderByList = [
-    { label: "Last active", value: "updated" },
-    { label: "Newest members", value: "created" },
-  ];
-
-  const genders: { value: "male" | "female"; icon: IconType }[] = [
-    { value: "male", icon: FaMale },
-    { value: "female", icon: FaFemale },
-  ];
-
-  const handleAgeSelect = (value: number[]) => {
-    // TODO - all those URL manipulations should be either in a store, or second best is a hook
-    const params = new URLSearchParams(searchParams);
-    params.set("ageRange", value.join(","));
-    router.replace(`${pathname}?${params}`);
-  };
-
-  const handleOrderSelect = (value: Selection) => {
-    if (value instanceof Set) {
-      const params = new URLSearchParams(searchParams);
-      // The Selection type here can be a js set
-      params.set("orderBy", value.values().next().value);
-      router.replace(`${pathname}?${params}`);
-    }
-  };
-
-  const selectedGender = searchParams.get("gender")?.split(",") || [
-    "male",
-    "female",
-  ];
-
-  const handleGenderSelect = (value: "male" | "female") => {
-    const params = new URLSearchParams(searchParams);
-    if (selectedGender.includes(value)) {
-      // male or female already in search params, so toggle it off (remove it)
-      params.set(
-        "gender",
-        selectedGender.filter((g) => g !== value).toString()
-      );
-    } else {
-      params.set("gender", [...selectedGender, value].toString());
-    }
-
-    router.replace(`${pathname}?${params}`);
-  };
+  const {
+    genderList,
+    orderByList,
+    filters,
+    selectAge,
+    selectGender,
+    selectOrder,
+  } = useFilters();
 
   if (pathname !== "/members") {
     return null;
@@ -73,14 +34,14 @@ export const Filters = () => {
         <div className="text-secondary font-semibold text-xl">Results: 10</div>
         <div className="flex gap-2 items-center">
           <div>Gender:</div>
-          {genders.map(({ icon: Icon, value }) => {
+          {genderList.map(({ icon: Icon, value }) => {
             return (
               <Button
                 key={value}
                 size="sm"
                 isIconOnly
-                color={selectedGender.includes(value) ? "secondary" : "default"}
-                onClick={() => handleGenderSelect(value)}
+                color={filters.gender.includes(value) ? "secondary" : "default"}
+                onClick={() => selectGender(value)}
               >
                 <Icon size={24} />
               </Button>
@@ -94,8 +55,8 @@ export const Filters = () => {
             size="sm"
             minValue={18}
             maxValue={100}
-            defaultValue={[18, 100]}
-            onChangeEnd={(value) => handleAgeSelect(value as number[])}
+            defaultValue={filters.ageRange}
+            onChangeEnd={(value) => selectAge(value as number[])}
           />
         </div>
         <div className="w-1/4">
@@ -106,8 +67,8 @@ export const Filters = () => {
             variant="bordered"
             color="secondary"
             aria-label="Order by selector"
-            selectedKeys={new Set([searchParams.get("orderBy") || "updated"])}
-            onSelectionChange={handleOrderSelect}
+            selectedKeys={new Set([filters.orderBy])}
+            onSelectionChange={selectOrder}
           >
             {orderByList.map(({ value, label }) => {
               return (
