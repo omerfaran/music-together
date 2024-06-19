@@ -8,7 +8,7 @@ import { type Selection } from "@nextui-org/react";
 
 export const useFilters = () => {
   const pathname = usePathname();
-  const searchParams1 = useSearchParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   const { filters, setFilters } = useFilterStore((state) => ({
@@ -20,23 +20,23 @@ export const useFilters = () => {
 
   useEffect(() => {
     // this loads on the first time then it sets params by default in store, so everything is overwritten
-    const searchParams = new URLSearchParams(searchParams1);
+    const params = new URLSearchParams(searchParams);
 
-    if (gender) {
-      // I think join(",") is the same as toString() in an array
-      console.log(searchParams.get("gender"), "haveri");
-      searchParams.set("gender", gender.join(","));
+    if (params.get("gender")) {
+      setFilters("gender", params.get("gender")?.split(","));
     }
 
     if (ageRange) {
-      searchParams.set("ageRange", ageRange.toString());
+      params.set("ageRange", ageRange.toString());
     }
     if (orderBy) {
-      searchParams.set("orderBy", orderBy);
+      params.set("orderBy", orderBy);
     }
 
-    router.replace(`${pathname}?${searchParams}`);
-  }, [gender, ageRange, orderBy, pathname, router, searchParams1]);
+    // TODO - do this not just for gender but for everything !!
+
+    // router.replace(`${pathname}?${searchParams}`);
+  }, []);
 
   const orderByList = [
     { label: "Last active", value: "updated" },
@@ -61,14 +61,14 @@ export const useFilters = () => {
   };
 
   const handleGenderSelect = (value: "male" | "female") => {
-    if (gender.includes(value)) {
-      setFilters(
-        "gender",
-        gender.filter((g) => g !== value)
-      );
-    } else {
-      setFilters("gender", [...gender, value]);
-    }
+    const newGender = gender.includes(value)
+      ? gender.filter((g) => g !== value)
+      : [...gender, value];
+
+    setFilters("gender", newGender);
+    const params = new URLSearchParams(searchParams);
+    params.set("gender", newGender.join(","));
+    router.replace(`${pathname}?${params}`);
   };
 
   return {
