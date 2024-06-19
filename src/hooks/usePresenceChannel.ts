@@ -2,6 +2,7 @@ import { Channel, Members } from "pusher-js";
 import { usePresenceStore } from "./usePresenceStore";
 import { useCallback, useEffect, useRef } from "react";
 import { pusherClient } from "@/lib/pusher";
+import { updateLastActive } from "@/app/actions/memberActions";
 
 export const usePresenceChannel = () => {
   const { set, add, remove } = usePresenceStore((state) => ({
@@ -41,8 +42,13 @@ export const usePresenceChannel = () => {
 
       channelRef.current.bind(
         "pusher:subscription_succeeded",
-        (members: Members) => {
+        async (members: Members) => {
           handleSetMembers(Object.keys(members.members));
+          // TODO -The creation of this pusher channel happens on every refresh, so we could define it as
+          // being "active", so he puts the function to update the user activity in the db.
+          // nevertheless, he calls this usePresenceChannel hook from Providers,
+          // so it makes more sense to create a separate hook for updating last activity
+          await updateLastActive();
         }
       );
 

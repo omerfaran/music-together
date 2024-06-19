@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { UserFilters } from "@/types";
 import { Member, Photo } from "@prisma/client";
 import { addYears } from "date-fns";
+import { getAuthUserId } from "./authActions";
 
 export async function getMembers(searchParams: UserFilters) {
   const session = await auth();
@@ -64,4 +65,22 @@ export async function getMemberPhotosByUserId(
   }
 
   return member.photos;
+}
+
+export async function updateLastActive(): Promise<void> {
+  const userId = await getAuthUserId();
+
+  try {
+    prisma.member.update({
+      where: {
+        userId,
+      },
+      data: {
+        updated: new Date(),
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 }
