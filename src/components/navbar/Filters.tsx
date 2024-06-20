@@ -1,7 +1,7 @@
 "use client";
 
 import { useFilters } from "@/hooks/useFilters";
-import { Button, Select, SelectItem, Slider } from "@nextui-org/react";
+import { Button, Select, SelectItem, Slider, Spinner } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 
 export const Filters = () => {
@@ -13,6 +13,7 @@ export const Filters = () => {
     selectAge,
     selectGender,
     selectOrder,
+    isPending,
   } = useFilters();
 
   if (pathname !== "/members") {
@@ -22,7 +23,12 @@ export const Filters = () => {
   return (
     <div className="shadow-md py-2">
       <div className="flex flex-grow justify-around items-center">
-        <div className="text-secondary font-semibold text-xl">Results: 10</div>
+        <div className="flex gap-2 items-center">
+          <div className="text-secondary font-semibold text-xl">
+            Results: 10
+          </div>
+          {isPending && <Spinner size="sm" color="secondary" />}
+        </div>
         <div className="flex gap-2 items-center">
           <div>Gender:</div>
           {genderList.map(({ icon: Icon, value }) => {

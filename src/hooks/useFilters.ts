@@ -3,13 +3,15 @@ import { useRouter } from "next/navigation";
 import { IconType } from "react-icons";
 import { FaMale, FaFemale } from "react-icons/fa";
 import useFilterStore from "./useFilterStore";
-import { useEffect } from "react";
+import { useEffect, useTransition } from "react";
 import { type Selection } from "@nextui-org/react";
 
 export const useFilters = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const [isPending, startTransition] = useTransition();
 
   const { filters, setFilters } = useFilterStore((state) => ({
     filters: state.filters,
@@ -19,19 +21,22 @@ export const useFilters = () => {
   const { gender, ageRange, orderBy } = filters;
 
   useEffect(() => {
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams);
+
+      if (params.get("gender")) {
+        setFilters("gender", params.get("gender")?.split(","));
+      }
+
+      if (ageRange) {
+        params.set("ageRange", ageRange.toString());
+      }
+      if (orderBy) {
+        params.set("orderBy", orderBy);
+      }
+    });
+
     // this loads on the first time then it sets params by default in store, so everything is overwritten
-    const params = new URLSearchParams(searchParams);
-
-    if (params.get("gender")) {
-      setFilters("gender", params.get("gender")?.split(","));
-    }
-
-    if (ageRange) {
-      params.set("ageRange", ageRange.toString());
-    }
-    if (orderBy) {
-      params.set("orderBy", orderBy);
-    }
 
     // TODO - do this not just for gender but for everything !!
 
@@ -78,5 +83,7 @@ export const useFilters = () => {
     selectGender: handleGenderSelect,
     selectOrder: handleOrderSelect,
     filters,
+    // TODO - isPending is for the transition, can we have it outside this hook?
+    isPending,
   };
 };
