@@ -5,6 +5,7 @@ import { FaMale, FaFemale } from "react-icons/fa";
 import useFilterStore from "./useFilterStore";
 import { useEffect, useTransition } from "react";
 import { type Selection } from "@nextui-org/react";
+import usePaginationStore from "./usePaginationStore";
 
 export const useFilters = () => {
   const pathname = usePathname();
@@ -17,6 +18,14 @@ export const useFilters = () => {
     filters: state.filters,
     setFilters: state.setFilters,
   }));
+  const { pageNumber, pageSize, setPageSize, setPage } = usePaginationStore(
+    (state) => ({
+      pageNumber: state.pagination.pageNumber,
+      pageSize: state.pagination.pageSize,
+      setPageSize: state.setPageSize,
+      setPage: state.setPage,
+    })
+  );
 
   const { gender, ageRange, orderBy } = filters;
 
@@ -29,10 +38,20 @@ export const useFilters = () => {
       }
 
       if (ageRange) {
+        // this one and the one below are not used anymore, we want to only update the store here
+        // and let each action handle the search params on its own
         params.set("ageRange", ageRange.toString());
       }
       if (orderBy) {
         params.set("orderBy", orderBy);
+      }
+
+      if (params.get("pageSize")) {
+        setPageSize(Number(params.get("pageSize")));
+      }
+
+      if (params.get("pageNumber")) {
+        setPage(Number(params.get("pageNumber")));
       }
     });
 
