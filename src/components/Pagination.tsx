@@ -10,6 +10,7 @@ export const Pagination = ({ totalCount }: { totalCount: number }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const params = new URLSearchParams(searchParams);
 
   // TODO - as usual, move store stuff out of here
   const { setPage, setPageSize, setPagination, pagination } =
@@ -39,7 +40,7 @@ export const Pagination = ({ totalCount }: { totalCount: number }) => {
     // move to usePaginationStore ??
 
     setPageSize(size);
-    const params = new URLSearchParams(searchParams);
+
     params.set("pageSize", size.toString());
     router.replace(`${pathname}?${params}`);
   };
@@ -47,7 +48,7 @@ export const Pagination = ({ totalCount }: { totalCount: number }) => {
   const handleSetPage = (pageNumber: number) => {
     // move to usePaginationStore ??
     setPage(pageNumber);
-    const params = new URLSearchParams(searchParams);
+
     params.set("pageNumber", pageNumber.toString());
     router.replace(`${pathname}?${params}`);
   };
