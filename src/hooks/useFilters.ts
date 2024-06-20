@@ -29,6 +29,13 @@ export const useFilters = () => {
 
   const { gender, ageRange, orderBy } = filters;
 
+  // Guard to bring back to page 1 at first ?
+  // useEffect(() => {
+  //   if (gender || ageRange || orderBy) {
+  //     setPage(1);
+  //   }
+  // }, [ageRange, gender, orderBy, setPage]);
+
   useEffect(() => {
     startTransition(() => {
       const params = new URLSearchParams(searchParams);
