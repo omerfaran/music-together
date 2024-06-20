@@ -1,4 +1,4 @@
-import React, { type FC } from "react";
+import { type FC } from "react";
 import { getMembers } from "../actions/memberActions";
 import { Member } from "@prisma/client";
 import { MemberCard } from "./MemberCard";

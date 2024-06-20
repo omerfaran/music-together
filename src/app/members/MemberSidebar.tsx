@@ -13,7 +13,7 @@ import {
 import { Member } from "@prisma/client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { FC } from "react";
+import { FC } from "react";
 
 export interface MemberSidebarProps {
   member: Member;

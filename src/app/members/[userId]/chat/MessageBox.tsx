@@ -3,9 +3,8 @@
 import { PresenceAvatar } from "@/components/PresenceAvatar";
 import { timeAgo, transformImageUrl } from "@/lib/util";
 import { MessageDto } from "@/types";
-import { Avatar } from "@nextui-org/react";
 import clsx from "clsx";
-import React, { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 
 interface MessageBoxProps {
   message: MessageDto;

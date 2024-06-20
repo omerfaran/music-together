@@ -12,7 +12,7 @@ import {
 } from "@nextui-org/react";
 import { Session } from "next-auth";
 import Link from "next/link";
-import React, { FC } from "react";
+import { FC } from "react";
 
 interface UserMenuProps {
   user: Session["user"];

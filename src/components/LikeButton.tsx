@@ -2,7 +2,7 @@
 
 import { toggleLikeMember } from "@/app/actions/likeActions";
 import { useRouter } from "next/navigation";
-import React, { type FC } from "react";
+import { type FC } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 interface LikeButtonProps {

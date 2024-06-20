@@ -3,14 +3,10 @@ import {
   getMemberByUserId,
   getMemberPhotosByUserId,
 } from "@/app/actions/memberActions";
-import { DeleteButton } from "@/components/DeleteButton";
-import { ImageUploadButton } from "@/components/ImageUploadButton";
-import { StarButton } from "@/components/StarButton";
 import { CardHeader, Divider, CardBody, Image } from "@nextui-org/react";
 import { Member, Photo } from "@prisma/client";
-import React, { FC } from "react";
+import { FC } from "react";
 import { MemberPhotoUpload } from "./MemberPhotoUpload";
-import { MemberImage } from "@/components/MemberImage";
 import { MemberPhotos } from "@/components/MemberPhotos";
 
 interface PhotosPageProps {

@@ -2,7 +2,7 @@ import { PresenceAvatar } from "@/components/PresenceAvatar";
 import { truncateString } from "@/lib/util";
 import { MessageDto } from "@/types";
 import { Button } from "@nextui-org/react";
-import React, { FC } from "react";
+import { FC } from "react";
 import { AiFillDelete } from "react-icons/ai";
 
 interface MessageTableCellProps {

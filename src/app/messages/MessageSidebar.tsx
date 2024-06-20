@@ -4,7 +4,7 @@ import { useMessagesStore } from "@/hooks/useMessagesStore";
 import { Chip } from "@nextui-org/react";
 import clsx from "clsx";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 import { GoInbox } from "react-icons/go";
 import { MdOutlineOutbox } from "react-icons/md";
 

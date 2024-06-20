@@ -1,5 +1,5 @@
 import { CardHeader, Divider, CardBody } from "@nextui-org/react";
-import React, { FC } from "react";
+import { FC } from "react";
 import { EditForm } from "./EditForm";
 import { getAuthUserId } from "@/app/actions/authActions";
 import { getMemberByUserId } from "@/app/actions/memberActions";

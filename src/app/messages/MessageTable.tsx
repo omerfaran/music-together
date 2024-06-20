@@ -1,7 +1,7 @@
 "use client";
 
 import { MessageDto } from "@/types";
-import React, { FC } from "react";
+import { FC } from "react";
 import {
   Card,
   Table,

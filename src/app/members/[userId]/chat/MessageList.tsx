@@ -1,7 +1,7 @@
 "use client";
 
 import { MessageDto } from "@/types";
-import React, { FC, useCallback, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { MessageBox } from "./MessageBox";
 import { pusherClient } from "@/lib/pusher";
 import { formatShortDateTime } from "@/lib/util";

@@ -1,6 +1,6 @@
 import { Button, Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
 import Link from "next/link";
-import React, { FC } from "react";
+import { FC } from "react";
 import { AiFillAlert } from "react-icons/ai";
 import { NavLink } from "./NavLink";
 import { auth } from "@/auth";

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { MessageSideBar } from "./MessageSidebar";
 import { Container, getMessagesByContainer } from "../actions/messageActions";
 import { MessageDto } from "@/types";

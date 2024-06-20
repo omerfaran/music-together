@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { PiSpinnerGap } from "react-icons/pi";
 

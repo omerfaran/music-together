@@ -4,7 +4,7 @@ import { addImage } from "@/app/actions/userActions";
 import { ImageUploadButton } from "@/components/ImageUploadButton";
 import { CloudinaryUploadWidgetResults } from "next-cloudinary";
 import { useRouter } from "next/navigation";
-import React, { FC } from "react";
+import { FC } from "react";
 import { toast } from "react-toastify";
 
 interface MemberPhotoUploadProps {}

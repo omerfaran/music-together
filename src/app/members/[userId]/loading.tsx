@@ -1,5 +1,4 @@
 import { Spinner } from "@nextui-org/react";
-import React from "react";
 
 // Name matters! nextjs will look for this component to display when in loading state
 

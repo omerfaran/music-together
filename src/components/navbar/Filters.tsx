@@ -1,17 +1,8 @@
 "use client";
 
 import { useFilters } from "@/hooks/useFilters";
-import {
-  Button,
-  Select,
-  SelectItem,
-  type Selection,
-  Slider,
-} from "@nextui-org/react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React from "react";
-import { IconType } from "react-icons";
-import { FaFemale, FaMale } from "react-icons/fa";
+import { Button, Select, SelectItem, Slider } from "@nextui-org/react";
+import { usePathname } from "next/navigation";
 
 export const Filters = () => {
   const pathname = usePathname();

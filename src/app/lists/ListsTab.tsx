@@ -2,7 +2,7 @@
 
 import { Tab, Tabs } from "@nextui-org/react";
 import { Member } from "@prisma/client";
-import React, { FC, Key, useTransition } from "react";
+import { FC, Key, useTransition } from "react";
 import { LikeType } from "../actions/likeActions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { MemberCard } from "../members/MemberCard";

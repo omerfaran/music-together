@@ -5,7 +5,6 @@ import { RegisterSchema, registerSchema } from "@/lib/schemas/registerSchema";
 import { handleFormServerErrors } from "@/lib/util";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
 

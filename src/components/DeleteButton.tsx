@@ -1,4 +1,4 @@
-import React, { type FC } from "react";
+import { type FC } from "react";
 import { AiFillDelete, AiOutlineDelete } from "react-icons/ai";
 import { PiSpinnerGap } from "react-icons/pi";
 

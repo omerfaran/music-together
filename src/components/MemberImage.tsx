@@ -3,7 +3,7 @@
 import { Image } from "@nextui-org/react";
 import { Photo } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
-import React, { FC } from "react";
+import { FC } from "react";
 
 interface MemberImageProps {
   photo: Photo | null;

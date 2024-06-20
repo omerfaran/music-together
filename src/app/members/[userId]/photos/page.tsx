@@ -1,7 +1,7 @@
 import { getMemberPhotosByUserId } from "@/app/actions/memberActions";
 import { CardBody, CardHeader, Divider, Image } from "@nextui-org/react";
 import { Photo } from "@prisma/client";
-import React, { FC } from "react";
+import { FC } from "react";
 
 interface PhotosPageProps {
   photos: Photo[] | null;

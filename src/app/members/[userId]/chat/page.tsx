@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import CardInnerWrapper from "@/components/CardInnerWrapper";
 import ChatForm from "./ChatForm";
 import { getMessageThread } from "@/app/actions/messageActions";

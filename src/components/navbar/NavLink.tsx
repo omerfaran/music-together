@@ -4,7 +4,7 @@ import { useMessagesStore } from "@/hooks/useMessagesStore";
 import { NavbarItem, type NavbarItemProps } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { type FC } from "react";
+import { type FC } from "react";
 
 interface NavLinkProps {
   href: JSX.IntrinsicElements["a"]["href"];

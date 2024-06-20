@@ -6,7 +6,7 @@
 import { getMemberByUserId } from "@/app/actions/memberActions";
 import { Member } from "@prisma/client";
 import { notFound } from "next/navigation";
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { MemberSidebar, MemberSidebarProps } from "../MemberSidebar";
 import { Card } from "@nextui-org/react";
 

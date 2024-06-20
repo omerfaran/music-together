@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { getMemberByUserId } from "@/app/actions/memberActions";
 import CardInnerWrapper from "@/components/CardInnerWrapper";
 import { Member } from "@prisma/client";

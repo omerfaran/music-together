@@ -5,13 +5,7 @@ import { useMessagesStore } from "@/hooks/useMessagesStore";
 import { useNotificationChannel } from "@/hooks/useNotificationChannel";
 import { usePresenceChannel } from "@/hooks/usePresenceChannel";
 import { NextUIProvider } from "@nextui-org/react";
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  type FC,
-  type ReactNode,
-} from "react";
+import { useCallback, useEffect, useRef, type FC, type ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";

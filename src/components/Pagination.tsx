@@ -2,7 +2,7 @@
 
 import { Pagination as PaginationComponent } from "@nextui-org/react";
 import clsx from "clsx";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export const Pagination = () => {
   const [active, setActive] = useState(3);
