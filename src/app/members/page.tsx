@@ -5,6 +5,7 @@ import { MemberCard } from "./MemberCard";
 import { fetchCurrentUserLikeIds } from "../actions/likeActions";
 import { Pagination } from "@/components/Pagination";
 import { UserFilters } from "@/types";
+import { EmptyState } from "@/components/EmptyState";
 
 interface MembersPageProps {
   members: Array<Member>;
@@ -12,9 +13,11 @@ interface MembersPageProps {
 }
 
 export const MembersPage: FC<MembersPageProps> = ({ members, likeIds }) => {
-  // TODO - not very responsive; fix!
-  return (
+  return !members.length ? (
+    <EmptyState />
+  ) : (
     <>
+      {/* TODO - not very responsive; fix! */}
       <div className="pt-10 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-8">
         {members.map((member) => {
           return (
