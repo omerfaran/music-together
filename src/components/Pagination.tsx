@@ -6,12 +6,10 @@ import clsx from "clsx";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-export const Pagination = () => {
+export const Pagination = ({ totalCount }: { totalCount: number }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-
-  const totalCount = 20;
 
   // TODO - as usual, move store stuff out of here
   const { setPage, setPageSize, setPagination, pagination } =
@@ -25,7 +23,7 @@ export const Pagination = () => {
 
   useEffect(() => {
     setPagination(totalCount);
-  }, [setPagination]);
+  }, [setPagination, totalCount]);
 
   // from where to start the cards, for example, if pageNumber is 1,
   // we start from 0, if page number is 2, we skip the pageSize number of records

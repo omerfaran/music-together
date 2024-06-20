@@ -4,15 +4,20 @@ import { Member } from "@prisma/client";
 import { MemberCard } from "./MemberCard";
 import { fetchCurrentUserLikeIds } from "../actions/likeActions";
 import { Pagination } from "@/components/Pagination";
-import { UserFilters } from "@/types";
+import { GetMembersParams, UserFilters } from "@/types";
 import { EmptyState } from "@/components/EmptyState";
 
 interface MembersPageProps {
   members: Array<Member>;
   likeIds: string[];
+  totalCount: number;
 }
 
-export const MembersPage: FC<MembersPageProps> = ({ members, likeIds }) => {
+export const MembersPage: FC<MembersPageProps> = ({
+  members,
+  likeIds,
+  totalCount,
+}) => {
   return !members.length ? (
     <EmptyState />
   ) : (
@@ -29,7 +34,7 @@ export const MembersPage: FC<MembersPageProps> = ({ members, likeIds }) => {
           );
         })}
       </div>
-      <Pagination />
+      <Pagination totalCount={totalCount} />
     </>
   );
 };
@@ -40,12 +45,18 @@ export const MembersPage: FC<MembersPageProps> = ({ members, likeIds }) => {
 export default async function Page({
   searchParams,
 }: {
-  searchParams: UserFilters;
+  searchParams: GetMembersParams;
 }) {
   // get all members, unrelated to user
-  const members = await getMembers(searchParams);
+  const { items, totalCount } = await getMembers(searchParams);
   // get all the ids of users the current member has liked
   const likeIds = await fetchCurrentUserLikeIds();
 
-  return <MembersPage members={members ?? []} likeIds={likeIds ?? []} />;
+  return (
+    <MembersPage
+      members={items ?? []}
+      totalCount={totalCount}
+      likeIds={likeIds ?? []}
+    />
+  );
 }

@@ -57,3 +57,11 @@ type PaginatedResponse<T> = {
   items: T[];
   totalCount: number;
 };
+
+type GetMembersParams = Partial<{
+  ageRange: string;
+  gender: string;
+  pageNumber: string;
+  pageSize: string;
+  orderBy: string;
+}>;

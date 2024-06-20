@@ -2,49 +2,63 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { UserFilters } from "@/types";
+import { GetMembersParams, PaginatedResponse, UserFilters } from "@/types";
 import { Member, Photo } from "@prisma/client";
 import { addYears } from "date-fns";
 import { getAuthUserId } from "./authActions";
 
-export async function getMembers(searchParams: UserFilters) {
-  const session = await auth();
-  if (!session?.user) {
-    return null;
-  }
+export async function getMembers({
+  ageRange = "18,100",
+  gender = "male,female",
+  orderBy = "updated",
+  pageNumber = "1",
+  pageSize = "12",
+}: GetMembersParams): Promise<PaginatedResponse<Member>> {
+  const userId = await getAuthUserId();
 
-  const ageRange = searchParams?.ageRange?.toString()?.split(",") || [18, 100];
+  const [minAge, maxAge] = ageRange.split(",");
   const currentDate = new Date();
   // These are the oldest, we take the higher age, and calculate date of birth
-  const minDateOfBirth = addYears(currentDate, -ageRange[1] - 1);
+  const minDateOfBirth = addYears(currentDate, -maxAge - 1);
 
-  const maxDateOfBirth = addYears(currentDate, -ageRange[0]);
+  const maxDateOfBirth = addYears(currentDate, -minAge);
 
-  const orderBySelector = searchParams.orderBy || "updated";
+  const selectedGender = gender.split(",");
 
-  const selectedGender = searchParams?.gender?.toString()?.split(",") || [
-    "male",
-    "female",
-  ];
+  const page = parseInt(pageNumber);
+  const limit = parseInt(pageSize);
+
+  const skip = (page - 1) * limit;
 
   try {
-    return prisma.member.findMany({
-      where: {
-        AND: [
-          { dateOfBirth: { gte: minDateOfBirth } },
-          { dateOfBirth: { lte: maxDateOfBirth } },
-          // selectedGender is an array with either of the options male or female or both
-          { gender: { in: selectedGender } },
-        ],
-        NOT: {
-          // return all members except for the current logged in one
-          userId: session.user.id,
-        },
+    const where = {
+      AND: [
+        { dateOfBirth: { gte: minDateOfBirth } },
+        { dateOfBirth: { lte: maxDateOfBirth } },
+        // selectedGender is an array with either of the options male or female or both
+        { gender: { in: selectedGender } },
+      ],
+      NOT: {
+        // return all members except for the current logged in one
+        userId,
       },
-      orderBy: { [orderBySelector]: "desc" },
+    };
+
+    const count = await prisma.member.count({
+      where,
     });
+
+    const members = await prisma.member.findMany({
+      where,
+      orderBy: { [orderBy]: "desc" },
+      skip,
+      take: limit,
+    });
+
+    return { items: members, totalCount: count };
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
 
