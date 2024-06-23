@@ -1,16 +1,14 @@
 "use client";
 
 import usePaginationStore from "@/hooks/usePaginationStore";
+import { useParams } from "@/hooks/useParams";
 import { Pagination as PaginationComponent } from "@nextui-org/react";
 import clsx from "clsx";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 export const Pagination = ({ totalCount }: { totalCount: number }) => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-  const params = new URLSearchParams(searchParams);
+  const { setParams } = useParams();
 
   // TODO - as usual, move store stuff out of here
   const { setPage, setPageSize, setPagination, pagination } =
@@ -37,20 +35,15 @@ export const Pagination = ({ totalCount }: { totalCount: number }) => {
   const resultText = `Showing ${start}-${end} of ${totalCount} results`;
 
   const handleChangePageSize = (size: number) => {
-    // move to usePaginationStore ??
-
     setPageSize(size);
 
-    params.set("pageSize", size.toString());
-    router.replace(`${pathname}?${params}`);
+    setParams("pageSize", size.toString());
   };
 
   const handleSetPage = (pageNumber: number) => {
-    // move to usePaginationStore ??
     setPage(pageNumber);
 
-    params.set("pageNumber", pageNumber.toString());
-    router.replace(`${pathname}?${params}`);
+    setParams("pageNumber", pageNumber.toString());
   };
 
   return (
