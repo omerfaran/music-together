@@ -37,10 +37,12 @@ export const useMessages = (
     // initially, and thus double up
     set(initialMessages);
 
+    cursorRef.current = nextCursor;
+
     return () => {
       resetMessages();
     };
-  }, [initialMessages, resetMessages, set]);
+  }, [initialMessages, resetMessages, set, nextCursor]);
 
   const loadMore = useCallback(async () => {
     if (cursorRef.current) {

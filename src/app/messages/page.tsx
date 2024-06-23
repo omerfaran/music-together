@@ -6,16 +6,20 @@ import { MessageTable } from "./MessageTable";
 
 interface MessagesPageProps {
   messages: MessageDto[];
+  nextCursor?: string;
 }
 
-export const MessagesPage: FC<MessagesPageProps> = ({ messages }) => {
+export const MessagesPage: FC<MessagesPageProps> = ({
+  messages,
+  nextCursor,
+}) => {
   return (
     <div className="grid grid-cols-12 gap-5 h-[80vh] mt-10">
       <div className="col-span-2">
         <MessageSideBar />
       </div>
       <div className="col-span-10">
-        <MessageTable initialMessages={messages} />
+        <MessageTable initialMessages={messages} nextCursor={nextCursor} />
       </div>
     </div>
   );
@@ -26,11 +30,11 @@ export default async function Page({
 }: {
   searchParams: { container: string };
 }) {
-  const messages = await getMessagesByContainer(
+  const { messages, nextCursor } = await getMessagesByContainer(
     containerGuard(searchParams.container)
   );
 
-  return <MessagesPage messages={messages} />;
+  return <MessagesPage messages={messages} nextCursor={nextCursor} />;
 }
 
 const containerGuard = (container: string): Container => {
