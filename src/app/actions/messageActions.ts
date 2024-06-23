@@ -118,13 +118,15 @@ const containerToSenderOrRecipientKey: Record<
 };
 
 export async function getMessagesByContainer(
-  container: Container
-): Promise<MessageDto[]> {
+  container: string | null,
+  cursor?: string,
+  limit = 2
+): Promise<{ messages: MessageDto[]; nextCursor?: string }> {
   try {
     const userId = await getAuthUserId();
 
     // not using it in the end...
-    const selector = containerToSenderOrRecipientKey[container];
+    // const selector = containerToSenderOrRecipientKey[container];
 
     // will only retrieve not-deleted messages
     const conditions = {
@@ -135,12 +137,31 @@ export async function getMessagesByContainer(
     };
 
     const messages = await prisma.message.findMany({
-      where: conditions,
+      where: {
+        ...conditions,
+        ...(cursor ? { created: { lte: new Date(cursor) } } : {}),
+      },
       orderBy: { created: "desc" },
       select: messageSelect,
+      // by default we'll take 3 messages
+      take: limit + 1,
     });
 
-    return messages.map((message) => mapMessageToMessageDto(message));
+    let nextCursor: string | undefined;
+    if (messages.length > limit) {
+      // this mutates the array by removing last element, and returning it.
+      // So effectively we'll return number of messages that's equal to the limit=2, because
+      // we take limit+1. Then the nextCursor will be equal to the last message that we haven't yet returned.
+      const nextItem = messages.pop();
+      nextCursor = nextItem?.created.toISOString();
+    } else {
+      nextCursor = undefined;
+    }
+
+    const messagesToReturn = messages.map((message) =>
+      mapMessageToMessageDto(message)
+    );
+    return { messages: messagesToReturn, nextCursor };
   } catch (error) {
     console.log(error);
     throw error;

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 export const useParams = () => {
@@ -5,10 +6,13 @@ export const useParams = () => {
   const router = useRouter();
   const pathname = usePathname();
 
+  const [params, setParamsState] = useState(new URLSearchParams(searchParams));
+
   const setParams = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set(key, value);
-    router.replace(`${pathname}?${params}`);
+    const updatedParams = new URLSearchParams(params);
+    updatedParams.set(key, value);
+    setParamsState(updatedParams);
+    router.replace(`${pathname}?${updatedParams.toString()}`);
   };
 
   return { setParams };
