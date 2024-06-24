@@ -35,7 +35,7 @@ export const MessageTable: FC<MessageTableProps> = ({
     loadMore,
     loadingMore,
     hasMore,
-  } = useMessages(initialMessages);
+  } = useMessages(initialMessages, nextCursor);
 
   return (
     <div className="flex flex-col h-[80vh]">

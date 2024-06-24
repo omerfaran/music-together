@@ -161,6 +161,7 @@ export async function getMessagesByContainer(
     const messagesToReturn = messages.map((message) =>
       mapMessageToMessageDto(message)
     );
+
     return { messages: messagesToReturn, nextCursor };
   } catch (error) {
     console.log(error);
