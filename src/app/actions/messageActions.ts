@@ -120,7 +120,7 @@ const containerToSenderOrRecipientKey: Record<
 export async function getMessagesByContainer(
   container: string | null,
   cursor?: string,
-  limit = 2
+  limit = 10
 ): Promise<{ messages: MessageDto[]; nextCursor?: string }> {
   try {
     const userId = await getAuthUserId();
