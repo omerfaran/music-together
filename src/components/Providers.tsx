@@ -39,7 +39,7 @@ export const Providers: FC<ProvidersProps> = ({ children, userId }) => {
     }
   }, [setUnreadCount, userId]);
 
-  usePresenceChannel();
+  usePresenceChannel(userId);
   useNotificationChannel(userId);
   return (
     <NextUIProvider>

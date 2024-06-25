@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { pusherClient } from "@/lib/pusher";
 import { updateLastActive } from "@/app/actions/memberActions";
 
-export const usePresenceChannel = () => {
+export const usePresenceChannel = (userId: string | null) => {
   const { set, add, remove } = usePresenceStore((state) => ({
     // not sure why we need to do it
     set: state.set,
@@ -36,6 +36,10 @@ export const usePresenceChannel = () => {
   );
 
   useEffect(() => {
+    if (!userId) {
+      return;
+    }
+
     if (!channelRef.current) {
       // the 'presence' in the name must be like that so pusher knows it's a presence channel
       channelRef.current = pusherClient.subscribe("presence-nm");
@@ -78,5 +82,5 @@ export const usePresenceChannel = () => {
         channelRef.current.unbind("pusher:member_removed", handleRemoveMember);
       }
     };
-  }, [handleAddMember, handleRemoveMember, handleSetMembers]);
+  }, [handleAddMember, handleRemoveMember, handleSetMembers, userId]);
 };

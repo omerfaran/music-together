@@ -1,35 +1,82 @@
 "use client";
 
-import { registerUser } from "@/app/actions/authActions";
-import { RegisterSchema, registerSchema } from "@/lib/schemas/registerSchema";
-import { handleFormServerErrors } from "@/lib/util";
+import {
+  RegisterSchema,
+  profileSchema,
+  registerSchema,
+} from "@/lib/schemas/registerSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
-import { useForm } from "react-hook-form";
+import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
+import { FormProvider, useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
+import { UserDetailsForm } from "./UserDetailsForm";
+import { FC, useState } from "react";
+import { ProfileForm } from "./ProfileForm";
+import { registerUser } from "@/app/actions/authActions";
+import { handleFormServerErrors } from "@/lib/util";
+import { useRouter } from "next/navigation";
 
-export const RegisterForm = () => {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors, isValid, isSubmitting },
-  } = useForm<RegisterSchema>({
-    resolver: zodResolver(registerSchema),
+interface RegisterFormProps {}
+
+const stepSchemas = [registerSchema, profileSchema];
+
+export const RegisterForm: FC<RegisterFormProps> = () => {
+  const router = useRouter();
+
+  const [activeStep, setActiveStep] = useState(0);
+  const currentValidationSchema = stepSchemas[activeStep];
+
+  const methods = useForm<RegisterSchema>({
+    resolver: zodResolver(currentValidationSchema),
     mode: "onTouched",
   });
 
-  const onSubmit = async (data: RegisterSchema) => {
-    const result = await registerUser(data);
+  const {
+    handleSubmit,
+    setError,
+    getValues,
+    formState: { errors, isValid, isSubmitting },
+  } = methods;
+
+  const onSubmit = async () => {
+    console.log(getValues(), "get values");
+
+    const result = await registerUser(getValues());
 
     if (result.status === "success") {
-      return console.log("user registered successfully");
+      return router.push("/register/success");
     }
 
     // this is a helper function to set the handle and set the form errors,
     // we pass the setError of the react form hook, and it sets the current errors
     // for us
     handleFormServerErrors(result, setError);
+  };
+
+  const getStepContent = (step: number) => {
+    switch (step) {
+      case 0:
+        return <UserDetailsForm />;
+
+      case 1:
+        return <ProfileForm />;
+
+      default:
+        return "unknown step";
+    }
+  };
+
+  const onBack = () => {
+    setActiveStep((prev) => prev - 1);
+  };
+
+  const onNext = async () => {
+    if (activeStep === stepSchemas.length - 1) {
+      // we're on last step
+      await onSubmit();
+    } else {
+      setActiveStep((prev) => prev + 1);
+    }
   };
 
   return (
@@ -46,51 +93,36 @@ export const RegisterForm = () => {
         </div>
       </CardHeader>
       <CardBody>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-4">
-            <Input
-              defaultValue=""
-              {...register("name")}
-              isInvalid={!!errors.name}
-              errorMessage={errors?.name?.message}
-              label="Name"
-              variant="bordered"
-            />
-            <Input
-              // The defaultValue="" here is to make sure the component isn't treated as controlled, we want it uncontrolled
-              defaultValue=""
-              {...register("email")}
-              isInvalid={!!errors.email}
-              errorMessage={errors?.email?.message}
-              label="Email"
-              type="email"
-              variant="bordered"
-            />
-            <Input
-              defaultValue=""
-              {...register("password")}
-              isInvalid={!!errors.password}
-              errorMessage={errors?.password?.message}
-              label="Password"
-              variant="bordered"
-              type="password"
-            />
-            {errors.root?.serverError && (
-              <p className="text-danger text-sm">
-                {errors.root.serverError.message}
-              </p>
-            )}
-            <Button
-              isDisabled={!isValid}
-              isLoading={isSubmitting}
-              type="submit"
-              fullWidth
-              color="secondary"
-            >
-              Register
-            </Button>
-          </div>
-        </form>
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit(onNext)}>
+            <div className="space-y-4">
+              {getStepContent(activeStep)}
+              {errors.root?.serverError && (
+                <p className="text-danger text-sm">
+                  {errors.root.serverError.message}
+                </p>
+              )}
+              <div className="flex flex-row items-center gap-6">
+                {activeStep !== 0 && (
+                  <Button onClick={onBack} fullWidth>
+                    Back
+                  </Button>
+                )}
+                <Button
+                  isDisabled={!isValid}
+                  isLoading={isSubmitting}
+                  type="submit"
+                  fullWidth
+                  color="secondary"
+                >
+                  {activeStep === stepSchemas.length - 1
+                    ? "Submit"
+                    : "Continue"}
+                </Button>
+              </div>
+            </div>
+          </form>
+        </FormProvider>
       </CardBody>
     </Card>
   );
