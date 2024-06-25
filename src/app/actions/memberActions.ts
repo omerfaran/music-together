@@ -1,6 +1,5 @@
 "use server";
 
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { GetMembersParams, PaginatedResponse, UserFilters } from "@/types";
 import { Member, Photo } from "@prisma/client";
@@ -13,6 +12,7 @@ export async function getMembers({
   orderBy = "updated",
   pageNumber = "1",
   pageSize = "12",
+  withPhoto = "true",
 }: GetMembersParams): Promise<PaginatedResponse<Member>> {
   const userId = await getAuthUserId();
 
@@ -37,6 +37,7 @@ export async function getMembers({
         { dateOfBirth: { lte: maxDateOfBirth } },
         // selectedGender is an array with either of the options male or female or both
         { gender: { in: selectedGender } },
+        withPhoto === "true" ? { image: { not: null } } : {},
       ],
       NOT: {
         // return all members except for the current logged in one

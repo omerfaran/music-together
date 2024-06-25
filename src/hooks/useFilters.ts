@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { IconType } from "react-icons";
 import { FaMale, FaFemale } from "react-icons/fa";
 import useFilterStore from "./useFilterStore";
-import { useEffect, useTransition } from "react";
+import { ChangeEvent, useEffect, useTransition } from "react";
 import { type Selection } from "@nextui-org/react";
 import usePaginationStore from "./usePaginationStore";
 
@@ -27,9 +27,10 @@ export const useFilters = () => {
     })
   );
 
-  const { gender, ageRange, orderBy } = filters;
+  const { gender, ageRange, orderBy, withPhoto } = filters;
 
   // Guard to bring back to page 1 at first ?
+  // This may be important, for example if we switch to "with photo", to return to page 1
   // useEffect(() => {
   //   if (gender || ageRange || orderBy) {
   //     setPage(1);
@@ -60,6 +61,8 @@ export const useFilters = () => {
       if (params.get("pageNumber")) {
         setPage(Number(params.get("pageNumber")));
       }
+
+      params.set("withPhoto", withPhoto.toString());
     });
 
     // this loads on the first time then it sets params by default in store, so everything is overwritten
@@ -81,6 +84,14 @@ export const useFilters = () => {
 
   const handleAgeSelect = (value: number[]) => {
     setFilters("ageRange", value);
+  };
+
+  const handleWithPhotoToggle = (e: ChangeEvent<HTMLInputElement>) => {
+    setFilters("withPhoto", e.target.checked);
+
+    const params = new URLSearchParams(searchParams);
+    params.set("withPhoto", e.target.checked.toString());
+    router.replace(`${pathname}?${params}`);
   };
 
   const handleOrderSelect = (value: Selection) => {
@@ -109,6 +120,7 @@ export const useFilters = () => {
     selectGender: handleGenderSelect,
     selectOrder: handleOrderSelect,
     filters,
+    selectWithPhoto: handleWithPhotoToggle,
     // TODO - isPending is for the transition, can we have it outside this hook?
     isPending,
   };
