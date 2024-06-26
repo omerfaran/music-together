@@ -14,6 +14,7 @@ async function seedMembers() {
         name: member.name,
         passwordHash: await hash("password", 10),
         image: member.image,
+        profileComplete: true,
         // we can create a member too here since it's related to user
         member: {
           create: {
