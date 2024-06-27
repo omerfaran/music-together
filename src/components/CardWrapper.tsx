@@ -15,6 +15,7 @@ interface CardWrapperProps {
   subHeaderText?: string;
   action?: () => void;
   actionLabel?: string;
+  footer?: ReactNode;
 }
 
 export const CardWrapper: FC<CardWrapperProps> = ({
@@ -24,6 +25,7 @@ export const CardWrapper: FC<CardWrapperProps> = ({
   subHeaderText,
   action,
   actionLabel,
+  footer,
 }) => {
   return (
     <div className="flex items-center justify-center h-full">
@@ -53,6 +55,7 @@ export const CardWrapper: FC<CardWrapperProps> = ({
               {actionLabel}
             </Button>
           )}
+          {footer}
         </CardFooter>
       </Card>
     </div>

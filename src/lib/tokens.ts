@@ -13,6 +13,17 @@ export async function getTokenByEmail(email: string) {
   }
 }
 
+export async function getTokenByToken(token: string) {
+  try {
+    return prisma.token.findFirst({
+      where: { token },
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 export async function deleteToken(id: string) {
   try {
     return prisma.token.delete({
