@@ -13,9 +13,15 @@ import "react-toastify/dist/ReactToastify.css";
 interface ProvidersProps {
   children: ReactNode;
   userId: string | null;
+  // TODO - probably move this out of here don't know where
+  profileComplete?: boolean;
 }
 
-export const Providers: FC<ProvidersProps> = ({ children, userId }) => {
+export const Providers: FC<ProvidersProps> = ({
+  children,
+  userId,
+  profileComplete,
+}) => {
   // TODO - this is probably redundant, he just uses it because we're in strict mode in development
   const isUnreadCountSet = useRef(false);
 
@@ -39,8 +45,8 @@ export const Providers: FC<ProvidersProps> = ({ children, userId }) => {
     }
   }, [setUnreadCount, userId]);
 
-  usePresenceChannel(userId);
-  useNotificationChannel(userId);
+  usePresenceChannel(userId, profileComplete);
+  useNotificationChannel(userId, profileComplete);
   return (
     <NextUIProvider>
       <ToastContainer

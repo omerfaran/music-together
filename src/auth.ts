@@ -10,6 +10,13 @@ export const {
   signOut,
 } = NextAuth({
   callbacks: {
+    async jwt({ user, token }) {
+      if (user) {
+        token.profileComplete = user.profileComplete;
+      }
+
+      return token;
+    },
     // we want to modify the session we're getting by adding user id
     // so we check if we get sub (subject) on the user token, sub means id.
     // if we do and we got a user on the session we'll add that id.
@@ -17,6 +24,7 @@ export const {
       if (token.sub && session.user) {
         // return { ...session, user: { ...session.user, id: token.sub } };
         session.user.id = token.sub;
+        session.user.profileComplete = token.profileComplete as boolean;
       }
       return session;
     },

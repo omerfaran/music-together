@@ -7,7 +7,10 @@ import { useMessagesStore } from "./useMessagesStore";
 import { newLikeToast, newMessageToast } from "@/components/NotificationToast";
 
 // that's a private channel for notifying users when they receive a message
-export const useNotificationChannel = (userId: string | null) => {
+export const useNotificationChannel = (
+  userId: string | null,
+  profileComplete?: boolean
+) => {
   const channelRef = useRef<Channel | null>(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -46,7 +49,7 @@ export const useNotificationChannel = (userId: string | null) => {
   };
 
   useEffect(() => {
-    if (!userId) {
+    if (!userId || !profileComplete) {
       return;
     }
 
@@ -67,5 +70,5 @@ export const useNotificationChannel = (userId: string | null) => {
         channelRef.current = null;
       }
     };
-  }, [handleNewMessage, userId]);
+  }, [handleNewMessage, userId, profileComplete]);
 };

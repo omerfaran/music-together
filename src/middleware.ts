@@ -11,6 +11,7 @@ export default auth((req) => {
 
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  const isProfileComplete = req.auth?.user.profileComplete;
 
   // if user wants to go to a public route, we just let them in,
   // not caring if they're authenticated or not
@@ -34,6 +35,14 @@ export default auth((req) => {
   // protected route and we're not logged in, send em to login
   if (!isPublicRoute && !isLoggedIn) {
     return NextResponse.redirect(new URL("/login", nextUrl));
+  }
+
+  if (
+    !isLoggedIn &&
+    !isProfileComplete &&
+    nextUrl.pathname === "/complete-profile"
+  ) {
+    return NextResponse.redirect(new URL("/complete-profile", nextUrl));
   }
 
   // after all checks above, we can let them through with whatever

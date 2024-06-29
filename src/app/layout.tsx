@@ -20,11 +20,12 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   const userId = session?.user?.id ?? null;
+  const profileComplete = session?.user.profileComplete;
 
   return (
     <html lang="en">
       <body>
-        <Providers userId={userId}>
+        <Providers userId={userId} profileComplete={profileComplete}>
           <TopNav />
           {/* Note: I'm using vertical-center custom class here, he used it in the LoginPage component */}
           {/* I think it's a good solution provided that we use our own scrollbar in pages */}
