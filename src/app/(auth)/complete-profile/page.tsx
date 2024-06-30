@@ -1,5 +1,7 @@
+import { CompleteProfileForm } from "./CompleteProfileForm";
+
 export const CompleteProfilePage = () => {
-  return <div>complete profile</div>;
+  return <CompleteProfileForm />;
 };
 
 export default CompleteProfilePage;

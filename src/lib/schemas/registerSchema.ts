@@ -33,6 +33,8 @@ export const profileSchema = z.object({
 
 export const combinedRegisterSchema = registerSchema.and(profileSchema);
 
+export type ProfileSchema = z.infer<typeof profileSchema>;
+
 // we want the register schema to consist of two stages, register and profile
 
 export type RegisterSchema = z.infer<
