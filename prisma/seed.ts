@@ -41,8 +41,21 @@ async function seedMembers() {
   );
 }
 
+async function seedAdmin() {
+  await prisma.user.create({
+    data: {
+      email: "admin@test.com",
+      emailVerified: new Date(),
+      name: "Admin",
+      passwordHash: await hash("password", 10),
+      role: "ADMIN",
+    },
+  });
+}
+
 async function main() {
   await seedMembers();
+  await seedAdmin();
 }
 
 // we'll just run this from node in the console, then it will seed all users into db

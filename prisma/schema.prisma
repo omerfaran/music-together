@@ -42,6 +42,7 @@ model User {
   passwordHash    String? // it's now optional as there are oauth logins without stored passwords
   image           String?
   profileComplete Boolean   @default(false)
+  role            Role      @default(MEMBER)
   accounts        Account[]
   member          Member? // one to one, a user can have one member
 }
@@ -111,4 +112,9 @@ model Token {
 enum TokenType {
   VERIFICATION
   PASSWORD_RESET
+}
+
+enum Role {
+  ADMIN
+  MEMBER
 }
