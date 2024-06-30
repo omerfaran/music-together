@@ -7,12 +7,23 @@ import { auth } from "@/auth";
 import { UserMenu } from "./UserMenu";
 import { Filters } from "./Filters";
 
+const memberLinks = [
+  { href: "/members", label: "Matches" },
+  { href: "/lists", label: "Lists" },
+  { href: "/messages", label: "Messages" },
+];
+
+const adminLinks = [{ href: "/admin/moderation", label: "Photo Moderation" }];
+
 // this is a server side component (we don't do "use client"), so we're allowed to use async
 
 interface TopNavProps {}
 
 export const TopNav: FC<TopNavProps> = async () => {
   const session = await auth();
+
+  // TODO - change to an object
+  const links = session?.user.role === "ADMIN" ? adminLinks : memberLinks;
 
   return (
     <>
@@ -36,9 +47,9 @@ export const TopNav: FC<TopNavProps> = async () => {
           </div>
         </NavbarBrand>
         <NavbarContent justify="center">
-          <NavLink label="Matches" href="/members" />
-          <NavLink label="Lists" href="/lists" />
-          <NavLink label="Messages" href="/messages" />
+          {links.map(({ href, label }) => {
+            return <NavLink key={href} href={href} label={label} />;
+          })}
         </NavbarContent>
         <NavbarContent justify="end">
           {session?.user ? (

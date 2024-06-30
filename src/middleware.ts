@@ -14,10 +14,20 @@ export default auth((req) => {
 
   const isProfileComplete = req.auth?.user.profileComplete;
 
+  const isAdmin = req.auth?.user.role === "ADMIN";
+  const isAdminRoute = nextUrl.pathname.startsWith("/admin");
+
   // if user wants to go to a public route, we just let them in,
-  // not caring if they're authenticated or not
-  if (isPublicRoute) {
+  // not caring if they're authenticated or not.
+  // Same goes for admin, admin has access to everything
+  if (isPublicRoute || isAdmin) {
     return NextResponse.next();
+  }
+
+  // user who isn't an admin is trying to access an admin route,
+  // redirect them
+  if (isAdminRoute && !isAdmin) {
+    return NextResponse.redirect(new URL("/", nextUrl));
   }
 
   // if route is the login or register route
