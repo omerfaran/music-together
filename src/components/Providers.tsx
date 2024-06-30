@@ -5,6 +5,7 @@ import { useMessagesStore } from "@/hooks/useMessagesStore";
 import { useNotificationChannel } from "@/hooks/useNotificationChannel";
 import { usePresenceChannel } from "@/hooks/usePresenceChannel";
 import { NextUIProvider } from "@nextui-org/react";
+import { SessionProvider } from "next-auth/react";
 import { useCallback, useEffect, useRef, type FC, type ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
 
@@ -48,13 +49,18 @@ export const Providers: FC<ProvidersProps> = ({
   usePresenceChannel(userId, profileComplete);
   useNotificationChannel(userId, profileComplete);
   return (
-    <NextUIProvider>
-      <ToastContainer
-        position="bottom-right"
-        hideProgressBar
-        className="z-50"
-      />
-      {children}
-    </NextUIProvider>
+    // Session provider is for getting sessions info on client side
+    // For the most part we wanted it through the server side but
+    // it's also possible to get it with useSession hook on the client
+    <SessionProvider>
+      <NextUIProvider>
+        <ToastContainer
+          position="bottom-right"
+          hideProgressBar
+          className="z-50"
+        />
+        {children}
+      </NextUIProvider>
+    </SessionProvider>
   );
 };

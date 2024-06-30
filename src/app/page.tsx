@@ -1,4 +1,5 @@
 import { auth, signOut } from "@/auth";
+import ClientSession from "@/components/ClientSession";
 import { Button } from "@nextui-org/react";
 import { Session } from "next-auth";
 import { FC } from "react";
@@ -14,32 +15,18 @@ interface HomePageProps {
 
 export const HomePage: FC<HomePageProps> = ({ session }) => {
   return (
-    <div>
-      <h1 className="text-3xl">Home page</h1>
-      <h3>User sessions data:</h3>
-      {session ? (
-        <div>
-          <pre>{JSON.stringify(session, null, 2)}</pre>
-          <form
-            action={async () => {
-              "use server";
-              await signOut();
-            }}
-          >
-            <Button
-              type="submit"
-              color="primary"
-              variant="solid"
-              radius="full"
-              startContent={<FaRegSmile />}
-            >
-              Sign out
-            </Button>
-          </form>
-        </div>
-      ) : (
-        <div>not signed in</div>
-      )}
+    <div className="flex flex-grow justify-around mt-20 gap-6">
+      <div className="bg-green-50 p-10 rounded-xl shadow-md w-1/2 overflow-auto">
+        <h3>Server sessions data:</h3>
+        {session ? (
+          <div>
+            <pre>{JSON.stringify(session, null, 2)}</pre>
+          </div>
+        ) : (
+          <div>not signed in</div>
+        )}
+      </div>
+      <ClientSession />
     </div>
   );
 };
