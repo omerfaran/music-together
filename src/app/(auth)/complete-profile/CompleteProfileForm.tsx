@@ -8,6 +8,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { RiProfileLine } from "react-icons/ri";
 import { ProfileForm } from "../register/ProfileForm";
 import { Button } from "@nextui-org/react";
+import { completeSocialLoginProfile } from "@/app/actions/authActions";
+import { signIn } from "next-auth/react";
 
 interface CompleteProfileFormProps {}
 
@@ -22,8 +24,13 @@ export const CompleteProfileForm: FC<CompleteProfileFormProps> = () => {
     formState: { errors, isSubmitting, isValid },
   } = methods;
 
-  const onSubmit = (data: ProfileSchema) => {
-    console.log(data);
+  const onSubmit = async (data: ProfileSchema) => {
+    // TODO - again logic like that shouldn't be in Form component
+    const result = await completeSocialLoginProfile(data);
+    if (result.status === "success") {
+      const provider = result.data;
+      signIn(provider, { callbackUrl: "/members" });
+    }
   };
 
   return (
