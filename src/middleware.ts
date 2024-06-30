@@ -11,6 +11,7 @@ export default auth((req) => {
 
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+
   const isProfileComplete = req.auth?.user.profileComplete;
 
   // if user wants to go to a public route, we just let them in,
@@ -38,9 +39,9 @@ export default auth((req) => {
   }
 
   if (
-    !isLoggedIn &&
+    isLoggedIn &&
     !isProfileComplete &&
-    nextUrl.pathname === "/complete-profile"
+    nextUrl.pathname !== "/complete-profile"
   ) {
     return NextResponse.redirect(new URL("/complete-profile", nextUrl));
   }
