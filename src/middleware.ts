@@ -67,5 +67,5 @@ export const config = {
   // If it doesn't, then pass to middleware for our checks, but if route does include
   // "api", we don't need to use our middleware since it's a route used by our server
   // we basically only want to check routes used by the user in our middleware.
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|images|favicon.ico).*)"],
 };
