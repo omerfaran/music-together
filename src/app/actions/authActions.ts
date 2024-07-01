@@ -277,7 +277,7 @@ export async function completeSocialLoginProfile(
         member: {
           create: {
             name: session.user.name as string,
-            image: session.user.name,
+            image: session.user.image,
             gender: data.gender,
             dateOfBirth: new Date(data.dateOfBirth),
             description: data.description,

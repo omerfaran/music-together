@@ -68,10 +68,10 @@ model Member {
 }
 
 model Photo {
-  id         String  @id @default(cuid())
+  id         String   @id @default(cuid())
   url        String
   publicId   String? // that's from the cloud service of where we store the photo
-  isApproved Boolean @default(false)
+  isApproved Boolean? @default(false)
 
   memberId String
   member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
