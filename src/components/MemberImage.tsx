@@ -2,6 +2,7 @@
 
 import { Image } from "@nextui-org/react";
 import { Photo } from "@prisma/client";
+import clsx from "clsx";
 import { CldImage } from "next-cloudinary";
 import { FC } from "react";
 
@@ -20,7 +21,9 @@ export const MemberImage: FC<MemberImageProps> = ({ photo }) => {
           height={300}
           crop="fill"
           gravity="faces"
-          className="rounded-2xl"
+          className={clsx("rounded-2xl", {
+            "opacity-40": !photo.isApproved,
+          })}
           priority
         />
       ) : (
@@ -30,6 +33,13 @@ export const MemberImage: FC<MemberImageProps> = ({ photo }) => {
           src={photo?.url ?? "/images/user.png"}
           alt="User image"
         />
+      )}
+      {!photo?.isApproved && (
+        <div className="absolute bottom-2 w-full bg-slate-200 p-1">
+          <div className="flex justify-center text-danger font-semibold">
+            Awaiting approval
+          </div>
+        </div>
       )}
     </div>
   );

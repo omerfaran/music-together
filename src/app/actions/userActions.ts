@@ -9,6 +9,7 @@ import { Member, Photo } from "@prisma/client";
 import { getAuthUserId } from "./authActions";
 import { prisma } from "@/lib/prisma";
 import { cloudinary } from "@/lib/cloudinary";
+import { error } from "console";
 
 export async function updateMemberProfile(
   data: MemberEditSchema
@@ -66,6 +67,11 @@ export async function addImage(
 }
 
 export async function setMainImage(photo: Photo): Promise<Member | null> {
+  if (!photo.isApproved) {
+    // This will be toasted so it's good user experience, but those texts shouldn't be
+    // here
+    throw new Error("Only approved photos can be set to main image");
+  }
   try {
     const userId = await getAuthUserId();
 

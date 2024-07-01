@@ -7,6 +7,7 @@ import { StarButton } from "./StarButton";
 import { Photo } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { deleteImage, setMainImage } from "@/app/actions/userActions";
+import { toast } from "react-toastify";
 
 interface MemberPhotosProps {
   photos: Photo[];
@@ -40,9 +41,17 @@ export const MemberPhotos: FC<MemberPhotosProps> = ({
     }
 
     setLoading({ isLoading: true, id: photo.id, type: "main" });
-    await setMainImage(photo);
-    router.refresh();
-    setLoading({ isLoading: false, id: "", type: "" });
+
+    try {
+      await setMainImage(photo);
+      router.refresh();
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong"
+      );
+    } finally {
+      setLoading({ isLoading: false, id: "", type: "" });
+    }
   };
 
   const onDelete = async (photo: Photo) => {
