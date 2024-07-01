@@ -77,9 +77,18 @@ export async function getMemberByUserId(
 export async function getMemberPhotosByUserId(
   userId: string
 ): Promise<Photo[] | null> {
+  const currentUserId = await getAuthUserId();
+
   const member = await prisma.member.findUnique({
     where: { userId },
-    select: { photos: true },
+    select: {
+      photos: {
+        // if user shows own photos, then get everything (filter nothing),
+        // otherwise (if other users look at another profile), show
+        // only approved photos
+        where: currentUserId === userId ? {} : { isApproved: true },
+      },
+    },
   });
 
   if (!member) {
