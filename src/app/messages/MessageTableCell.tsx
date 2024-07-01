@@ -24,9 +24,17 @@ export const MessageTableCell: FC<MessageTableCellProps> = ({
   const cellValue = item[columnKey as keyof MessageDto];
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const onConfirmDeleteMessage = () => {
+    deleteMessage(item);
+  };
+
   const footerButtons: ButtonProps[] = [
-    { color: "default", onClick: onClose, children: "Close" },
-    { color: "secondary", onClick: onClose, children: "Submit" },
+    { color: "default", onClick: onClose, children: "Cancel" },
+    {
+      color: "secondary",
+      onClick: onConfirmDeleteMessage,
+      children: "Confirm",
+    },
   ];
 
   switch (columnKey) {
@@ -61,8 +69,8 @@ export const MessageTableCell: FC<MessageTableCellProps> = ({
           <AppModal
             isOpen={isOpen}
             onClose={onClose}
-            header="test modal"
-            body={<div>testing</div>}
+            header="Please confirm this action"
+            body={<div>Are you sure you want to delete this message?</div>}
             footerButtons={footerButtons}
           />
         </>

@@ -2,7 +2,7 @@
 
 import { approvePhoto, rejectPhoto } from "@/app/actions/adminActions";
 import { useRole } from "@/hooks/useRole";
-import { Button, Image } from "@nextui-org/react";
+import { Button, Image, useDisclosure } from "@nextui-org/react";
 import { Photo } from "@prisma/client";
 import clsx from "clsx";
 import { CldImage } from "next-cloudinary";
@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { FC } from "react";
 import { ImCheckmark, ImCross } from "react-icons/im";
 import { toast } from "react-toastify";
+import { AppModal } from "./AppModal";
 
 interface MemberImageProps {
   photo: Photo | null;
@@ -18,6 +19,7 @@ interface MemberImageProps {
 export const MemberImage: FC<MemberImageProps> = ({ photo }) => {
   const role = useRole();
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   // TODO - kinda redundant ?
   if (!photo) {
@@ -48,7 +50,7 @@ export const MemberImage: FC<MemberImageProps> = ({ photo }) => {
   };
 
   return (
-    <div>
+    <div className="cursor-pointer" onClick={onOpen}>
       {photo?.publicId ? (
         <CldImage
           alt="Image of member"
@@ -97,6 +99,34 @@ export const MemberImage: FC<MemberImageProps> = ({ photo }) => {
           </Button>
         </div>
       )}
+      <AppModal
+        imageModal
+        isOpen={isOpen}
+        onClose={onClose}
+        body={
+          <>
+            {photo?.publicId ? (
+              <CldImage
+                alt="Image of member"
+                src={photo.publicId}
+                width={750}
+                height={750}
+                className={clsx("rounded-2xl", {
+                  "opacity-40": !photo.isApproved && role !== "ADMIN",
+                })}
+                priority
+              />
+            ) : (
+              <Image
+                width={750}
+                height={750}
+                src={photo?.url ?? "/images/user.png"}
+                alt="User image"
+              />
+            )}
+          </>
+        }
+      />
     </div>
   );
 };
