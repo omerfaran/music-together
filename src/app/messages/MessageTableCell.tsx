@@ -1,7 +1,8 @@
+import { AppModal } from "@/components/AppModal";
 import { PresenceAvatar } from "@/components/PresenceAvatar";
 import { truncateString } from "@/lib/util";
 import { MessageDto } from "@/types";
-import { Button } from "@nextui-org/react";
+import { Button, ButtonProps, useDisclosure } from "@nextui-org/react";
 import { FC } from "react";
 import { AiFillDelete } from "react-icons/ai";
 
@@ -21,6 +22,12 @@ export const MessageTableCell: FC<MessageTableCellProps> = ({
   isDeleting,
 }) => {
   const cellValue = item[columnKey as keyof MessageDto];
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const footerButtons: ButtonProps[] = [
+    { color: "default", onClick: onClose, children: "Close" },
+    { color: "secondary", onClick: onClose, children: "Submit" },
+  ];
 
   switch (columnKey) {
     // either recipientName or senderName
@@ -39,17 +46,26 @@ export const MessageTableCell: FC<MessageTableCellProps> = ({
     case "text":
       return <div>{truncateString(cellValue, 80)}</div>;
     case "created":
-      return cellValue;
+      return <div>{cellValue}</div>;
     default:
       return (
-        <Button
-          onClick={() => deleteMessage(item)}
-          isLoading={isDeleting}
-          isIconOnly
-          variant="light"
-        >
-          <AiFillDelete size={24} className="text-danger" />
-        </Button>
+        <>
+          <Button
+            onClick={() => onOpen()}
+            isLoading={isDeleting}
+            isIconOnly
+            variant="light"
+          >
+            <AiFillDelete size={24} className="text-danger" />
+          </Button>
+          <AppModal
+            isOpen={isOpen}
+            onClose={onClose}
+            header="test modal"
+            body={<div>testing</div>}
+            footerButtons={footerButtons}
+          />
+        </>
       );
   }
 };
