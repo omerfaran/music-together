@@ -20,7 +20,9 @@ export const NavLink: FC<NavLinkProps> = ({ href, label }) => {
   return (
     <NavbarItem isActive={href === pathname} href={href} as={Link}>
       <span>{label}</span>
-      {href === "/messages" && <span className="ml-1">({unreadCount})</span>}
+      {href === "/messages" && unreadCount > 0 && (
+        <span className="ml-1">({unreadCount})</span>
+      )}
     </NavbarItem>
   );
 };

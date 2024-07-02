@@ -47,9 +47,10 @@ export const TopNav: FC<TopNavProps> = async () => {
           </div>
         </NavbarBrand>
         <NavbarContent justify="center">
-          {links.map(({ href, label }) => {
-            return <NavLink key={href} href={href} label={label} />;
-          })}
+          {session &&
+            links.map(({ href, label }) => {
+              return <NavLink key={href} href={href} label={label} />;
+            })}
         </NavbarContent>
         <NavbarContent justify="end">
           {session?.user ? (

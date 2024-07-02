@@ -1,6 +1,6 @@
 "use client";
 
-import { Tab, Tabs } from "@nextui-org/react";
+import { Spinner, Tab, Tabs } from "@nextui-org/react";
 import { Member } from "@prisma/client";
 import { FC, Key, useTransition } from "react";
 import { LikeType } from "../actions/likeActions";
@@ -39,37 +39,41 @@ export const ListsTab: FC<ListsTabProps> = ({ members, likeIds }) => {
 
   return (
     <div className="flex w-full flex-col mt-10 gap-5">
-      <Tabs
-        aria-label="Like tabs"
-        items={tabs}
-        color="secondary"
-        defaultSelectedKey={currentType}
-        onSelectionChange={handleTabChange}
-      >
-        {(item) => (
-          <Tab key={item.id} title={item.label}>
-            {isPending ? (
-              <LoadingComponent />
-            ) : (
-              <>
-                {members.length ? (
-                  <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-8">
-                    {members.map((member) => (
-                      <MemberCard
-                        key={member.id}
-                        member={member}
-                        hasLiked={likeIds.includes(member.userId)}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div>No members for this filter</div>
-                )}
-              </>
-            )}
-          </Tab>
+      <div className="flex items-center">
+        <Tabs
+          aria-label="Like tabs"
+          color="secondary"
+          defaultSelectedKey={currentType}
+          onSelectionChange={handleTabChange}
+        >
+          {tabs.map((item) => {
+            return <Tab key={item.id} title={item.label} />;
+          })}
+        </Tabs>
+        {isPending && (
+          <Spinner color="secondary" className="self-center ml-3" />
         )}
-      </Tabs>
+      </div>
+      {tabs.map((item) => {
+        const isSelected = searchParams.get("type") === item.id;
+        return isSelected ? (
+          <div>
+            {members.length ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-8">
+                {members.map((member) => (
+                  <MemberCard
+                    key={member.id}
+                    member={member}
+                    hasLiked={likeIds.includes(member.userId)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div>No members for this filter</div>
+            )}
+          </div>
+        ) : null;
+      })}
     </div>
   );
 };
