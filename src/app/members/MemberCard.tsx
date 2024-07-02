@@ -6,7 +6,8 @@ import { calculateAge, transformImageUrl } from "@/lib/util";
 import { Card, CardFooter, Image } from "@nextui-org/react";
 import { Member } from "@prisma/client";
 import Link from "next/link";
-import { FC } from "react";
+import { FC, useState } from "react";
+import { toggleLikeMember } from "../actions/likeActions";
 
 export interface MemberCardProps {
   member: Member;
@@ -15,7 +16,25 @@ export interface MemberCardProps {
 
 const PLACEHOLDER_IMAGE = "/images/user.png";
 
-export const MemberCard: FC<MemberCardProps> = ({ member, hasLiked }) => {
+export const MemberCard: FC<MemberCardProps> = ({
+  member,
+  hasLiked: initialHasLiked,
+}) => {
+  const [hasLiked, setHasLiked] = useState(initialHasLiked);
+  const [loading, setLoading] = useState(false);
+
+  async function toggleLike() {
+    setLoading(true);
+    try {
+      await toggleLikeMember(member.userId, hasLiked);
+      setHasLiked(!hasLiked);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <Card as={Link} href={`/members/${member.userId}`} isPressable fullWidth>
       <Image
@@ -38,7 +57,11 @@ export const MemberCard: FC<MemberCardProps> = ({ member, hasLiked }) => {
         <div className="absolute top-3 right-3 z-50">
           {/* To that LikeButton we pass the id of the current member card (that the user sees out of many), so the LikeButton knows if user
         already likes that person */}
-          <LikeButton targetId={member.userId} hasLiked={hasLiked} />
+          <LikeButton
+            loading={loading}
+            toggleLike={toggleLike}
+            hasLiked={hasLiked}
+          />
         </div>
         <div className="absolute top-2 left-3 z-50">
           <PresenceDot member={member} />
