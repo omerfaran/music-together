@@ -70,7 +70,15 @@ export const useFilters = () => {
     // TODO - do this not just for gender but for everything !!
 
     // router.replace(`${pathname}?${searchParams}`);
-  }, []);
+  }, [
+    ageRange,
+    orderBy,
+    searchParams,
+    setFilters,
+    setPage,
+    setPageSize,
+    withPhoto,
+  ]);
 
   const orderByList = [
     { label: "Last active", value: "updated" },

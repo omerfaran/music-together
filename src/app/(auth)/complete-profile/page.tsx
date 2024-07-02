@@ -1,6 +1,9 @@
+import { FC } from "react";
 import { CompleteProfileForm } from "./CompleteProfileForm";
 
-export const CompleteProfilePage = () => {
+interface CompleteProfilePageProps {}
+
+export const CompleteProfilePage: FC<CompleteProfilePageProps> = () => {
   return <CompleteProfileForm />;
 };
 
