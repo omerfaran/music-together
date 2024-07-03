@@ -41,7 +41,14 @@ export const Button: FC<ButtonProps> = ({
   ...rest
 }) => {
   return (
-    <NextButton variant={variant} {...rest}>
+    <NextButton
+      variant={variant}
+      color={color}
+      fullWidth={fullWidth}
+      isDisabled={isDisabled}
+      isLoading={isLoading}
+      {...rest}
+    >
       {children}
     </NextButton>
   );
