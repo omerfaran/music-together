@@ -8,7 +8,7 @@ import { Member } from "@prisma/client";
 import { notFound } from "next/navigation";
 import { FC, ReactNode } from "react";
 import { MemberSidebar, MemberSidebarProps } from "../MemberSidebar";
-import { Card } from "@nextui-org/react";
+import { Card } from "@/components/ui/Card";
 
 export interface LayoutPageProps {
   member: Member;

@@ -2,8 +2,9 @@
 
 import { PresenceDot } from "@/components/PresenceDot";
 import { Button } from "@/components/ui/Button/Button";
+import { Card, CardBody, CardFooter } from "@/components/ui/Card";
 import { calculateAge, transformImageUrl } from "@/lib/util";
-import { Card, CardBody, CardFooter, Divider, Image } from "@nextui-org/react";
+import { Divider, Image } from "@nextui-org/react";
 import { Member } from "@prisma/client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

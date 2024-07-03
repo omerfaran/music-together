@@ -3,7 +3,6 @@
 import { MessageDto } from "@/types";
 import { FC } from "react";
 import {
-  Card,
   Table,
   TableBody,
   TableCell,
@@ -15,6 +14,7 @@ import clsx from "clsx";
 import { MessageTableCell } from "./MessageTableCell";
 import { useMessages } from "@/hooks/useMessages";
 import { Button } from "@/components/ui/Button/Button";
+import { Card } from "@/components/ui/Card";
 
 interface MessageTableProps {
   initialMessages: MessageDto[];

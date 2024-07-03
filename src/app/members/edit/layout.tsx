@@ -3,8 +3,8 @@ import { getMemberByUserId } from "@/app/actions/memberActions";
 import { notFound } from "next/navigation";
 import { FC, ReactNode } from "react";
 import { MemberSidebar } from "../MemberSidebar";
-import { Card } from "@nextui-org/react";
 import { Member } from "@prisma/client";
+import { Card } from "@/components/ui/Card";
 
 export interface LayoutPageProps {
   children: ReactNode;

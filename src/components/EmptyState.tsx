@@ -1,5 +1,5 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { FC } from "react";
+import { Card, CardBody, CardHeader } from "./ui/Card";
 
 interface EmptyStateProps {}
 

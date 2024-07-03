@@ -2,7 +2,8 @@
 
 "use client";
 import { Button } from "@/components/ui/Button/Button";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/Card";
+
 import { BiSolidError } from "react-icons/bi";
 
 // Error components must be Client Components

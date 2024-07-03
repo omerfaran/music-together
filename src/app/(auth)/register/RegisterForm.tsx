@@ -6,7 +6,6 @@ import {
   registerSchema,
 } from "@/lib/schemas/registerSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
 import { UserDetailsForm } from "./UserDetailsForm";
@@ -16,6 +15,7 @@ import { registerUser } from "@/app/actions/authActions";
 import { handleFormServerErrors } from "@/lib/util";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button/Button";
+import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 
 interface RegisterFormProps {}
 

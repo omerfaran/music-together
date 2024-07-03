@@ -1,10 +1,7 @@
 import { FC, ReactNode } from "react";
 import { IconType } from "react-icons";
 import { Button } from "./ui/Button/Button";
-import { Card } from "./ui/Card/Card";
-import { CardHeader } from "./ui/Card/CardHeader";
-import { CardBody } from "./ui/Card/CardBody";
-import { CardFooter } from "./ui/Card/CardFooter";
+import { Card, CardBody, CardFooter, CardHeader } from "./ui/Card";
 
 interface CardWrapperProps {
   body?: ReactNode;

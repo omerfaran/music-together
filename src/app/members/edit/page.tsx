@@ -1,10 +1,11 @@
-import { CardHeader, Divider, CardBody } from "@nextui-org/react";
+import { Divider } from "@nextui-org/react";
 import { FC } from "react";
 import { EditForm } from "./EditForm";
 import { getAuthUserId } from "@/app/actions/authActions";
 import { getMemberByUserId } from "@/app/actions/memberActions";
 import { notFound } from "next/navigation";
 import { Member } from "@prisma/client";
+import { CardBody, CardHeader } from "@/components/ui/Card";
 
 interface MemberEditPageProps {
   member: Member;

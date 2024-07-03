@@ -3,11 +3,12 @@
 import LikeButton from "@/components/LikeButton";
 import { PresenceDot } from "@/components/PresenceDot";
 import { calculateAge, transformImageUrl } from "@/lib/util";
-import { Card, CardFooter, Image } from "@nextui-org/react";
+import { Image } from "@nextui-org/react";
 import { Member } from "@prisma/client";
 import Link from "next/link";
 import { FC, useState } from "react";
 import { toggleLikeMember } from "../actions/likeActions";
+import { Card, CardFooter } from "@/components/ui/Card";
 
 export interface MemberCardProps {
   member: Member;
