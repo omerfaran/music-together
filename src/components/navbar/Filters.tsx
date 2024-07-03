@@ -1,15 +1,9 @@
 "use client";
 
 import { useFilters } from "@/hooks/useFilters";
-import {
-  Button,
-  Select,
-  SelectItem,
-  Slider,
-  Spinner,
-  Switch,
-} from "@nextui-org/react";
+import { Select, SelectItem, Slider, Spinner, Switch } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
+import { Button } from "../ui/Button";
 
 export const Filters = () => {
   const pathname = usePathname();

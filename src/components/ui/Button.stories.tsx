@@ -55,6 +55,13 @@ export const FadedVariant: Story = {
   },
 };
 
+export const LargeSize: Story = {
+  args: {
+    ...Basic.args,
+    size: "lg",
+  },
+};
+
 export const FullWidth: Story = {
   args: {
     ...Basic.args,
@@ -66,6 +73,20 @@ export const Loading: Story = {
   args: {
     ...Basic.args,
     isLoading: true,
+  },
+};
+
+export const WithLargeRadius: Story = {
+  args: {
+    ...Basic.args,
+    radius: "lg",
+  },
+};
+
+export const WithTailwindClass: Story = {
+  args: {
+    ...Basic.args,
+    className: "bg-yellow-500",
   },
 };
 

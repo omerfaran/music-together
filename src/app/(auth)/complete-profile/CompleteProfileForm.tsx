@@ -7,9 +7,9 @@ import { FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { RiProfileLine } from "react-icons/ri";
 import { ProfileForm } from "../register/ProfileForm";
-import { Button } from "@nextui-org/react";
 import { completeSocialLoginProfile } from "@/app/actions/authActions";
 import { signIn } from "next-auth/react";
+import { Button } from "@/components/ui/Button";
 
 interface CompleteProfileFormProps {}
 

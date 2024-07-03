@@ -1,4 +1,4 @@
-import { Button, Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
 import Link from "next/link";
 import { FC } from "react";
 import { AiFillAlert } from "react-icons/ai";
@@ -6,6 +6,7 @@ import { NavLink } from "./NavLink";
 import { auth } from "@/auth";
 import { UserMenu } from "./UserMenu";
 import { Filters } from "./Filters";
+import { Button } from "../ui/Button";
 
 const memberLinks = [
   { href: "/members", label: "Matches" },

@@ -1,21 +1,19 @@
 "use client";
 
-import {
-  generateResetPasswordEmail,
-  resetPassword,
-} from "@/app/actions/authActions";
+import { resetPassword } from "@/app/actions/authActions";
 import { CardWrapper } from "@/components/CardWrapper";
 import { ResultMessage } from "@/components/ResultMessage";
+import { Button } from "@/components/ui/Button";
 import {
   ResetPasswordSchema,
   resetPasswordSchema,
 } from "@/lib/schemas/forgotPasswordSchema";
 import { ActionResult } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
 import { FC, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
 
 interface ResetPasswordFormProps {}

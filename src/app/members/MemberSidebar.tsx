@@ -1,15 +1,9 @@
 "use client";
 
 import { PresenceDot } from "@/components/PresenceDot";
+import { Button } from "@/components/ui/Button";
 import { calculateAge, transformImageUrl } from "@/lib/util";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  Divider,
-  Image,
-} from "@nextui-org/react";
+import { Card, CardBody, CardFooter, Divider, Image } from "@nextui-org/react";
 import { Member } from "@prisma/client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

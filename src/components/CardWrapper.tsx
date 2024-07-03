@@ -1,12 +1,7 @@
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Button,
-} from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
 import { FC, ReactNode } from "react";
 import { IconType } from "react-icons";
+import { Button } from "./ui/Button";
 
 interface CardWrapperProps {
   body?: ReactNode;

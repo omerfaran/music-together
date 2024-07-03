@@ -1,6 +1,5 @@
 import {
   Button as NextButton,
-  NextUIProvider,
   type ButtonProps as NextButtonProps,
 } from "@nextui-org/react";
 import { FC } from "react";
@@ -14,7 +13,11 @@ interface ButtonProps {
    * @default 'default'
    */
   color?: NextButtonProps["color"];
-  onClick: NextButtonProps["onClick"];
+  onClick?: NextButtonProps["onClick"];
+  /**
+   * @default false
+   */
+  isIconOnly?: NextButtonProps["isIconOnly"];
   /**
    * @default 'default'
    */
@@ -23,17 +26,27 @@ interface ButtonProps {
    * @default 'default'
    */
   isDisabled?: NextButtonProps["isDisabled"];
+  radius?: NextButtonProps["radius"];
+  className?: NextButtonProps["className"];
   type?: NextButtonProps["type"];
   /**
    * @default false
    */
   fullWidth?: NextButtonProps["fullWidth"];
+  /**
+   * @default 'md'
+   */
+  size?: NextButtonProps["size"];
+  as?: NextButtonProps["as"];
+  href?: NextButtonProps["href"];
   children: NextButtonProps["children"];
 }
 
 export const Button: FC<ButtonProps> = ({
   variant = "solid",
   color = "default",
+  size = "md",
+  isIconOnly = false,
   fullWidth = false,
   isDisabled = false,
   isLoading = false,
@@ -44,9 +57,11 @@ export const Button: FC<ButtonProps> = ({
     <NextButton
       variant={variant}
       color={color}
+      size={size}
       fullWidth={fullWidth}
       isDisabled={isDisabled}
       isLoading={isLoading}
+      isIconOnly={isIconOnly}
       {...rest}
     >
       {children}

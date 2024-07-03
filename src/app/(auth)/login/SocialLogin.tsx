@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import { Button } from "@/components/ui/Button";
 import { signIn } from "next-auth/react";
 import { FC } from "react";
 import { FaGithub } from "react-icons/fa";
