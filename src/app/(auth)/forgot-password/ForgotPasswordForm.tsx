@@ -3,7 +3,7 @@
 import { generateResetPasswordEmail } from "@/app/actions/authActions";
 import { CardWrapper } from "@/components/CardWrapper";
 import { ResultMessage } from "@/components/ResultMessage";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button/Button";
 import { ActionResult } from "@/types";
 import { Input } from "@nextui-org/react";
 import { FC, useState } from "react";

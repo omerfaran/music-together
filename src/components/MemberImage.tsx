@@ -11,7 +11,7 @@ import { FC } from "react";
 import { ImCheckmark, ImCross } from "react-icons/im";
 import { toast } from "react-toastify";
 import { AppModal } from "./AppModal";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/Button/Button";
 
 interface MemberImageProps {
   photo: Photo | null;

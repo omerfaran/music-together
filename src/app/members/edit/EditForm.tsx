@@ -1,7 +1,7 @@
 "use client";
 
 import { updateMemberProfile } from "@/app/actions/userActions";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button/Button";
 import {
   MemberEditSchema,
   memberEditSchema,

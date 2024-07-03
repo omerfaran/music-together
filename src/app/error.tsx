@@ -1,7 +1,7 @@
 // Name matters here! Next will catch any unhandled error and display it in this component
 
 "use client";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button/Button";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { BiSolidError } from "react-icons/bi";
 

@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
 import { toast } from "react-toastify";
 import { SocialLogin } from "./SocialLogin";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button/Button";
 
 export const LoginForm = () => {
   const router = useRouter();

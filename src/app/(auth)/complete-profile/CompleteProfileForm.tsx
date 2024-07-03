@@ -9,7 +9,7 @@ import { RiProfileLine } from "react-icons/ri";
 import { ProfileForm } from "../register/ProfileForm";
 import { completeSocialLoginProfile } from "@/app/actions/authActions";
 import { signIn } from "next-auth/react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button/Button";
 
 interface CompleteProfileFormProps {}
 

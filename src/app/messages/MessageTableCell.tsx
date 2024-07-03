@@ -1,6 +1,6 @@
 import { AppModal } from "@/components/AppModal";
 import { PresenceAvatar } from "@/components/PresenceAvatar";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button/Button";
 import { truncateString } from "@/lib/util";
 import { MessageDto } from "@/types";
 import { ButtonProps, useDisclosure } from "@nextui-org/react";

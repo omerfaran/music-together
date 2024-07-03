@@ -1,7 +1,7 @@
 "use client";
 
 import { createMessage } from "@/app/actions/messageActions";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button/Button";
 import { MessageSchema, messageSchema } from "@/lib/schemas/messageSchema";
 import { handleFormServerErrors } from "@/lib/util";
 import { zodResolver } from "@hookform/resolvers/zod";

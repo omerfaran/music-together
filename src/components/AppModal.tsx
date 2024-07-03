@@ -7,7 +7,7 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import { FC, ReactNode } from "react";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/Button/Button";
 
 interface AppModalProps {
   isOpen: boolean;
