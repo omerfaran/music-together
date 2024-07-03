@@ -3,7 +3,7 @@
 import { resetPassword } from "@/app/actions/authActions";
 import { CardWrapper } from "@/components/CardWrapper";
 import { ResultMessage } from "@/components/ResultMessage";
-import { Button } from "@/components/ui/Button/Button";
+import { Button } from "@/components/ui";
 import {
   ResetPasswordSchema,
   resetPasswordSchema,

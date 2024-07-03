@@ -1,7 +1,7 @@
 import { getMemberPhotosByUserId } from "@/app/actions/memberActions";
 import { MemberPhotos } from "@/components/MemberPhotos";
-import { CardBody, CardHeader } from "@/components/ui/Card";
-import { Divider } from "@nextui-org/react";
+import { Divider } from "@/components/ui";
+import { CardBody, CardHeader } from "@/components/ui";
 import { Photo } from "@prisma/client";
 import { FC } from "react";
 

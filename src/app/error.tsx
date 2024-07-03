@@ -2,7 +2,7 @@
 
 "use client";
 import { Button } from "@/components/ui/Button/Button";
-import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/Card";
+import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui";
 
 import { BiSolidError } from "react-icons/bi";
 

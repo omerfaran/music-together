@@ -3,12 +3,12 @@ import {
   getMemberByUserId,
   getMemberPhotosByUserId,
 } from "@/app/actions/memberActions";
-import { Divider } from "@nextui-org/react";
 import { Member, Photo } from "@prisma/client";
 import { FC } from "react";
 import { MemberPhotoUpload } from "./MemberPhotoUpload";
 import { MemberPhotos } from "@/components/MemberPhotos";
-import { CardBody, CardHeader } from "@/components/ui/Card";
+import { CardBody, CardHeader } from "@/components/ui";
+import { Divider } from "@/components/ui";
 
 interface PhotosPageProps {
   photos: Photo[];

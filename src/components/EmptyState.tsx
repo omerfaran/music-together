@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Card, CardBody, CardHeader } from "./ui/Card";
+import { Card, CardBody, CardHeader } from "./ui";
 
 interface EmptyStateProps {}
 

@@ -14,7 +14,7 @@ import clsx from "clsx";
 import { MessageTableCell } from "./MessageTableCell";
 import { useMessages } from "@/hooks/useMessages";
 import { Button } from "@/components/ui/Button/Button";
-import { Card } from "@/components/ui/Card";
+import { Card } from "@/components/ui";
 
 interface MessageTableProps {
   initialMessages: MessageDto[];

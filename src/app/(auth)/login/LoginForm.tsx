@@ -11,7 +11,7 @@ import { GiPadlock } from "react-icons/gi";
 import { toast } from "react-toastify";
 import { SocialLogin } from "./SocialLogin";
 import { Button } from "@/components/ui/Button/Button";
-import { Card, CardBody, CardHeader } from "@/components/ui/Card";
+import { Card, CardBody, CardHeader } from "@/components/ui";
 
 export const LoginForm = () => {
   const router = useRouter();

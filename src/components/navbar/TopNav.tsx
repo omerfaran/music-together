@@ -6,7 +6,7 @@ import { NavLink } from "./NavLink";
 import { auth } from "@/auth";
 import { UserMenu } from "./UserMenu";
 import { Filters } from "./Filters";
-import { Button } from "../ui/Button/Button";
+import { Button } from "../ui";
 
 const memberLinks = [
   { href: "/members", label: "Matches" },

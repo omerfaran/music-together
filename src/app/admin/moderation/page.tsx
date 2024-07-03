@@ -1,6 +1,6 @@
 import { getUnapprovedPhotos } from "@/app/actions/adminActions";
 import { MemberPhotos } from "@/components/MemberPhotos";
-import { Divider } from "@nextui-org/react";
+import { Divider } from "@/components/ui";
 
 export const PhotoModerationPage = async () => {
   const photos = await getUnapprovedPhotos();

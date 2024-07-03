@@ -14,8 +14,7 @@ import { ProfileForm } from "./ProfileForm";
 import { registerUser } from "@/app/actions/authActions";
 import { handleFormServerErrors } from "@/lib/util";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/Button/Button";
-import { Card, CardBody, CardHeader } from "@/components/ui/Card";
+import { Button, Card, CardBody, CardHeader } from "@/components/ui";
 
 interface RegisterFormProps {}
 

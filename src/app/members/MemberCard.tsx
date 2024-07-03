@@ -8,7 +8,7 @@ import { Member } from "@prisma/client";
 import Link from "next/link";
 import { FC, useState } from "react";
 import { toggleLikeMember } from "../actions/likeActions";
-import { Card, CardFooter } from "@/components/ui/Card";
+import { Card, CardFooter } from "@/components/ui";
 
 export interface MemberCardProps {
   member: Member;

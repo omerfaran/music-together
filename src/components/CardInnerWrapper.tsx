@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 import { Divider } from "@nextui-org/react";
-import { CardBody, CardFooter, CardHeader } from "./ui/Card";
+import { CardBody, CardFooter, CardHeader } from "./ui";
 
 interface CardInnerWrapperProps {
   header: ReactNode | string; // doesn't look great, react node can also be a string...

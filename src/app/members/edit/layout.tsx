@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { FC, ReactNode } from "react";
 import { MemberSidebar } from "../MemberSidebar";
 import { Member } from "@prisma/client";
-import { Card } from "@/components/ui/Card";
+import { Card } from "@/components/ui";
 
 export interface LayoutPageProps {
   children: ReactNode;

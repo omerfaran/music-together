@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { Button } from "@/components/ui/Button/Button";
+import { Button } from "@/components/ui/Button";
 import { Session } from "next-auth";
 import Link from "next/link";
 import { FC } from "react";
