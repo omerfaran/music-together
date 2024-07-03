@@ -29,6 +29,9 @@ yarn-error.log*
 .env*.local
 .env
 
+# Tailwind output css file
+/src/output.css
+
 # vercel
 .vercel
 
