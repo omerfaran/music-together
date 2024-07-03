@@ -2,7 +2,7 @@ import {
   Button as NextButton,
   type ButtonProps as NextButtonProps,
 } from "@nextui-org/react";
-import { FC } from "react";
+import { type FC } from "react";
 
 interface ButtonProps {
   /**
@@ -19,11 +19,11 @@ interface ButtonProps {
    */
   isIconOnly?: NextButtonProps["isIconOnly"];
   /**
-   * @default 'default'
+   * @default false
    */
   isLoading?: NextButtonProps["isLoading"];
   /**
-   * @default 'default'
+   * @default false
    */
   isDisabled?: NextButtonProps["isDisabled"];
   radius?: NextButtonProps["radius"];
