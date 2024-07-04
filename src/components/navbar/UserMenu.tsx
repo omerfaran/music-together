@@ -3,7 +3,6 @@
 import { signOutUser } from "@/app/actions/authActions";
 import { transformImageUrl } from "@/lib/util";
 import {
-  Avatar,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -13,6 +12,7 @@ import {
 import { Session } from "next-auth";
 import Link from "next/link";
 import { FC } from "react";
+import { Avatar } from "../ui";
 
 interface UserMenuProps {
   user: Session["user"];
