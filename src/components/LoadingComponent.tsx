@@ -1,5 +1,5 @@
-import { Spinner } from "@nextui-org/react";
 import { FC } from "react";
+import { Spinner } from "./ui";
 
 interface LoadingComponentProps {
   label?: string;
