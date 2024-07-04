@@ -1,6 +1,7 @@
 "use client";
 
-import { Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import { Select } from "@/components/ui";
+import { Input, SelectItem, Textarea } from "@nextui-org/react";
 import { format, subYears } from "date-fns";
 import { FC } from "react";
 import { useFormContext } from "react-hook-form";
