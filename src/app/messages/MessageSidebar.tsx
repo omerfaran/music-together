@@ -1,7 +1,7 @@
 "use client";
 
+import { Chip } from "@/components/ui";
 import { useMessagesStore } from "@/hooks/useMessagesStore";
-import { Chip } from "@nextui-org/react";
 import clsx from "clsx";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
