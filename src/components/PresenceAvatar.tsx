@@ -1,7 +1,6 @@
 import { usePresenceStore } from "@/hooks/usePresenceStore";
-import { Badge } from "@nextui-org/react";
 import { FC } from "react";
-import { Avatar } from "./ui";
+import { Avatar, Badge } from "./ui";
 
 interface PresenceAvatarProps {
   src?: string | null;
