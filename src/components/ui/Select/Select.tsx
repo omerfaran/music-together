@@ -1,7 +1,5 @@
 import {
   Select as NextSelect,
-  NextUIProvider,
-  SelectItem,
   type SelectProps as NextSelectProps,
 } from "@nextui-org/react";
 import { type FC } from "react";
