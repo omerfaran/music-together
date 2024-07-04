@@ -2,7 +2,7 @@
 
 import { approvePhoto, rejectPhoto } from "@/app/actions/adminActions";
 import { useRole } from "@/hooks/useRole";
-import { Image, useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@nextui-org/react";
 import { Photo } from "@prisma/client";
 import clsx from "clsx";
 import { CldImage } from "next-cloudinary";
@@ -11,7 +11,7 @@ import { FC } from "react";
 import { ImCheckmark, ImCross } from "react-icons/im";
 import { toast } from "react-toastify";
 import { AppModal } from "./AppModal";
-import { Button } from "./ui";
+import { Button, Image } from "./ui";
 
 interface MemberImageProps {
   photo: Photo | null;

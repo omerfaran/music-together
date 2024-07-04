@@ -1,9 +1,9 @@
 import { transformImageUrl } from "@/lib/util";
 import { MessageDto } from "@/types";
-import { Image } from "@nextui-org/react";
 import Link from "next/link";
 import { FC } from "react";
 import { toast } from "react-toastify";
+import { Image } from "./ui";
 
 interface NotificationToastProps {
   image?: string | null;

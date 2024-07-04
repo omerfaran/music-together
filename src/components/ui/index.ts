@@ -7,3 +7,4 @@ export { Spinner } from "./Spinner/Spinner";
 export { Switch } from "./Switch/Switch";
 export { Input } from "./Input/Input";
 export { Textarea } from "./Textarea/Textarea";
+export { Image } from "./Image/Image";
