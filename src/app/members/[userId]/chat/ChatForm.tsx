@@ -1,11 +1,10 @@
 "use client";
 
 import { createMessage } from "@/app/actions/messageActions";
-import { Button } from "@/components/ui/Button/Button";
+import { Button, Input } from "@/components/ui";
 import { MessageSchema, messageSchema } from "@/lib/schemas/messageSchema";
 import { handleFormServerErrors } from "@/lib/util";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@nextui-org/react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";

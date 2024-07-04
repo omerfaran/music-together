@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@nextui-org/react";
+import { Input } from "@/components/ui";
 import { FC } from "react";
 import { useFormContext } from "react-hook-form";
 

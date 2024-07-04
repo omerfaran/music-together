@@ -5,3 +5,4 @@ export { Select, SelectItem } from "./Select";
 export { Slider } from "./Slider/Slider";
 export { Spinner } from "./Spinner/Spinner";
 export { Switch } from "./Switch/Switch";
+export { Input } from "./Input/Input";
