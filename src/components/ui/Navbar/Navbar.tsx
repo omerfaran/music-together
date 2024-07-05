@@ -8,22 +8,13 @@ import { FC } from "react";
 import { AiFillAlert } from "react-icons/ai";
 import { NavLink } from "./NavLink";
 
-// import { Filters } from "./Filters";
 import { Button } from "../Button/Button";
 import { Dropdown } from "../Dropdown/Dropdown";
 import { Avatar } from "../Avatar/Avatar";
-
-const memberLinks = [
-  { href: "/members", label: "Matches" },
-  { href: "/lists", label: "Lists" },
-  { href: "/messages", label: "Messages" },
-];
-
-// Do this somewhere else!
-const adminLinks = [{ href: "/admin/moderation", label: "Photo Moderation" }];
+import { LinkInterface } from "@/types";
 
 interface NavbarProps {
-  links: Array<{ href: string; label: string }>;
+  links: LinkInterface[];
   /**
    * If authenticated, a user menu is displayed on the right; otherwise: login/signup buttons
    */
@@ -40,12 +31,6 @@ export const Navbar: FC<NavbarProps> = ({
   userName,
   userImage,
 }) => {
-  // const session = await auth();
-
-  // TODO - change to an object
-  // this shouldn't be determined in a UI component
-  // const links = session?.user.role === "ADMIN" ? adminLinks : memberLinks;
-
   return (
     <>
       <NextNavbar
@@ -101,7 +86,6 @@ export const Navbar: FC<NavbarProps> = ({
           )}
         </NavbarContent>
       </NextNavbar>
-      {/* <Filters /> */}
     </>
   );
 };
@@ -134,7 +118,7 @@ const UserMenu: FC<UserMenuProps> = ({ userName, userImage, onUserLogout }) => {
         {
           label: "Logout",
           color: "danger",
-          onClick: async () => onUserLogout(),
+          onClick: onUserLogout,
         },
       ]}
     />

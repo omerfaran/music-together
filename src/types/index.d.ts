@@ -67,3 +67,8 @@ type GetMembersParams = Partial<{
   orderBy: string;
   withPhoto: "true" | "false";
 }>;
+
+interface LinkInterface {
+  href: string;
+  label: string;
+}
