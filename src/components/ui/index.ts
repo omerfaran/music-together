@@ -11,3 +11,4 @@ export { Image } from "./Image/Image";
 export { Chip } from "./Chip/Chip";
 export { Avatar } from "./Avatar/Avatar";
 export { Badge } from "./Badge/Badge";
+export { Logo } from "./Logo/Logo";

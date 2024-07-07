@@ -12,6 +12,7 @@ import { Button } from "../Button/Button";
 import { Dropdown } from "../Dropdown/Dropdown";
 import { Avatar } from "../Avatar/Avatar";
 import { LinkInterface } from "@/types";
+import { Logo } from "../Logo/Logo";
 
 interface NavbarProps {
   links: LinkInterface[];
@@ -46,11 +47,7 @@ export const Navbar: FC<NavbarProps> = ({
         }}
       >
         <NavbarBrand as={Link} href="/">
-          <AiFillAlert size={40} className="text-gray-200" />
-          <div className="font-bold text-3xl flex">
-            <span className="text-gray-900">Next</span>
-            <span className="text-gray-200">Match</span>
-          </div>
+          <Logo />
         </NavbarBrand>
         <NavbarContent justify="center">
           {links.map(({ href, label }) => {
