@@ -1,11 +1,6 @@
-import Link from "next/link";
 import { FC } from "react";
-import { AiFillAlert } from "react-icons/ai";
-import { NavLink } from "./NavLink";
 import { auth } from "@/auth";
-import { UserMenu } from "./UserMenu";
-import { Filters } from "./Filters";
-import { Button } from "../ui";
+import { Filters } from "./Filters/Filters";
 import { LinkInterface } from "@/types";
 import { Navbar } from "../ui/Navbar/Navbar";
 import { signOutUser } from "@/app/actions/authActions";
@@ -27,7 +22,6 @@ interface TopNavProps {}
 export const TopNav: FC<TopNavProps> = async () => {
   const session = await auth();
 
-  // TODO - change to an object
   const links = session?.user.role === "ADMIN" ? adminLinks : memberLinks;
 
   return (

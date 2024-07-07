@@ -2,6 +2,7 @@ import { SelectItem } from "@nextui-org/react";
 import { Select } from "./Select";
 
 import type { Meta, StoryObj } from "@storybook/react";
+import { ValueAndLabel } from "@/types";
 
 const meta: Meta<typeof Select> = {
   component: Select,
@@ -15,12 +16,15 @@ export default {
 
 type Story = StoryObj<typeof Select>;
 
+const items: ValueAndLabel[] = [
+  { label: "First option", value: "1" },
+  { label: "Second option", value: "2" },
+];
+
 export const Basic: Story = {
   args: {
     label: "Select",
-    children: Array.from({ length: 3 }).map((_, i) => {
-      return <SelectItem key={i.toString()}>Select item {i}</SelectItem>;
-    }),
+    items,
   },
 };
 

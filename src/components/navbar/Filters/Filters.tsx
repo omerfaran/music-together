@@ -2,25 +2,33 @@
 
 import { useFilters } from "@/hooks/useFilters";
 import { usePathname } from "next/navigation";
-import { Switch, Spinner, Slider, Button, Select, SelectItem } from "../ui";
+import { Switch, Spinner, Slider, Button, Select } from "../../ui";
+import { ChangeEvent, FC } from "react";
+import { IconType } from "react-icons";
+import { UserFilters, ValueAndLabel } from "@/types";
+import { type Selection } from "@nextui-org/react";
 
-export const Filters = () => {
-  const pathname = usePathname();
-  const {
-    genderList,
-    orderByList,
-    filters,
-    selectAge,
-    selectGender,
-    selectOrder,
-    isPending,
-    selectWithPhoto,
-  } = useFilters();
+interface FilterProps {
+  orderByList: Array<ValueAndLabel>;
+  genderList: { value: "male" | "female"; icon: IconType }[];
+  filters: UserFilters;
+  selectAge: (value: number[]) => void;
+  selectGender: (value: "male" | "female") => void;
+  selectOrder: (value: Selection) => void;
+  isPending: boolean;
+  selectWithPhoto: (e: ChangeEvent<HTMLInputElement>) => void;
+}
 
-  if (pathname !== "/members") {
-    return null;
-  }
-
+export const FiltersPure: FC<FilterProps> = ({
+  orderByList,
+  genderList,
+  filters,
+  selectAge,
+  selectGender,
+  selectOrder,
+  isPending,
+  selectWithPhoto,
+}) => {
   return (
     <div className="shadow-md py-2">
       <div className="flex flex-grow justify-around items-center">
@@ -68,6 +76,7 @@ export const Filters = () => {
         </div>
         <div className="w-1/4">
           <Select
+            items={orderByList}
             size="sm"
             fullWidth
             placeholder="Order by"
@@ -76,17 +85,20 @@ export const Filters = () => {
             aria-label="Order by selector"
             selectedKeys={new Set([filters.orderBy])}
             onSelectionChange={selectOrder}
-          >
-            {orderByList.map(({ value, label }) => {
-              return (
-                <SelectItem key={value} value={value}>
-                  {label}
-                </SelectItem>
-              );
-            })}
-          </Select>
+          />
         </div>
       </div>
     </div>
   );
+};
+
+export const Filters = () => {
+  const filters = useFilters();
+
+  const pathname = usePathname();
+  if (pathname !== "/members") {
+    return null;
+  }
+
+  return <FiltersPure {...filters} />;
 };

@@ -1,10 +1,13 @@
+import { ValueAndLabel } from "@/types";
 import {
   Select as NextSelect,
+  SelectItem,
   type SelectProps as NextSelectProps,
 } from "@nextui-org/react";
 import { type FC } from "react";
 
 interface SelectProps {
+  items: Array<ValueAndLabel>;
   value?: NextSelectProps["value"];
   size?: NextSelectProps["size"];
   /**
@@ -28,14 +31,13 @@ interface SelectProps {
   color?: NextSelectProps["color"];
   selectedKeys?: NextSelectProps["selectedKeys"];
   onSelectionChange?: NextSelectProps["onSelectionChange"];
-  children: NextSelectProps["children"];
 }
 1;
 export const Select: FC<SelectProps> = ({
+  items,
   isInvalid = false,
   fullWidth = false,
   variant = "flat",
-  children,
   ...rest
 }) => {
   return (
@@ -45,7 +47,13 @@ export const Select: FC<SelectProps> = ({
       isInvalid={isInvalid}
       {...rest}
     >
-      {children}
+      {items.map(({ value, label }) => {
+        return (
+          <SelectItem key={value} value={value}>
+            {label}
+          </SelectItem>
+        );
+      })}
     </NextSelect>
   );
 };

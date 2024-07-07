@@ -72,3 +72,8 @@ interface LinkInterface {
   href: string;
   label: string;
 }
+
+interface ValueAndLabel {
+  value: string;
+  label: string;
+}

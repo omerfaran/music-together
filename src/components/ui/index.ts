@@ -1,7 +1,7 @@
 export { Divider } from "./Divider/Divider";
 export { Button } from "./Button/Button";
 export { Card, CardBody, CardFooter, CardHeader } from "./Card";
-export { Select, SelectItem } from "./Select";
+export { Select } from "./Select/Select";
 export { Slider } from "./Slider/Slider";
 export { Spinner } from "./Spinner/Spinner";
 export { Switch } from "./Switch/Switch";
