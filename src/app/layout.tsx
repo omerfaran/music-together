@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-// import { Inter } from "next/font/google";
 import "./globals.css";
+import { Inter } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import { TopNav } from "@/components/navbar/TopNav";
 import { auth } from "@/auth";
 
-// const inter = Inter({ subsets: ["latin"] });
+// Here we define our google font to use
+// https://nextjs.org/docs/pages/building-your-application/optimizing/fonts#with-tailwind-css
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: "NextMatch",
@@ -24,12 +29,14 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body>
+      <body className={`${inter.variable} font-sans`}>
         <Providers userId={userId} profileComplete={profileComplete}>
           <TopNav />
           {/* Note: I'm using vertical-center custom class here, he used it in the LoginPage component */}
           {/* I think it's a good solution provided that we use our own scrollbar in pages */}
-          <main className="container mx-auto vertical-center">{children}</main>
+          <main className={"container mx-auto vertical-center"}>
+            {children}
+          </main>
         </Providers>
       </body>
     </html>

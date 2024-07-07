@@ -36,7 +36,7 @@ export const Navbar: FC<NavbarProps> = ({
     <>
       <NextNavbar
         maxWidth="xl"
-        className="bg-gradient-to-r from-purple-400 to-purple-700"
+        className="bg-gradient-to-r from-purple-400 to-[#352c3d]"
         classNames={{
           item: [
             "text-xl",
