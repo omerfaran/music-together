@@ -2,10 +2,6 @@ import { Slider } from "./Slider";
 
 import type { Meta, StoryObj } from "@storybook/react";
 
-const meta: Meta<typeof Slider> = {
-  component: Slider,
-};
-
 export default {
   title: "UI / Slider",
   component: Slider,

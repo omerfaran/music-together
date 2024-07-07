@@ -1,10 +1,15 @@
 import {
+  CardBody,
+  CardFooter,
+  CardHeader,
   Card as NextCard,
   type CardProps as NextCardProps,
 } from "@nextui-org/react";
-import { type FC } from "react";
+import { ReactNode, type FC } from "react";
 
 interface CardProps {
+  header?: ReactNode;
+  footer?: ReactNode;
   className?: NextCardProps["className"];
   as?: NextCardProps["as"];
   href?: string; // href doesn't exist in NextCardProps
@@ -20,6 +25,8 @@ interface CardProps {
 }
 
 export const Card: FC<CardProps> = ({
+  header,
+  footer,
   fullWidth = false,
   isPressable = false,
   children,
@@ -27,7 +34,9 @@ export const Card: FC<CardProps> = ({
 }) => {
   return (
     <NextCard fullWidth={fullWidth} isPressable={isPressable} {...rest}>
-      {children}
+      {header && <CardHeader>{header}</CardHeader>}
+      <CardBody>{children}</CardBody>
+      {footer && <CardFooter>{footer}</CardFooter>}
     </NextCard>
   );
 };

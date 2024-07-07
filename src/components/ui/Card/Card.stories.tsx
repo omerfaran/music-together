@@ -33,14 +33,8 @@ export const WithTailwindClass: Story = {
 export const FullCard: Story = {
   args: {
     ...WithTailwindClass.args,
-    children: (
-      <>
-        <CardHeader className="flex flex-col items-center justify-center">
-          Header
-        </CardHeader>
-        <CardBody>Body</CardBody>
-        <CardFooter>Footer</CardFooter>
-      </>
-    ),
+    header: "Header",
+    footer: "Footer",
+    children: "Card content",
   },
 };

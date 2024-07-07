@@ -5,6 +5,7 @@ import { NavbarItem, type NavbarItemProps } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type FC } from "react";
+import { Text } from "..";
 
 interface NavLinkProps {
   href: JSX.IntrinsicElements["a"]["href"];
@@ -30,9 +31,11 @@ export const NavLink: FC<NavLinkProps> = ({
 
   return (
     <NavbarItem isActive={isActive} href={href} as={Link}>
-      <span>{label}</span>
+      <Text component="span">{label}</Text>
       {unreadCount && unreadCount > 0 && (
-        <span className="ml-1">({unreadCount})</span>
+        <Text component="span" className="ml-1">
+          ({unreadCount})
+        </Text>
       )}
     </NavbarItem>
   );

@@ -77,3 +77,28 @@ interface ValueAndLabel {
   value: string;
   label: string;
 }
+
+export interface JobPost {
+  // TODO - revisit
+  id: string;
+  userId: string;
+  avatarImageSrc: string;
+  name: string;
+  date: string;
+  createdOn: Date;
+  modifiedOn: Date;
+  expertise: string;
+  description: string;
+  selectedInstrument: Instrument;
+  // Do we need replies?
+  replies?: unknown;
+}
+
+// id - we probably don't need our own id, we can let mongo db create it
+// createdOn and modifiedOn, we will generate them ourselves in the entity with new Date();
+// avatarImageSrc - should be retrieved from the userId, not hardcoded in the document
+// selectedInstrument - this can either be just an id if it's for bass for example, or 'custom'
+// in which case there will be additional label and image, but not sure about it, for now can just be an id
+//
+
+//
