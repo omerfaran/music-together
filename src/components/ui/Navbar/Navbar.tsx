@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Navbar as NextNavbar,
   NavbarBrand,
@@ -115,7 +117,9 @@ const UserMenu: FC<UserMenuProps> = ({ userName, userImage, onUserLogout }) => {
         {
           label: "Logout",
           color: "danger",
-          onClick: onUserLogout,
+          onClick: async () => {
+            onUserLogout();
+          },
         },
       ]}
     />
