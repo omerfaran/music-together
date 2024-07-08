@@ -1,6 +1,6 @@
 "use client";
 
-import { Select, SelectItem, Input, Textarea } from "@/components/ui";
+import { Select, Input, Textarea } from "@/components/ui";
 import { format, subYears } from "date-fns";
 import { FC } from "react";
 import { useFormContext } from "react-hook-form";
@@ -23,6 +23,7 @@ export const ProfileForm: FC<ProfileFormProps> = () => {
   return (
     <div className="space-y-4">
       <Select
+        items={genderList}
         defaultSelectedKeys={getValues("gender")}
         aria-label="Select gender"
         {...register("gender")}
@@ -33,11 +34,7 @@ export const ProfileForm: FC<ProfileFormProps> = () => {
         onChange={(e) => {
           setValue("gender", e.target.value);
         }}
-      >
-        {genderList.map(({ label, value }) => {
-          return <SelectItem key={value}>{label}</SelectItem>;
-        })}
-      </Select>
+      />
       <Input
         defaultValue={getValues("dateOfBirth")}
         {...register("dateOfBirth")}

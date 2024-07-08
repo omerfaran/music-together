@@ -37,9 +37,3 @@ export const Basic: Story = {
     isPending: false,
   },
 };
-
-// selectAge: (value: number[]) => void;
-// selectGender: (value: "male" | "female") => void;
-// selectOrder: (value: Selection) => void;
-// isPending: boolean;
-// selectWithPhoto: (e: ChangeEvent<HTMLInputElement>) => void;

@@ -10,7 +10,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
 import { UserDetailsForm } from "./UserDetailsForm";
 import { FC, useState } from "react";
-import { ProfileForm } from "./ProfileForm";
+import { ProfileForm } from "./ProfileForm/ProfileForm";
 import { registerUser } from "@/app/actions/authActions";
 import { handleFormServerErrors } from "@/lib/util";
 import { useRouter } from "next/navigation";
