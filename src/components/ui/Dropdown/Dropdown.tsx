@@ -10,6 +10,8 @@ import {
 } from "@nextui-org/react";
 import { ReactNode, type FC } from "react";
 
+import { OverlayPlacement } from "@nextui-org/aria-utils";
+
 interface DropdownProps {
   items: DropdownItem[];
   header?: ReactNode;
@@ -17,6 +19,10 @@ interface DropdownProps {
    * The component that triggers the dropdown menu to open
    */
   trigger: ReactNode;
+  /**
+   * @default 'bottom-end'
+   */
+  placement?: OverlayPlacement;
 }
 
 interface DropdownItem {
@@ -27,9 +33,14 @@ interface DropdownItem {
   onClick?: NextDropdownItemProps["onClick"];
 }
 
-export const Dropdown: FC<DropdownProps> = ({ trigger, header, items }) => {
+export const Dropdown: FC<DropdownProps> = ({
+  trigger,
+  header,
+  items,
+  placement = "bottom-end",
+}) => {
   return (
-    <NextDropdown placement="bottom-end">
+    <NextDropdown placement={placement}>
       <DropdownTrigger>
         <div>{trigger}</div>
       </DropdownTrigger>
@@ -47,7 +58,10 @@ export const Dropdown: FC<DropdownProps> = ({ trigger, header, items }) => {
               {header}
             </DropdownItem>
           </DropdownSection>
-        ) : null}
+        ) : (
+          // To avoid ts errors - we render a hidden dropdown item instead of rendering null
+          <DropdownItem className="hidden" />
+        )}
 
         <DropdownSection>
           {items.map(({ label, ...rest }, index) => {

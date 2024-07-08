@@ -17,6 +17,7 @@ type Story = StoryObj<typeof Dropdown>;
 
 export const Basic: Story = {
   args: {
+    placement: "bottom-start",
     trigger: <FaRadiation size={20} />,
     items: [
       { label: "Edit Profile", href: "/members/edit" },
