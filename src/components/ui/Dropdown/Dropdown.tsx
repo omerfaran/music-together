@@ -30,7 +30,9 @@ interface DropdownItem {
 export const Dropdown: FC<DropdownProps> = ({ trigger, header, items }) => {
   return (
     <NextDropdown placement="bottom-end">
-      <DropdownTrigger>{trigger}</DropdownTrigger>
+      <DropdownTrigger>
+        <div>{trigger}</div>
+      </DropdownTrigger>
       <DropdownMenu variant="flat">
         {/* TODO - Asked on Discord what to do: https://discord.com/channels/856545348885676062/1021141023105220698/threads/1258672234411593798
         if they don't answer try reporting a bug */}
