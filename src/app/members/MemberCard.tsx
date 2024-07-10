@@ -35,7 +35,13 @@ export const MemberCard: FC<MemberCardProps> = ({
   }
 
   return (
-    <Card as={Link} href={`/members/${member.userId}`} isPressable fullWidth>
+    <Card
+      as={Link}
+      href={`/members/${member.userId}`}
+      isPressable
+      fullWidth
+      noPadding
+    >
       <Image
         isZoomed
         alt={member.name}

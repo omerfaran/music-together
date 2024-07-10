@@ -10,6 +10,11 @@ import { ReactNode, type FC } from "react";
 interface CardProps {
   header?: ReactNode;
   footer?: ReactNode;
+  /**
+   * Do not render card body which creates padding in all axis
+   * @default false
+   **/
+  noPadding?: boolean;
   className?: NextCardProps["className"];
   as?: NextCardProps["as"];
   href?: string; // href doesn't exist in NextCardProps
@@ -30,12 +35,19 @@ export const Card: FC<CardProps> = ({
   fullWidth = false,
   isPressable = false,
   children,
+  noPadding = false,
   ...rest
 }) => {
+  const body = noPadding ? (
+    <div>{children}</div>
+  ) : (
+    <CardBody>{children}</CardBody>
+  );
+
   return (
     <NextCard fullWidth={fullWidth} isPressable={isPressable} {...rest}>
       {header && <CardHeader>{header}</CardHeader>}
-      <CardBody>{children}</CardBody>
+      {body}
       {footer && <CardFooter>{footer}</CardFooter>}
     </NextCard>
   );
