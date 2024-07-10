@@ -10,7 +10,9 @@ import { GiPadlock } from "react-icons/gi";
 import { toast } from "react-toastify";
 import { SocialLogin } from "./SocialLogin";
 import { Button } from "@/components/ui/Button/Button";
-import { Card, CardBody, CardHeader, Input } from "@/components/ui";
+import { Card, CardBody, CardHeader } from "@/components/ui";
+// TODO - use our Input, not next ui input directly
+import { Input } from "@nextui-org/react";
 
 export const LoginForm = () => {
   const router = useRouter();
