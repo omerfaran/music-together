@@ -8,13 +8,12 @@ import Link from "next/link";
 import { FC, useState } from "react";
 import { toggleLikeMember } from "../actions/likeActions";
 import { Card, CardFooter, Image } from "@/components/ui";
+import { PLACEHOLDER_IMAGE } from "@/constants";
 
 export interface MemberCardProps {
   member: Member;
   hasLiked: boolean;
 }
-
-const PLACEHOLDER_IMAGE = "/images/user.png";
 
 export const MemberCard: FC<MemberCardProps> = ({
   member,

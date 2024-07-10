@@ -13,6 +13,7 @@ import { Session } from "next-auth";
 import Link from "next/link";
 import { FC } from "react";
 import { Avatar } from "../ui";
+import { PLACEHOLDER_IMAGE } from "@/constants";
 
 interface UserMenuProps {
   user: Session["user"];
@@ -29,7 +30,7 @@ export const UserMenu: FC<UserMenuProps> = ({ user }) => {
           color="secondary"
           name={user?.name || "user avatar"}
           size="sm"
-          src={user?.image || "/images/user.png"}
+          src={user?.image || PLACEHOLDER_IMAGE}
         />
       </DropdownTrigger>
       <DropdownMenu variant="flat" aria-label="User actions menu">

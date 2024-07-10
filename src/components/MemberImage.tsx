@@ -12,6 +12,7 @@ import { ImCheckmark, ImCross } from "react-icons/im";
 import { toast } from "react-toastify";
 import { AppModal } from "./AppModal";
 import { Button, Image } from "./ui";
+import { PLACEHOLDER_IMAGE } from "@/constants";
 
 interface MemberImageProps {
   photo: Photo | null;
@@ -69,7 +70,7 @@ export const MemberImage: FC<MemberImageProps> = ({ photo }) => {
         <Image
           width={220}
           height={220}
-          src={photo?.url ?? "/images/user.png"}
+          src={photo?.url ?? PLACEHOLDER_IMAGE}
           alt="User image"
         />
       )}
@@ -121,7 +122,7 @@ export const MemberImage: FC<MemberImageProps> = ({ photo }) => {
               <Image
                 width={750}
                 height={750}
-                src={photo?.url ?? "/images/user.png"}
+                src={photo?.url ?? PLACEHOLDER_IMAGE}
                 alt="User image"
               />
             )}

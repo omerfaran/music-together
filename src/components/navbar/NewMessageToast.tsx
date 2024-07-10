@@ -3,6 +3,7 @@ import { MessageDto } from "@/types";
 import Link from "next/link";
 import { FC } from "react";
 import { Image } from "../ui";
+import { PLACEHOLDER_IMAGE } from "@/constants";
 
 interface NewMessageToastProps {
   message: MessageDto;
@@ -16,7 +17,7 @@ export const NewMessageToast: FC<NewMessageToastProps> = ({ message }) => {
     >
       <div className="mr-2">
         <Image
-          src={transformImageUrl(message.senderImage) || "/images/user.png"}
+          src={transformImageUrl(message.senderImage) || PLACEHOLDER_IMAGE}
           alt="Sender image"
           height={50}
           width={50}

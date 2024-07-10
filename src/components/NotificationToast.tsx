@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FC } from "react";
 import { toast } from "react-toastify";
 import { Image } from "./ui";
+import { PLACEHOLDER_IMAGE } from "@/constants";
 
 interface NotificationToastProps {
   image?: string | null;
@@ -22,7 +23,7 @@ export const NotificationToast: FC<NotificationToastProps> = ({
     <Link href={href} className="flex items-center">
       <div className="mr-2">
         <Image
-          src={transformImageUrl(image) || "/images/user.png"}
+          src={transformImageUrl(image) || PLACEHOLDER_IMAGE}
           height={50}
           width={50}
           alt="Sender image"

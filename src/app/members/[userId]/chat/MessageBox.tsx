@@ -1,6 +1,7 @@
 "use client";
 
 import { PresenceAvatar } from "@/components/PresenceAvatar";
+import { PLACEHOLDER_IMAGE } from "@/constants";
 import { timeAgo, transformImageUrl } from "@/lib/util";
 import { MessageDto } from "@/types";
 import clsx from "clsx";
@@ -75,7 +76,7 @@ const MessageAvatar: FC<{ message: MessageDto }> = ({ message }) => {
   return (
     <div className="self-end">
       <PresenceAvatar
-        src={transformImageUrl(message.senderImage) ?? "/images/user.png"}
+        src={transformImageUrl(message.senderImage) ?? PLACEHOLDER_IMAGE}
         userId={message.senderId}
       />
     </div>

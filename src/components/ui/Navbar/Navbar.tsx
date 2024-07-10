@@ -15,6 +15,7 @@ import { Dropdown } from "../Dropdown/Dropdown";
 import { Avatar } from "../Avatar/Avatar";
 import { LinkInterface } from "@/types";
 import { Logo } from "../Logo/Logo";
+import { PLACEHOLDER_IMAGE } from "@/constants";
 
 interface NavbarProps {
   links: LinkInterface[];
@@ -104,7 +105,7 @@ const UserMenu: FC<UserMenuProps> = ({ userName, userImage, onUserLogout }) => {
       color="secondary"
       name={userName || "user avatar"}
       size="sm"
-      src={userImage || "/images/user.png"}
+      src={userImage || PLACEHOLDER_IMAGE}
     />
   );
 

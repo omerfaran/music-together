@@ -9,6 +9,7 @@ import {
   Divider,
   Button,
 } from "@/components/ui";
+import { PLACEHOLDER_IMAGE } from "@/constants";
 import { calculateAge, transformImageUrl } from "@/lib/util";
 import { Member } from "@prisma/client";
 import Link from "next/link";
@@ -19,8 +20,6 @@ export interface MemberSidebarProps {
   member: Member;
   navLinks: { name: string; href: string }[];
 }
-
-const PLACEHOLDER_IMAGE = "/images/user.png";
 
 export const MemberSidebar: FC<MemberSidebarProps> = ({ member, navLinks }) => {
   const pathname = usePathname();

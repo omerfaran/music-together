@@ -1,6 +1,7 @@
 import { usePresenceStore } from "@/hooks/usePresenceStore";
 import { FC } from "react";
 import { Avatar, Badge } from "./ui";
+import { PLACEHOLDER_IMAGE } from "@/constants";
 
 interface PresenceAvatarProps {
   src?: string | null;
@@ -10,7 +11,7 @@ interface PresenceAvatarProps {
 const PresenceAvatarPure: FC<PresenceAvatarProps> = ({ src, isOnline }) => {
   return (
     <Badge content="" color="success" shape="circle" isInvisible={!isOnline}>
-      <Avatar src={src || "/images/user.png"} alt="User avatar" />
+      <Avatar src={src || PLACEHOLDER_IMAGE} alt="User avatar" />
     </Badge>
   );
 };
