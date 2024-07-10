@@ -15,6 +15,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
   args: {
+    title: "Bass player needed today!!!",
     avatarImageSrc: "https://picsum.photos/id/237/200/300",
     name: "Haveri",
     expertise: "Bass player",

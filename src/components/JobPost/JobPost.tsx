@@ -8,20 +8,26 @@ export const JobPost: FC<JobPostProps> = ({
   avatarImageSrc,
   name,
   date,
+  title,
   selectedInstrument,
   expertise,
   description,
   replies, // TODO - delete if not needed
 }) => {
   const header = (
-    <div className="flex justify-between items-center w-full">
-      <div className="flex items-center gap-3">
-        <Avatar src={avatarImageSrc} />
-        <Text>{name}</Text>
+    <div className="w-full flex flex-col gap-2">
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-3">
+          <Avatar src={avatarImageSrc} />
+          <Text>{name}</Text>
+        </div>
+        <div>
+          <Text>{date}</Text>
+        </div>
       </div>
-      <div>
-        <Text>{date}</Text>
-      </div>
+      <Text center component="h1">
+        {title}
+      </Text>
     </div>
   );
 
