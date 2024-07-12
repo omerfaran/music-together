@@ -1,11 +1,15 @@
 import { z } from "zod";
 
 export const jobPostSchema = z.object({
-  email: z.string().email(),
-  password: z
-    .string()
-    .min(6, { message: "Password must be many characters lol" }),
-  // the object with message is optional, without it we'd have a default error message
+  title: z.string().min(1, {
+    message: "Title is required",
+  }),
+  expertise: z.string().min(1, {
+    message: "Expertise is required",
+  }),
+  description: z.string().min(1, {
+    message: "Description is required",
+  }),
 });
 
-export type jobPostSchema = z.infer<typeof jobPostSchema>;
+export type JobPostSchema = z.infer<typeof jobPostSchema>;

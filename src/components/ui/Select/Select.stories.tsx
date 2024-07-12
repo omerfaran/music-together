@@ -1,8 +1,8 @@
-import { SelectItem } from "@nextui-org/react";
 import { Select } from "./Select";
 
 import type { Meta, StoryObj } from "@storybook/react";
 import { ValueAndLabel } from "@/types";
+import { GiAllForOne } from "react-icons/gi";
 
 const meta: Meta<typeof Select> = {
   component: Select,
@@ -32,6 +32,16 @@ export const BorderedVariant: Story = {
   args: {
     ...Basic.args,
     variant: "bordered",
+  },
+};
+
+export const WithIcon: Story = {
+  args: {
+    ...Basic.args,
+    items: items.map((item) => ({
+      ...item,
+      startContent: <GiAllForOne size={20} />,
+    })),
   },
 };
 

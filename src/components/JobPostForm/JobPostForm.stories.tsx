@@ -1,9 +1,9 @@
-import { JobPostForm } from "./JobPostForm";
+import { JobPostFormPure as JobPostForm } from "./JobPostForm";
 
 import type { Meta, StoryObj } from "@storybook/react";
 
 export default {
-  title: "UI / JobPostForm",
+  title: "App / JobPostForm",
   component: JobPostForm,
   argTypes: {},
 } as Meta;
@@ -11,5 +11,9 @@ export default {
 type Story = StoryObj<typeof JobPostForm>;
 
 export const Basic: Story = {
-  args: {},
+  args: {
+    onFormSubmit: async (data) => {
+      console.log("submitted with:", data);
+    },
+  },
 };
