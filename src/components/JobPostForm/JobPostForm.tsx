@@ -1,28 +1,35 @@
 "use client";
 
 import { signInUser } from "@/app/actions/authActions";
-import { LoginSchema, loginSchema } from "@/lib/schemas/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { FaGuitar } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { Button } from "@/components/ui/Button/Button";
-import { Card, CardBody, CardHeader } from "@/components/ui";
+import { Autocomplete, Card, CardBody, CardHeader } from "@/components/ui";
 // TODO - use our Input, not next ui input directly
-import { Input } from "@nextui-org/react";
+import { Input, SelectItemProps } from "@nextui-org/react";
 import { FC } from "react";
 import { JobPostSchema, jobPostSchema } from "@/lib/schemas/jobPostSchema";
+import { ValueAndLabel } from "@/types";
 
 interface JobPostFormProps {
   onFormSubmit: (data: JobPostSchema) => Promise<void>;
+  instruments: ValueAndLabel[];
 }
 
-export const JobPostFormPure: FC<JobPostFormProps> = ({ onFormSubmit }) => {
+export const JobPostFormPure: FC<JobPostFormProps> = ({
+  onFormSubmit,
+  instruments,
+}) => {
+  // const selectItems = transformInstrumentsToSelectItems(instruments);
+
   const {
     register,
     handleSubmit,
+    getValues,
+    setValue,
     formState: { errors, isValid, isSubmitting },
   } = useForm<JobPostSchema>({
     resolver: zodResolver(jobPostSchema),
@@ -66,6 +73,19 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({ onFormSubmit }) => {
               label="Description"
               variant="bordered"
             />
+            <Autocomplete
+              items={instruments}
+              defaultSelectedKeys={getValues("instrument")}
+              aria-label="Select instrument"
+              {...register("instrument")}
+              isInvalid={!!errors.instrument}
+              errorMessage={errors?.instrument?.message?.toString()}
+              label="Instrument"
+              variant="bordered"
+              onChange={(instrument) => {
+                setValue("instrument", instrument ?? "");
+              }}
+            />
             <Button
               isLoading={isSubmitting}
               isDisabled={!isValid}
@@ -88,6 +108,13 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({ onFormSubmit }) => {
 const Observed = JobPostFormPure;
 
 export const JobPostForm = () => {
+  // TODO - put those in the store!
+  const instruments: ValueAndLabel[] = [
+    { value: "bassGuitar", label: "Bass Guitar" },
+    { value: "piano", label: "Piano" },
+    { value: "timpani", label: "Timpani" },
+  ];
+
   const router = useRouter();
 
   const onSubmit = async (data: JobPostSchema) => {

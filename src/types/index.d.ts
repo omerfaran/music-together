@@ -90,10 +90,16 @@ export interface JobPost {
   modifiedOn: Date;
   expertise: string;
   description: string;
-  selectedInstrument: Instrument;
+  instrument: string;
   // Do we need replies?
   replies?: unknown;
 }
+
+// export interface Instrument {
+//   id: string;
+//   label?: string;
+//   imageSrc?: string;
+// }
 
 // id - we probably don't need our own id, we can let mongo db create it
 // createdOn and modifiedOn, we will generate them ourselves in the entity with new Date();

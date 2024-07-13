@@ -1,4 +1,5 @@
-import { z } from "zod";
+import { JobPost } from "@/types";
+import { z, ZodType } from "zod";
 
 export const jobPostSchema = z.object({
   title: z.string().min(1, {
@@ -10,6 +11,11 @@ export const jobPostSchema = z.object({
   description: z.string().min(1, {
     message: "Description is required",
   }),
-});
+  instrument: z.string().min(1, {
+    message: "Instrument is required",
+  }),
+}) satisfies ZodType<
+  Pick<JobPost, "title" | "expertise" | "description" | "instrument">
+>;
 
 export type JobPostSchema = z.infer<typeof jobPostSchema>;

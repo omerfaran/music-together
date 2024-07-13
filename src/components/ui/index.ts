@@ -14,3 +14,4 @@ export { Badge } from "./Badge/Badge";
 export { Logo } from "./Logo/Logo";
 export { Text } from "./Text/Text";
 export { Hr } from "./Hr/Hr";
+export { Autocomplete } from "./Autocomplete/Autocomplete";
