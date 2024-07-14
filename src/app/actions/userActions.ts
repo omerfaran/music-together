@@ -9,7 +9,6 @@ import { Member, Photo } from "@prisma/client";
 import { getAuthUserId } from "./authActions";
 import { prisma } from "@/lib/prisma";
 import { cloudinary } from "@/lib/cloudinary";
-import { error } from "console";
 import { JobPostSchema } from "@/lib/schemas/jobPostSchema";
 
 export async function updateMemberProfile(
@@ -41,9 +40,31 @@ export async function updateMemberProfile(
   }
 }
 
-export async function addJobPost(data: JobPostSchema): Promise<void> {
+export async function addJobPost(data: JobPostSchema): Promise<Member | null> {
+  const { title, photo, description, expertise, instrument } = data;
   try {
-  } catch (error) {}
+    const userId = await getAuthUserId();
+
+    return prisma.member.update({
+      where: { userId },
+      data: {
+        jobPosts: {
+          create: [
+            {
+              title,
+              description,
+              expertise,
+              instrument,
+              photoUrl: photo,
+            },
+          ],
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 }
 
 export async function addImage(

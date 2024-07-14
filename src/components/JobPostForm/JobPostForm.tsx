@@ -1,19 +1,18 @@
 "use client";
 
-import { signInUser } from "@/app/actions/authActions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { FaGuitar } from "react-icons/fa";
-import { toast } from "react-toastify";
 import { Button } from "@/components/ui/Button/Button";
 import { Autocomplete, Card, CardBody, CardHeader } from "@/components/ui";
 // TODO - use our Input, not next ui input directly
-import { Input, SelectItemProps } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 import { FC } from "react";
 import { JobPostSchema, jobPostSchema } from "@/lib/schemas/jobPostSchema";
 import { ValueAndLabel } from "@/types";
 import { ImageUploadButton } from "../ImageUploadButton";
+import { addJobPost } from "@/app/actions/userActions";
 
 interface JobPostFormProps {
   onFormSubmit: (data: JobPostSchema) => Promise<void>;
@@ -24,8 +23,6 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
   onFormSubmit,
   instruments,
 }) => {
-  // const selectItems = transformInstrumentsToSelectItems(instruments);
-
   const {
     register,
     handleSubmit,
@@ -90,7 +87,7 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
             <ImageUploadButton
               onUploadImage={(result) => {
                 if (result.info && typeof result.info === "object") {
-                  setValue("image", result.info.secure_url);
+                  setValue("photo", result.info.secure_url);
                 }
               }}
             />
@@ -127,11 +124,11 @@ export const JobPostForm = () => {
 
   const onSubmit = async (data: JobPostSchema) => {
     // FIX
-    const result = await signInUser(data);
-    if (result.status === "error") {
-      toast.error(result.error as string);
-      return;
-    }
+    const result = await addJobPost(data);
+    // if (result.status === "error") {
+    //   toast.error(result.error as string);
+    //   return;
+    // }
 
     router.replace("/members");
     router.refresh();

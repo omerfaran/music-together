@@ -65,6 +65,7 @@ model Member {
   targetLikes       Like[]    @relation("target") // continuation of the many to many, member can like many people
   senderMessages    Message[] @relation("sender")
   recipientMessages Message[] @relation("recipient")
+  jobPosts          JobPost[]
 }
 
 model Photo {
@@ -72,6 +73,20 @@ model Photo {
   url        String
   publicId   String? // that's from the cloud service of where we store the photo
   isApproved Boolean? @default(false)
+
+  memberId String
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+}
+
+model JobPost {
+  id          String   @id @default(cuid())
+  photoUrl    String?
+  title       String
+  description String
+  instrument  String
+  expertise   String
+  created     DateTime @default(now())
+  updated     DateTime @default(now())
 
   memberId String
   member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
