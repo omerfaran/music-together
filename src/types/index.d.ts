@@ -84,6 +84,7 @@ export interface JobPost {
   userId: string;
   avatarImageSrc: string;
   name: string;
+  image?: string;
   date: string;
   title: string;
   createdOn: Date;

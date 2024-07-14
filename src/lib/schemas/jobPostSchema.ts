@@ -14,8 +14,9 @@ export const jobPostSchema = z.object({
   instrument: z.string().min(1, {
     message: "Instrument is required",
   }),
+  image: z.string().optional(),
 }) satisfies ZodType<
-  Pick<JobPost, "title" | "expertise" | "description" | "instrument">
+  Pick<JobPost, "title" | "expertise" | "description" | "instrument" | "image">
 >;
 
 export type JobPostSchema = z.infer<typeof jobPostSchema>;

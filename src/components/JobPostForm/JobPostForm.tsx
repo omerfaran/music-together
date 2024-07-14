@@ -13,6 +13,7 @@ import { Input, SelectItemProps } from "@nextui-org/react";
 import { FC } from "react";
 import { JobPostSchema, jobPostSchema } from "@/lib/schemas/jobPostSchema";
 import { ValueAndLabel } from "@/types";
+import { ImageUploadButton } from "../ImageUploadButton";
 
 interface JobPostFormProps {
   onFormSubmit: (data: JobPostSchema) => Promise<void>;
@@ -86,6 +87,13 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
                 setValue("instrument", instrument ?? "");
               }}
             />
+            <ImageUploadButton
+              onUploadImage={(result) => {
+                if (result.info && typeof result.info === "object") {
+                  setValue("image", result.info.secure_url);
+                }
+              }}
+            />
             <Button
               isLoading={isSubmitting}
               isDisabled={!isValid}
@@ -129,5 +137,5 @@ export const JobPostForm = () => {
     router.refresh();
   };
 
-  return <Observed onFormSubmit={onSubmit} />;
+  return <Observed instruments={instruments} onFormSubmit={onSubmit} />;
 };

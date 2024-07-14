@@ -10,6 +10,7 @@ import { getAuthUserId } from "./authActions";
 import { prisma } from "@/lib/prisma";
 import { cloudinary } from "@/lib/cloudinary";
 import { error } from "console";
+import { JobPostSchema } from "@/lib/schemas/jobPostSchema";
 
 export async function updateMemberProfile(
   data: MemberEditSchema
@@ -38,6 +39,11 @@ export async function updateMemberProfile(
     console.log(error);
     return { status: "error", error: "Something went wrong" };
   }
+}
+
+export async function addJobPost(data: JobPostSchema): Promise<void> {
+  try {
+  } catch (error) {}
 }
 
 export async function addImage(
