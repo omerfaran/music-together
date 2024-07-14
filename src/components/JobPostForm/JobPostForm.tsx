@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { FaGuitar } from "react-icons/fa";
 import { Button } from "@/components/ui/Button/Button";
-import { Autocomplete, Card, CardBody, CardHeader } from "@/components/ui";
+import {
+  Autocomplete,
+  Card,
+  CardBody,
+  CardHeader,
+  Image,
+} from "@/components/ui";
 // TODO - use our Input, not next ui input directly
 import { Input } from "@nextui-org/react";
 import { FC } from "react";
@@ -28,11 +34,15 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
     handleSubmit,
     getValues,
     setValue,
+    watch,
     formState: { errors, isValid, isSubmitting },
   } = useForm<JobPostSchema>({
     resolver: zodResolver(jobPostSchema),
     mode: "onTouched",
   });
+
+  console.log(getValues("photo"));
+  const updatedPhoto = watch("photo", "");
 
   return (
     <Card className="w-2/5 mx-auto">
@@ -91,6 +101,7 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
                 }
               }}
             />
+            {updatedPhoto && <Image src={updatedPhoto} alt="post image" />}
             <Button
               isLoading={isSubmitting}
               isDisabled={!isValid}
