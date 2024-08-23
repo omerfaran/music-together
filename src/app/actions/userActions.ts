@@ -40,7 +40,7 @@ export async function updateMemberProfile(
   }
 }
 
-export async function addJobPost(data: JobPostSchema): Promise<Member | null> {
+export async function addJobPost(data: JobPostSchema): Promise<Member> {
   const { title, photo, description } = data;
   try {
     const userId = await getAuthUserId();

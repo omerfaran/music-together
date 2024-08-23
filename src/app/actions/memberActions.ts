@@ -6,6 +6,30 @@ import { Member, Photo } from "@prisma/client";
 import { addYears } from "date-fns";
 import { getAuthUserId } from "./authActions";
 
+export async function getJobPosts(): Promise<PaginatedResponse<Member>> {
+  const userId = await getAuthUserId();
+
+  try {
+    const members = await prisma.member.findMany({
+      where: {
+        jobPosts: {
+          some: {},
+        },
+      },
+      select: {
+        name: true,
+        image: true,
+        jobPosts: true,
+      },
+    });
+
+    return { items: members };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 export async function getMembers({
   ageRange = "18,100",
   gender = "male,female",

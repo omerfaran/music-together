@@ -14,6 +14,7 @@ import { FC } from "react";
 import { JobPostSchema, jobPostSchema } from "@/lib/schemas/jobPostSchema";
 import { ImageUploadButton } from "../ImageUploadButton";
 import { addJobPost } from "@/app/actions/userActions";
+import { toast } from "react-toastify";
 
 interface JobPostFormProps {
   onFormSubmit: (data: JobPostSchema) => Promise<void>;
@@ -128,11 +129,12 @@ export const JobPostForm = () => {
 
   const onSubmit = async (data: JobPostSchema) => {
     // FIX
-    const result = await addJobPost(data);
-    // if (result.status === "error") {
-    //   toast.error(result.error as string);
-    //   return;
-    // }
+    try {
+      await addJobPost(data);
+      toast.success("Job posted!");
+    } catch (error) {
+      toast.error("Could not post the job");
+    }
 
     // router.replace("/feed");
     // router.refresh();
