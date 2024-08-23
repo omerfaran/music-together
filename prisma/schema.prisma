@@ -83,8 +83,8 @@ model JobPost {
   photoUrl    String?
   title       String
   description String
-  instrument  String
-  expertise   String
+  // instrument  String
+  // expertise   String
   created     DateTime @default(now())
   updated     DateTime @default(now())
 

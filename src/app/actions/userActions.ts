@@ -41,7 +41,7 @@ export async function updateMemberProfile(
 }
 
 export async function addJobPost(data: JobPostSchema): Promise<Member | null> {
-  const { title, photo, description, expertise, instrument } = data;
+  const { title, photo, description } = data;
   try {
     const userId = await getAuthUserId();
 
@@ -53,8 +53,6 @@ export async function addJobPost(data: JobPostSchema): Promise<Member | null> {
             {
               title,
               description,
-              expertise,
-              instrument,
               photoUrl: photo,
             },
           ],

@@ -11,6 +11,7 @@ import {
   CardBody,
   CardHeader,
   Image,
+  Textarea,
 } from "@/components/ui";
 // TODO - use our Input, not next ui input directly
 import { Input } from "@nextui-org/react";
@@ -65,23 +66,15 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
               label="Title"
               variant="bordered"
             />
-            <Input
-              defaultValue=""
-              {...register("expertise")}
-              isInvalid={!!errors.expertise}
-              errorMessage={errors?.expertise?.message}
-              label="Expertise"
-              variant="bordered"
-            />
-            <Input
-              defaultValue=""
+            <Textarea
+              defaultValue={getValues("description")}
               {...register("description")}
               isInvalid={!!errors.description}
-              errorMessage={errors?.description?.message}
+              errorMessage={errors?.description?.message?.toString()}
               label="Description"
               variant="bordered"
             />
-            <Autocomplete
+            {/* <Autocomplete
               items={instruments}
               defaultSelectedKeys={getValues("instrument")}
               aria-label="Select instrument"
@@ -93,7 +86,7 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
               onChange={(instrument) => {
                 setValue("instrument", instrument ?? "");
               }}
-            />
+            /> */}
             <ImageUploadButton
               onUploadImage={(result) => {
                 if (result.info && typeof result.info === "object") {

@@ -18,14 +18,14 @@ export const Basic: Story = {
     title: "Bass player needed today!!!",
     avatarImageSrc: "https://picsum.photos/id/237/200/300",
     name: "Haveri",
-    expertise: "Bass player",
+    // expertise: "Bass player",
     date: "20/03/24 11:50",
     description: "Looking for an awesome bass player",
-    selectedInstrument: {
-      id: "bass",
-      label: "Bass",
-      imageSrc: "https://picsum.photos/id/237/200/300",
-    },
+    // selectedInstrument: {
+    //   id: "bass",
+    //   label: "Bass",
+    //   imageSrc: "https://picsum.photos/id/237/200/300",
+    // },
     replies: null,
   },
 };
