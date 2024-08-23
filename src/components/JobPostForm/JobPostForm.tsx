@@ -12,18 +12,17 @@ import { Card, CardBody, CardHeader, Image } from "@/components/ui";
 import { Input, Textarea } from "@nextui-org/react";
 import { FC } from "react";
 import { JobPostSchema, jobPostSchema } from "@/lib/schemas/jobPostSchema";
-import { ValueAndLabel } from "@/types";
 import { ImageUploadButton } from "../ImageUploadButton";
 import { addJobPost } from "@/app/actions/userActions";
 
 interface JobPostFormProps {
   onFormSubmit: (data: JobPostSchema) => Promise<void>;
-  instruments: ValueAndLabel[];
+  // instruments: ValueAndLabel[];
 }
 
 export const JobPostFormPure: FC<JobPostFormProps> = ({
   onFormSubmit,
-  instruments,
+  // instruments,
 }) => {
   const {
     register,
@@ -91,7 +90,14 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
                 }
               }}
             />
-            {updatedPhoto && <Image src={updatedPhoto} alt="post image" />}
+            {updatedPhoto && (
+              <Image
+                width={200}
+                height={200}
+                src={updatedPhoto}
+                alt="post image"
+              />
+            )}
             <Button
               isLoading={isSubmitting}
               isDisabled={!isValid}
@@ -101,9 +107,6 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
             >
               Create
             </Button>
-            {/* <div className="flex justify-center hover:underline text-sm">
-              <Link href="/forgot-password">Forgot password?</Link>
-            </div> */}
           </div>
         </form>
       </CardBody>
@@ -115,11 +118,11 @@ const Observed = JobPostFormPure;
 
 export const JobPostForm = () => {
   // TODO - put those in the store!
-  const instruments: ValueAndLabel[] = [
-    { value: "bassGuitar", label: "Bass Guitar" },
-    { value: "piano", label: "Piano" },
-    { value: "timpani", label: "Timpani" },
-  ];
+  // const instruments: ValueAndLabel[] = [
+  //   { value: "bassGuitar", label: "Bass Guitar" },
+  //   { value: "piano", label: "Piano" },
+  //   { value: "timpani", label: "Timpani" },
+  // ];
 
   const router = useRouter();
 
@@ -131,9 +134,9 @@ export const JobPostForm = () => {
     //   return;
     // }
 
-    router.replace("/members");
-    router.refresh();
+    // router.replace("/feed");
+    // router.refresh();
   };
 
-  return <Observed instruments={instruments} onFormSubmit={onSubmit} />;
+  return <Observed onFormSubmit={onSubmit} />;
 };

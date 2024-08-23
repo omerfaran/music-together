@@ -6,8 +6,8 @@ import { Navbar } from "../ui/Navbar/Navbar";
 import { signOutUser } from "@/app/actions/authActions";
 
 const memberLinks: LinkInterface[] = [
-  { href: "/members", label: "Matches" },
-  { href: "/lists", label: "Lists" },
+  { href: "/feed", label: "Feed" },
+  // { href: "/lists", label: "Lists" },
   { href: "/messages", label: "Messages" },
 ];
 
