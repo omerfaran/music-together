@@ -4,7 +4,8 @@ import { Member } from "@prisma/client";
 import { MemberCard } from "./MemberCard";
 import { fetchCurrentUserLikeIds } from "../actions/likeActions";
 import { Pagination } from "@/components/Pagination";
-import { GetMembersParams, UserFilters } from "@/types";
+import { JobPost as PrismaJobPost } from "@prisma/client";
+import { GetMembersParams, JobPost, UserFilters } from "@/types";
 import { EmptyState } from "@/components/EmptyState";
 import { JobPostForm } from "@/components/JobPostForm/JobPostForm";
 
@@ -55,7 +56,9 @@ export default async function Page({
   // const likeIds = await fetchCurrentUserLikeIds();
 
   const { items, totalCount } = await getJobPosts();
-  console.log({ items });
+
+  const converted = convertPrismaMembersToJobPosts(items);
+  console.log({ converted });
 
   return null;
 
@@ -67,3 +70,27 @@ export default async function Page({
     />
   );
 }
+
+const convertPrismaMembersToJobPosts = (
+  items: Array<
+    Pick<Member, "name" | "image" | "userId"> & {
+      jobPosts: Array<
+        Pick<
+          PrismaJobPost,
+          "photoUrl" | "title" | "description" | "id" | "created" | "updated"
+        >
+      >;
+    }
+  >
+): JobPost[] => {
+  return items.flatMap(({ userId, name, image, jobPosts }) => {
+    return jobPosts.map((jobPost) => {
+      return {
+        name,
+        userId,
+        avatarImageSrc: image || undefined,
+        ...jobPost,
+      };
+    });
+  });
+};

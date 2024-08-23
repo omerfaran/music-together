@@ -2,11 +2,19 @@
 
 import { prisma } from "@/lib/prisma";
 import { GetMembersParams, PaginatedResponse, UserFilters } from "@/types";
-import { Member, Photo } from "@prisma/client";
+import { JobPost, Member, Photo } from "@prisma/client";
 import { addYears } from "date-fns";
 import { getAuthUserId } from "./authActions";
 
-export async function getJobPosts(): Promise<PaginatedResponse<Member>> {
+export async function getJobPosts(): Promise<
+  PaginatedResponse<
+    Pick<Member, "name" | "image" | "userId"> & {
+      jobPosts: Array<
+        Pick<JobPost, "photoUrl" | "title" | "description" | "id">
+      >;
+    }
+  >
+> {
   const userId = await getAuthUserId();
 
   try {
@@ -19,11 +27,27 @@ export async function getJobPosts(): Promise<PaginatedResponse<Member>> {
       select: {
         name: true,
         image: true,
-        jobPosts: true,
+        userId: true,
+        jobPosts: {
+          select: {
+            id: true,
+            photoUrl: true,
+            title: true,
+            description: true,
+          },
+        },
       },
     });
 
-    return { items: members };
+    // const flattenedJobPosts = members.flatMap((member) =>
+    //   member.jobPosts.map((jobPost) => ({
+    //     name: member.name,
+    //     image: member.image,
+    //     ...jobPost,
+    //   }))
+    // );
+
+    return { items: members, totalCount: 0 };
   } catch (error) {
     console.log(error);
     throw error;

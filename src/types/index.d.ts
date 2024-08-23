@@ -82,12 +82,12 @@ export interface JobPost {
   // TODO - revisit
   id: string;
   userId: string;
-  avatarImageSrc: string;
+  avatarImageSrc?: string;
   name: string;
   photo?: string;
   title: string;
-  createdOn: Date;
-  modifiedOn: Date;
+  created: Date;
+  updated: Date;
   // expertise: string;
   description: string;
   // instrument: string;
