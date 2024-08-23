@@ -5,16 +5,11 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { FaGuitar } from "react-icons/fa";
 import { Button } from "@/components/ui/Button/Button";
-import {
-  Autocomplete,
-  Card,
-  CardBody,
-  CardHeader,
-  Image,
-  Textarea,
-} from "@/components/ui";
-// TODO - use our Input, not next ui input directly
-import { Input } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Image } from "@/components/ui";
+// TODO - use our Input and Textarea, not next ui input directly.
+// Using them directly as validation doesn't work well
+
+import { Input, Textarea } from "@nextui-org/react";
 import { FC } from "react";
 import { JobPostSchema, jobPostSchema } from "@/lib/schemas/jobPostSchema";
 import { ValueAndLabel } from "@/types";
@@ -42,7 +37,6 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
     mode: "onTouched",
   });
 
-  console.log(getValues("photo"));
   const updatedPhoto = watch("photo", "");
 
   return (
@@ -60,6 +54,7 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
           <div className="space-y-4">
             <Input
               defaultValue=""
+              placeholder="e.g. Bass player required!"
               {...register("title")}
               isInvalid={!!errors.title}
               errorMessage={errors?.title?.message}
@@ -68,9 +63,11 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
             />
             <Textarea
               defaultValue={getValues("description")}
+              placeholder="e.g. Looking for a skilled bass player full time"
+              minRows={5}
               {...register("description")}
               isInvalid={!!errors.description}
-              errorMessage={errors?.description?.message?.toString()}
+              errorMessage={errors?.description?.message}
               label="Description"
               variant="bordered"
             />

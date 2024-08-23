@@ -16,6 +16,7 @@ interface TextAreaProps {
   label?: NextTextAreaProps["label"];
   variant?: NextTextAreaProps["variant"];
   minRows?: NextTextAreaProps["minRows"];
+  placeholder?: NextTextAreaProps["placeholder"];
 }
 
 export const Textarea: FC<TextAreaProps> = ({ isInvalid = false, ...rest }) => {
