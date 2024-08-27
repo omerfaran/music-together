@@ -57,7 +57,7 @@ export default async function Page({
 
   const { items, totalCount } = await getJobPosts();
 
-  const converted = convertPrismaMembersToJobPosts(items);
+  const converted = convertPrismaJobPostsToJobPosts(items);
   console.log({ converted });
 
   return null;
@@ -71,26 +71,35 @@ export default async function Page({
   );
 }
 
-const convertPrismaMembersToJobPosts = (
-  items: Array<
-    Pick<Member, "name" | "image" | "userId"> & {
-      jobPosts: Array<
-        Pick<
-          PrismaJobPost,
-          "photoUrl" | "title" | "description" | "id" | "created" | "updated"
-        >
-      >;
+const convertPrismaJobPostsToJobPosts = (
+  jobPosts: Array<
+    PrismaJobPost & {
+      member: Pick<Member, "name" | "image">;
     }
   >
 ): JobPost[] => {
-  return items.flatMap(({ userId, name, image, jobPosts }) => {
-    return jobPosts.map((jobPost) => {
+  return jobPosts.map(
+    ({
+      id,
+      photoUrl,
+      title,
+      description,
+      created,
+      updated,
+      member,
+      memberId,
+    }) => {
       return {
-        name,
-        userId,
-        avatarImageSrc: image || undefined,
-        ...jobPost,
+        id,
+        photoUrl,
+        title,
+        description,
+        created,
+        updated,
+        memberId,
+        memberImageSrc: member.image,
+        memberName: member.name,
       };
-    });
-  });
+    }
+  );
 };

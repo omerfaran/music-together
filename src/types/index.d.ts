@@ -81,15 +81,15 @@ interface ValueAndLabel {
 export interface JobPost {
   // TODO - revisit
   id: string;
-  userId: string;
-  avatarImageSrc?: string;
-  name: string;
-  photo?: string;
   title: string;
+  description: string;
+  photoUrl?: string | null;
   created: Date;
   updated: Date;
+  memberId: string;
+  memberImageSrc?: string | null;
+  memberName: string;
   // expertise: string;
-  description: string;
   // instrument: string;
   // Do we need replies?
   replies?: unknown;

@@ -8,32 +8,20 @@ import { getAuthUserId } from "./authActions";
 
 export async function getJobPosts(): Promise<
   PaginatedResponse<
-    Pick<Member, "name" | "image" | "userId"> & {
-      jobPosts: Array<
-        Pick<JobPost, "photoUrl" | "title" | "description" | "id">
-      >;
+    JobPost & {
+      member: Pick<Member, "name" | "image">;
     }
   >
 > {
   const userId = await getAuthUserId();
 
   try {
-    const members = await prisma.member.findMany({
-      where: {
-        jobPosts: {
-          some: {},
-        },
-      },
-      select: {
-        name: true,
-        image: true,
-        userId: true,
-        jobPosts: {
+    const jobPosts = await prisma.jobPost.findMany({
+      include: {
+        member: {
           select: {
-            id: true,
-            photoUrl: true,
-            title: true,
-            description: true,
+            name: true,
+            image: true,
           },
         },
       },
@@ -47,7 +35,7 @@ export async function getJobPosts(): Promise<
     //   }))
     // );
 
-    return { items: members, totalCount: 0 };
+    return { items: jobPosts, totalCount: 0 };
   } catch (error) {
     console.log(error);
     throw error;
