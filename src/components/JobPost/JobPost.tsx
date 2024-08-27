@@ -1,6 +1,7 @@
 import { type FC } from "react";
 import { Avatar, Text, Hr as HrComponent, Card, Image, Button } from "../ui";
 import { JobPost as JobPostInterface } from "@/types";
+import { formatShortDateTime, formatWithoutTime } from "@/lib/util";
 
 export interface JobPostProps extends JobPostInterface {}
 
@@ -21,7 +22,7 @@ export const JobPost: FC<JobPostProps> = ({
           <Text>{memberName}</Text>
         </div>
         <div>
-          <Text>{created.toString()}</Text>
+          <Text>{formatWithoutTime(created)}</Text>
         </div>
       </div>
       <Text center component="h1">
@@ -49,7 +50,7 @@ export const JobPost: FC<JobPostProps> = ({
         {selectedInstrument?.label}
         <Image src={selectedInstrument?.imageSrc} alt="instrument" />
       </div> */}
-      <Hr />
+      {/* <Hr /> */}
       <div className="pt-2">
         <Button variant="flat">Edit</Button>
       </div>

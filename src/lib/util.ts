@@ -13,6 +13,11 @@ export function formatShortDateTime(date: Date) {
   return format(date, "dd MM yy h:mm:a");
 }
 
+export function formatWithoutTime(date: Date) {
+  // return in a nice format, :a means am-pm
+  return format(date, "MMMM dd, yyyy");
+}
+
 export function timeAgo(date: string) {
   const formatString = "yy MM dd hh:mm:a";
   const parsedDate = parse(date, formatString, new Date());
