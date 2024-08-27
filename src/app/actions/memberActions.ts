@@ -2,9 +2,57 @@
 
 import { prisma } from "@/lib/prisma";
 import { GetMembersParams, PaginatedResponse, UserFilters } from "@/types";
-import { Member, Photo } from "@prisma/client";
+import { JobPost, Member, Photo } from "@prisma/client";
 import { addYears } from "date-fns";
 import { getAuthUserId } from "./authActions";
+
+export async function getJobPosts(): Promise<
+  PaginatedResponse<
+    Pick<Member, "name" | "image" | "userId"> & {
+      jobPosts: Array<
+        Pick<JobPost, "photoUrl" | "title" | "description" | "id">
+      >;
+    }
+  >
+> {
+  const userId = await getAuthUserId();
+
+  try {
+    const members = await prisma.member.findMany({
+      where: {
+        jobPosts: {
+          some: {},
+        },
+      },
+      select: {
+        name: true,
+        image: true,
+        userId: true,
+        jobPosts: {
+          select: {
+            id: true,
+            photoUrl: true,
+            title: true,
+            description: true,
+          },
+        },
+      },
+    });
+
+    // const flattenedJobPosts = members.flatMap((member) =>
+    //   member.jobPosts.map((jobPost) => ({
+    //     name: member.name,
+    //     image: member.image,
+    //     ...jobPost,
+    //   }))
+    // );
+
+    return { items: members, totalCount: 0 };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 export async function getMembers({
   ageRange = "18,100",

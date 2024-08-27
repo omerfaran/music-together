@@ -32,7 +32,7 @@ export const LoginForm = () => {
       return toast.error(result.error as string);
     }
 
-    router.replace("/members");
+    router.replace("/feed");
     router.refresh();
   };
 

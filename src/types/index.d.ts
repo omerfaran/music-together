@@ -82,15 +82,15 @@ export interface JobPost {
   // TODO - revisit
   id: string;
   userId: string;
-  avatarImageSrc: string;
+  avatarImageSrc?: string;
   name: string;
   photo?: string;
   title: string;
-  createdOn: Date;
-  modifiedOn: Date;
-  expertise: string;
+  created: Date;
+  updated: Date;
+  // expertise: string;
   description: string;
-  instrument: string;
+  // instrument: string;
   // Do we need replies?
   replies?: unknown;
 }
@@ -107,5 +107,8 @@ export interface JobPost {
 // selectedInstrument - this can either be just an id if it's for bass for example, or 'custom'
 // in which case there will be additional label and image, but not sure about it, for now can just be an id
 //
+
+// Disabled expertise and instrument, user can write what they're looking for and that's it.
+// If we have 'search' later, maybe just scan throughout title and description
 
 //

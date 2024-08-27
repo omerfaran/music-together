@@ -5,29 +5,25 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { FaGuitar } from "react-icons/fa";
 import { Button } from "@/components/ui/Button/Button";
-import {
-  Autocomplete,
-  Card,
-  CardBody,
-  CardHeader,
-  Image,
-} from "@/components/ui";
-// TODO - use our Input, not next ui input directly
-import { Input } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Image } from "@/components/ui";
+// TODO - use our Input and Textarea, not next ui input directly.
+// Using them directly as validation doesn't work well
+
+import { Input, Textarea } from "@nextui-org/react";
 import { FC } from "react";
 import { JobPostSchema, jobPostSchema } from "@/lib/schemas/jobPostSchema";
-import { ValueAndLabel } from "@/types";
 import { ImageUploadButton } from "../ImageUploadButton";
 import { addJobPost } from "@/app/actions/userActions";
+import { toast } from "react-toastify";
 
 interface JobPostFormProps {
   onFormSubmit: (data: JobPostSchema) => Promise<void>;
-  instruments: ValueAndLabel[];
+  // instruments: ValueAndLabel[];
 }
 
 export const JobPostFormPure: FC<JobPostFormProps> = ({
   onFormSubmit,
-  instruments,
+  // instruments,
 }) => {
   const {
     register,
@@ -41,7 +37,6 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
     mode: "onTouched",
   });
 
-  console.log(getValues("photo"));
   const updatedPhoto = watch("photo", "");
 
   return (
@@ -59,29 +54,24 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
           <div className="space-y-4">
             <Input
               defaultValue=""
+              placeholder="e.g. Bass player required!"
               {...register("title")}
               isInvalid={!!errors.title}
               errorMessage={errors?.title?.message}
               label="Title"
               variant="bordered"
             />
-            <Input
-              defaultValue=""
-              {...register("expertise")}
-              isInvalid={!!errors.expertise}
-              errorMessage={errors?.expertise?.message}
-              label="Expertise"
-              variant="bordered"
-            />
-            <Input
-              defaultValue=""
+            <Textarea
+              defaultValue={getValues("description")}
+              placeholder="e.g. Looking for a skilled bass player full time"
+              minRows={5}
               {...register("description")}
               isInvalid={!!errors.description}
               errorMessage={errors?.description?.message}
               label="Description"
               variant="bordered"
             />
-            <Autocomplete
+            {/* <Autocomplete
               items={instruments}
               defaultSelectedKeys={getValues("instrument")}
               aria-label="Select instrument"
@@ -93,7 +83,7 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
               onChange={(instrument) => {
                 setValue("instrument", instrument ?? "");
               }}
-            />
+            /> */}
             <ImageUploadButton
               onUploadImage={(result) => {
                 if (result.info && typeof result.info === "object") {
@@ -101,7 +91,14 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
                 }
               }}
             />
-            {updatedPhoto && <Image src={updatedPhoto} alt="post image" />}
+            {updatedPhoto && (
+              <Image
+                width={200}
+                height={200}
+                src={updatedPhoto}
+                alt="post image"
+              />
+            )}
             <Button
               isLoading={isSubmitting}
               isDisabled={!isValid}
@@ -111,9 +108,6 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
             >
               Create
             </Button>
-            {/* <div className="flex justify-center hover:underline text-sm">
-              <Link href="/forgot-password">Forgot password?</Link>
-            </div> */}
           </div>
         </form>
       </CardBody>
@@ -125,25 +119,26 @@ const Observed = JobPostFormPure;
 
 export const JobPostForm = () => {
   // TODO - put those in the store!
-  const instruments: ValueAndLabel[] = [
-    { value: "bassGuitar", label: "Bass Guitar" },
-    { value: "piano", label: "Piano" },
-    { value: "timpani", label: "Timpani" },
-  ];
+  // const instruments: ValueAndLabel[] = [
+  //   { value: "bassGuitar", label: "Bass Guitar" },
+  //   { value: "piano", label: "Piano" },
+  //   { value: "timpani", label: "Timpani" },
+  // ];
 
   const router = useRouter();
 
   const onSubmit = async (data: JobPostSchema) => {
     // FIX
-    const result = await addJobPost(data);
-    // if (result.status === "error") {
-    //   toast.error(result.error as string);
-    //   return;
-    // }
+    try {
+      await addJobPost(data);
+      toast.success("Job posted!");
+    } catch (error) {
+      toast.error("Could not post the job");
+    }
 
-    router.replace("/members");
-    router.refresh();
+    // router.replace("/feed");
+    // router.refresh();
   };
 
-  return <Observed instruments={instruments} onFormSubmit={onSubmit} />;
+  return <Observed onFormSubmit={onSubmit} />;
 };

@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { JobPostForm } from "@/components/JobPostForm/JobPostForm";
 import { Button } from "@/components/ui";
 import { Session } from "next-auth";
 import Link from "next/link";
@@ -20,11 +19,11 @@ export const HomePage: FC<HomePageProps> = ({ session }) => {
     <div className="flex flex-col flex-grow justify-center items-center mt-20 gap-6 text-secondary">
       <GiMatchTip size={100} />
       <h1 className="text-4xl font-bold">Welcome to NextMatch</h1>
-      <JobPostForm />
+      {/* <JobPostForm /> */}
       {session ? (
         <Button
           as={Link}
-          href="/members"
+          href="/feed"
           size="lg"
           color="secondary"
           variant="bordered"

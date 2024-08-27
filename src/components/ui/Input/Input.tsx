@@ -19,5 +19,6 @@ interface InputProps {
 }
 
 export const Input: FC<InputProps> = ({ isInvalid = false, ...rest }) => {
+  console.log("haveri2");
   return <NextInput isInvalid={isInvalid} {...rest} />;
 };

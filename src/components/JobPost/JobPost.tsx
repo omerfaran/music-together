@@ -9,8 +9,8 @@ export const JobPost: FC<JobPostProps> = ({
   name,
   date,
   title,
-  selectedInstrument,
-  expertise,
+  // selectedInstrument,
+  // expertise,
   description,
   replies, // TODO - delete if not needed
 }) => {
@@ -35,21 +35,21 @@ export const JobPost: FC<JobPostProps> = ({
 
   return (
     <Card header={header}>
-      <div className="flex gap-2">
+      {/* <div className="flex gap-2">
         <Text component="h4">Expertise:</Text>
         {expertise}
-      </div>
+      </div> */}
       <Hr />
       <div className="flex gap-2">
         <Text component="h4">Description:</Text>
         {description}
       </div>
       <Hr />
-      <div className="flex gap-2">
+      {/* <div className="flex gap-2">
         <Text component="h4">Instrument:</Text>
         {selectedInstrument?.label}
         <Image src={selectedInstrument?.imageSrc} alt="instrument" />
-      </div>
+      </div> */}
       <Hr />
       <div className="pt-2">
         <Button variant="flat">Edit</Button>

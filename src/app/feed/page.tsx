@@ -1,11 +1,13 @@
 import { type FC } from "react";
-import { getMembers } from "../actions/memberActions";
+import { getJobPosts, getMembers } from "../actions/memberActions";
 import { Member } from "@prisma/client";
 import { MemberCard } from "./MemberCard";
 import { fetchCurrentUserLikeIds } from "../actions/likeActions";
 import { Pagination } from "@/components/Pagination";
-import { GetMembersParams, UserFilters } from "@/types";
+import { JobPost as PrismaJobPost } from "@prisma/client";
+import { GetMembersParams, JobPost, UserFilters } from "@/types";
 import { EmptyState } from "@/components/EmptyState";
+import { JobPostForm } from "@/components/JobPostForm/JobPostForm";
 
 interface MembersPageProps {
   members: Array<Member>;
@@ -23,6 +25,7 @@ export const MembersPage: FC<MembersPageProps> = ({
   ) : (
     <>
       {/* TODO - not very responsive; fix! */}
+      <JobPostForm />
       <div className="pt-10 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-8">
         {members.map((member) => {
           return (
@@ -47,10 +50,17 @@ export default async function Page({
 }: {
   searchParams: GetMembersParams;
 }) {
-  // get all members, unrelated to user
-  const { items, totalCount } = await getMembers(searchParams);
-  // get all the ids of users the current member has liked
-  const likeIds = await fetchCurrentUserLikeIds();
+  // // get all members, unrelated to user
+  // const { items, totalCount } = await getMembers(searchParams);
+  // // get all the ids of users the current member has liked
+  // const likeIds = await fetchCurrentUserLikeIds();
+
+  const { items, totalCount } = await getJobPosts();
+
+  const converted = convertPrismaMembersToJobPosts(items);
+  console.log({ converted });
+
+  return null;
 
   return (
     <MembersPage
@@ -60,3 +70,27 @@ export default async function Page({
     />
   );
 }
+
+const convertPrismaMembersToJobPosts = (
+  items: Array<
+    Pick<Member, "name" | "image" | "userId"> & {
+      jobPosts: Array<
+        Pick<
+          PrismaJobPost,
+          "photoUrl" | "title" | "description" | "id" | "created" | "updated"
+        >
+      >;
+    }
+  >
+): JobPost[] => {
+  return items.flatMap(({ userId, name, image, jobPosts }) => {
+    return jobPosts.map((jobPost) => {
+      return {
+        name,
+        userId,
+        avatarImageSrc: image || undefined,
+        ...jobPost,
+      };
+    });
+  });
+};
