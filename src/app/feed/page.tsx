@@ -27,7 +27,7 @@ export const FeedPage: FC<FeedPageProps> = ({
     <>
       {/* TODO - not very responsive; fix! */}
       <JobPostForm />
-      <div className="pt-10 grid grid-cols-2 md:grid-cols-3 gap-8">
+      <div className="pt-10 grid grid-cols-2 md:grid-cols-3 gap-8 ">
         {jobPosts.map((jobPost) => {
           return <JobPostComponent key={jobPost.id} {...jobPost} />;
         })}

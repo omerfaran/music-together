@@ -3,6 +3,8 @@ import { Avatar, Text, Hr as HrComponent, Card, Image, Button } from "../ui";
 import { JobPost as JobPostInterface } from "@/types";
 import { formatShortDateTime, formatWithoutTime } from "@/lib/util";
 
+import { AspectImage } from "../ui/Image/AspectImage";
+
 export interface JobPostProps extends JobPostInterface {}
 
 export const JobPost: FC<JobPostProps> = ({
@@ -10,6 +12,7 @@ export const JobPost: FC<JobPostProps> = ({
   memberName,
   created,
   title,
+  photoUrl,
   // selectedInstrument,
   // expertise,
   description,
@@ -33,8 +36,10 @@ export const JobPost: FC<JobPostProps> = ({
 
   const Hr = () => <HrComponent spacing="normal" />;
 
+  const footer = <Button variant="flat">Edit</Button>;
+
   return (
-    <Card header={header}>
+    <Card header={header} footer={footer}>
       {/* <div className="flex gap-2">
         <Text component="h4">Expertise:</Text>
         {expertise}
@@ -44,16 +49,18 @@ export const JobPost: FC<JobPostProps> = ({
         <Text component="h4">Description:</Text>
         {description}
       </div>
-      <Hr />
+
       {/* <div className="flex gap-2">
         <Text component="h4">Instrument:</Text>
         {selectedInstrument?.label}
-        <Image src={selectedInstrument?.imageSrc} alt="instrument" />
       </div> */}
       {/* <Hr /> */}
-      <div className="pt-2">
-        <Button variant="flat">Edit</Button>
-      </div>
+      {photoUrl && (
+        <>
+          <Hr />
+          <AspectImage height={200} src={photoUrl} alt="job image" />
+        </>
+      )}
     </Card>
   );
 };

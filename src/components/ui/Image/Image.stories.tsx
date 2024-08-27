@@ -25,6 +25,7 @@ export const Zoomed: Story = {
   },
 };
 
+// TODO - not working atm, revisit
 export const HeightAndWidth: Story = {
   args: {
     ...Basic.args,

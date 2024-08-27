@@ -18,14 +18,15 @@ export const Basic: Story = {
     title: "Bass player needed today!!!",
     memberImageSrc: "https://picsum.photos/id/237/200/300",
     memberName: "Haveri",
-    // expertise: "Bass player",
     created: new Date(),
     description: "Looking for an awesome bass player",
-    // selectedInstrument: {
-    //   id: "bass",
-    //   label: "Bass",
-    //   imageSrc: "https://picsum.photos/id/237/200/300",
-    // },
     replies: null,
+  },
+};
+
+export const WithJobImage: Story = {
+  args: {
+    ...Basic.args,
+    photoUrl: "https://picsum.photos/id/237/200/300",
   },
 };
