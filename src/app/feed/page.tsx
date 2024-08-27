@@ -1,5 +1,10 @@
 import { type FC } from "react";
-import { getJobPosts, getMembers } from "../actions/memberActions";
+import { auth } from "@/auth";
+import {
+  getJobPosts,
+  getMemberByUserId,
+  getMembers,
+} from "../actions/memberActions";
 import { Member } from "@prisma/client";
 import { MemberCard } from "./MemberCard";
 import { fetchCurrentUserLikeIds } from "../actions/likeActions";
@@ -9,6 +14,7 @@ import { GetMembersParams, JobPost, UserFilters } from "@/types";
 import { EmptyState } from "@/components/EmptyState";
 import { JobPostForm } from "@/components/JobPostForm/JobPostForm";
 import { JobPost as JobPostComponent } from "@/components/JobPost/JobPost";
+import { getAuthUserId } from "../actions/authActions";
 
 interface FeedPageProps {
   jobPosts: Array<JobPost>;
@@ -45,6 +51,10 @@ export default async function Page({
 }: {
   searchParams: GetMembersParams;
 }) {
+  const userId = await getAuthUserId();
+  const memberId = await getMemberByUserId(userId);
+  console.log(userId, "*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+
   // // get all members, unrelated to user
   // const { items, totalCount } = await getMembers(searchParams);
   // // get all the ids of users the current member has liked
@@ -52,7 +62,7 @@ export default async function Page({
 
   const { items, totalCount } = await getJobPosts();
 
-  const converted = convertPrismaJobPostsToJobPosts(items);
+  const converted = convertPrismaJobPostsToJobPosts(items, memberId?.id);
   console.log({ converted });
 
   return (
@@ -69,7 +79,8 @@ const convertPrismaJobPostsToJobPosts = (
     PrismaJobPost & {
       member: Pick<Member, "name" | "image">;
     }
-  >
+  >,
+  loggedMemberId?: string
 ): JobPost[] => {
   return jobPosts.map(
     ({
@@ -92,6 +103,7 @@ const convertPrismaJobPostsToJobPosts = (
         memberId,
         memberImageSrc: member.image,
         memberName: member.name,
+        editAvailable: loggedMemberId === memberId,
       };
     }
   );

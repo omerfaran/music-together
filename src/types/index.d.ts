@@ -89,6 +89,7 @@ export interface JobPost {
   memberId: string;
   memberImageSrc?: string | null;
   memberName: string;
+  editAvailable: boolean;
   // expertise: string;
   // instrument: string;
   // Do we need replies?

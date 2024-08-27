@@ -5,7 +5,12 @@ import { formatShortDateTime, formatWithoutTime } from "@/lib/util";
 
 import { AspectImage } from "../ui/Image/AspectImage";
 
-export interface JobPostProps extends JobPostInterface {}
+export interface JobPostProps extends JobPostInterface {
+  /**
+   * Can the logged user edit that post?
+   **/
+  editAvailable: boolean;
+}
 
 export const JobPost: FC<JobPostProps> = ({
   memberImageSrc,
@@ -16,6 +21,7 @@ export const JobPost: FC<JobPostProps> = ({
   // selectedInstrument,
   // expertise,
   description,
+  editAvailable,
 }) => {
   const header = (
     <div className="w-full flex flex-col gap-2">
@@ -36,7 +42,7 @@ export const JobPost: FC<JobPostProps> = ({
 
   const Hr = () => <HrComponent spacing="normal" />;
 
-  const footer = <Button variant="flat">Edit</Button>;
+  const footer = editAvailable ? <Button variant="flat">Edit</Button> : null;
 
   return (
     <Card header={header} footer={footer}>
