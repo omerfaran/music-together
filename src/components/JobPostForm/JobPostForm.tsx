@@ -118,26 +118,16 @@ export const JobPostFormPure: FC<JobPostFormProps> = ({
 const Observed = JobPostFormPure;
 
 export const JobPostForm = () => {
-  // TODO - put those in the store!
-  // const instruments: ValueAndLabel[] = [
-  //   { value: "bassGuitar", label: "Bass Guitar" },
-  //   { value: "piano", label: "Piano" },
-  //   { value: "timpani", label: "Timpani" },
-  // ];
-
   const router = useRouter();
 
   const onSubmit = async (data: JobPostSchema) => {
-    // FIX
     try {
       await addJobPost(data);
       toast.success("Job posted!");
+      router.refresh();
     } catch (error) {
       toast.error("Could not post the job");
     }
-
-    // router.replace("/feed");
-    // router.refresh();
   };
 
   return <Observed onFormSubmit={onSubmit} />;

@@ -25,15 +25,10 @@ export async function getJobPosts(): Promise<
           },
         },
       },
+      orderBy: {
+        updated: "desc",
+      },
     });
-
-    // const flattenedJobPosts = members.flatMap((member) =>
-    //   member.jobPosts.map((jobPost) => ({
-    //     name: member.name,
-    //     image: member.image,
-    //     ...jobPost,
-    //   }))
-    // );
 
     return { items: jobPosts, totalCount: 0 };
   } catch (error) {
