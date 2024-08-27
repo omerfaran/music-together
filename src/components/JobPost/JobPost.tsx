@@ -5,24 +5,23 @@ import { JobPost as JobPostInterface } from "@/types";
 export interface JobPostProps extends JobPostInterface {}
 
 export const JobPost: FC<JobPostProps> = ({
-  avatarImageSrc,
-  name,
-  date,
+  memberImageSrc,
+  memberName,
+  created,
   title,
   // selectedInstrument,
   // expertise,
   description,
-  replies, // TODO - delete if not needed
 }) => {
   const header = (
     <div className="w-full flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <Avatar src={avatarImageSrc} />
-          <Text>{name}</Text>
+          <Avatar src={memberImageSrc} />
+          <Text>{memberName}</Text>
         </div>
         <div>
-          <Text>{date}</Text>
+          <Text>{created.toString()}</Text>
         </div>
       </div>
       <Text center component="h1">

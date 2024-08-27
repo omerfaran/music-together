@@ -8,33 +8,28 @@ import { JobPost as PrismaJobPost } from "@prisma/client";
 import { GetMembersParams, JobPost, UserFilters } from "@/types";
 import { EmptyState } from "@/components/EmptyState";
 import { JobPostForm } from "@/components/JobPostForm/JobPostForm";
+import { JobPost as JobPostComponent } from "@/components/JobPost/JobPost";
 
-interface MembersPageProps {
-  members: Array<Member>;
-  likeIds: string[];
+interface FeedPageProps {
+  jobPosts: Array<JobPost>;
+  likeIds?: string[];
   totalCount: number;
 }
 
-export const MembersPage: FC<MembersPageProps> = ({
-  members,
+export const FeedPage: FC<FeedPageProps> = ({
+  jobPosts,
   likeIds,
   totalCount,
 }) => {
-  return !members.length ? (
+  return !jobPosts.length ? (
     <EmptyState />
   ) : (
     <>
       {/* TODO - not very responsive; fix! */}
       <JobPostForm />
       <div className="pt-10 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-8">
-        {members.map((member) => {
-          return (
-            <MemberCard
-              member={member}
-              key={member.id}
-              hasLiked={likeIds.includes(member.userId)}
-            />
-          );
+        {jobPosts.map((jobPost) => {
+          return <JobPostComponent key={jobPost.id} {...jobPost} />;
         })}
       </div>
       <Pagination totalCount={totalCount} />
@@ -60,13 +55,11 @@ export default async function Page({
   const converted = convertPrismaJobPostsToJobPosts(items);
   console.log({ converted });
 
-  return null;
-
   return (
-    <MembersPage
-      members={items ?? []}
+    <FeedPage
+      jobPosts={converted ?? []}
       totalCount={totalCount}
-      likeIds={likeIds ?? []}
+      // likeIds={likeIds ?? []}
     />
   );
 }
